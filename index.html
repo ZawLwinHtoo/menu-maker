@@ -1049,55 +1049,6 @@
   </div>
 
 
-  <!-- =========================================================================
-       Export Theme Modal (Triggered from View 2 Top-Right "Export Theme" Button)
-       ========================================================================= -->
-  <div class="modal-backdrop" id="exportModal" aria-hidden="true">
-    <div class="modal-card glass-panel">
-      <div class="modal-header">
-        <div>
-          <h3 class="modal-title">Export Theme Tokens</h3>
-          <p class="modal-sub">Ready-to-use production tokens extracted by ChromaShift</p>
-        </div>
-        <button type="button" class="btn-close" id="closeExportModalBtn" aria-label="Close modal">✕</button>
-      </div>
-
-      <!-- Tab selectors: Tailwind CSS, Native CSS, JSON Tokens, SCSS/Shadcn -->
-      <div class="modal-tabs">
-        <button type="button" class="tab-btn active" data-tab="tailwind">Tailwind Config</button>
-        <button type="button" class="tab-btn" data-tab="css">CSS Variables (:root)</button>
-        <button type="button" class="tab-btn" data-tab="json">JSON Tokens</button>
-        <button type="button" class="tab-btn" data-tab="scss">SCSS / Shadcn</button>
-      </div>
-
-      <!-- Code block view -->
-      <div class="code-wrapper">
-        <pre><code class="code-content" id="exportCodeBlock">/* Loading tokens... */</code></pre>
-      </div>
-
-      <div class="modal-footer">
-        <span class="copy-status" id="copyStatusText">Ready to copy</span>
-        <div class="modal-actions-group">
-          <button type="button" class="btn btn-outline btn-sm" id="downloadTokensBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            Download File
-          </button>
-          <button type="button" class="btn btn-primary" id="copyTokensBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-            </svg>
-            Copy Code
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Toast Notification container -->
   <div class="toast-container" id="toastContainer"></div>
 
