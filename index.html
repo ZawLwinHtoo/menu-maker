@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChromaShift — Adaptive Intelligent Theme Generator</title>
-  <meta name="description" content="Generate beautiful, adaptive UI themes automatically extracted from any uploaded photo or image with real-time palette clustering and live component preview.">
+  <meta name="description" content="Generate beautiful, adaptive UI themes automatically extracted from any uploaded photo with real-time palette clustering and live SaaS component preview.">
   
   <!-- Modern Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,411 +14,579 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Ambient background mesh gradient and reactive lighting -->
+  <!-- Ambient background lighting that reacts to the theme -->
   <div class="ambient-mesh-glow" id="ambientMeshGlow"></div>
   <div class="ambient-glow glow-1" id="ambientGlow1"></div>
   <div class="ambient-glow glow-2" id="ambientGlow2"></div>
   <div class="ambient-glow glow-3" id="ambientGlow3"></div>
 
-  <!-- Main Navigation -->
-  <header class="app-header">
-    <div class="header-inner container">
-      <div class="brand-group">
-        <div class="brand-logo" id="brandLogo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 2a7 7 0 0 0 0 14c2.5 0 4.5-2 4.5-4.5 0-1.5-1-2.5-2-2.5h-1"/>
-            <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
-            <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
-          </svg>
-        </div>
-        <div class="brand-text">
-          <span class="brand-title">Chroma<span class="text-gradient">Shift</span></span>
-          <span class="brand-badge">Adaptive Theme Engine</span>
-        </div>
-      </div>
+  <!-- Offscreen canvas for color extraction engine -->
+  <canvas id="extractionCanvas" style="display:none;"></canvas>
 
-      <!-- Quick Preset Selector -->
-      <div class="preset-pills-bar" id="presetPills">
-        <span class="preset-label">Presets:</span>
-        <button type="button" class="preset-pill active" data-preset="orange" id="presetOrangeBtn">
-          <span class="pill-dot" style="background: #ff7700;"></span>
-          Citrus Orange
-        </button>
-        <button type="button" class="preset-pill" data-preset="cyberpunk" id="presetCyberBtn">
-          <span class="pill-dot" style="background: #00e5ff;"></span>
-          Cyberpunk Neon
-        </button>
-        <button type="button" class="preset-pill" data-preset="forest" id="presetForestBtn">
-          <span class="pill-dot" style="background: #10b981;"></span>
-          Emerald Forest
-        </button>
-      </div>
-
-      <!-- Header Actions -->
-      <div class="header-actions">
-        <button type="button" class="btn-theme-mode" id="themeModeToggle" title="Toggle Light/Dark Mode" aria-label="Toggle Light/Dark Mode">
-          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-          </svg>
-          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        </button>
-        <button type="button" class="btn btn-primary" id="openExportModalBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Export Theme
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main App Shell -->
-  <main class="app-main container">
-    <!-- Hero / Upload Section -->
-    <section class="hero-section">
-      <div class="hero-content">
-        <div class="status-chip">
-          <span class="status-indicator pulse"></span>
-          <span id="heroThemeStatus">Active Theme: Citrus Orange Harmony</span>
-        </div>
-        <h1 class="hero-heading">Upload any photo.<br>Watch the <span class="text-gradient">entire site adapt</span>.</h1>
-        <p class="hero-subtitle">
-          ChromaShift extracts dominant hues, computes harmonic color scales, and recalculates WCAG contrast ratios in real-time. Drop your image to test it instantly!
-        </p>
-      </div>
-
-      <!-- Upload Dropzone Card -->
-      <div class="upload-card glass-panel" id="dropzoneCard">
-        <input type="file" id="imageFileInput" accept="image/*" class="file-input-hidden" aria-label="Upload an image to generate theme">
-        <div class="upload-dropzone" id="dropzone">
-          <div class="image-preview-wrapper" id="previewContainer">
-            <img id="currentImagePreview" src="assets/sample-orange.jpg" alt="Active theme source" class="preview-img">
-            <div class="preview-overlay">
-              <span class="overlay-badge">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="17 8 12 3 7 8"/>
-                  <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-                Click or Drop new image to change
-              </span>
-            </div>
-          </div>
-          <div class="dropzone-hints">
-            <span class="hint-text"><strong>Drag & Drop</strong> any photo here or <strong>browse files</strong></span>
-            <span class="hint-sub">Supports JPG, PNG, WebP, SVG</span>
-          </div>
-        </div>
-
-        <!-- Extraction Status Bar -->
-        <div class="extraction-info">
-          <div class="extract-stat">
-            <span class="extract-label">Source Palette:</span>
-            <span class="extract-val" id="extractDominantName">Vibrant Orange & Leaf Green</span>
-          </div>
-          <div class="extract-stat">
-            <span class="extract-label">Contrast Mode:</span>
-            <span class="extract-val" id="contrastModeLabel">WCAG AAA (12.8:1)</span>
-          </div>
-          <button type="button" class="btn btn-sm btn-ghost" id="randomizeHueBtn" title="Shift Hue by 30°">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+  <!-- =========================================================================
+       VIEW 1: Home / Studio Extractor Page (Default View)
+       ========================================================================= -->
+  <div class="spa-view active-view" id="viewStudio">
+    <!-- View 1 Navigation Bar -->
+    <header class="app-header">
+      <div class="header-inner container">
+        <div class="brand-group" id="brandHomeTrigger" role="button" tabindex="0" title="ChromaShift Home">
+          <div class="brand-logo" id="brandLogo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a7 7 0 0 0 0 14c2.5 0 4.5-2 4.5-4.5 0-1.5-1-2.5-2-2.5h-1"/>
+              <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+              <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
             </svg>
-            Shift Hue
+          </div>
+          <div class="brand-text">
+            <span class="brand-title">Chroma<span class="text-gradient">Shift</span></span>
+            <span class="brand-badge">Theme Studio</span>
+          </div>
+        </div>
+
+        <!-- Quick Preset Chips -->
+        <div class="preset-pills-bar" id="presetPills">
+          <span class="preset-label">Presets:</span>
+          <button type="button" class="preset-pill active" data-preset="orange" id="presetOrangeBtn">
+            <span class="pill-dot" style="background: #ff7700;"></span>
+            Citrus Orange
+          </button>
+          <button type="button" class="preset-pill" data-preset="cyberpunk" id="presetCyberBtn">
+            <span class="pill-dot" style="background: #00e5ff;"></span>
+            Cyberpunk Neon
+          </button>
+          <button type="button" class="preset-pill" data-preset="forest" id="presetForestBtn">
+            <span class="pill-dot" style="background: #10b981;"></span>
+            Emerald Forest
+          </button>
+        </div>
+
+        <!-- View 1 Header Actions -->
+        <div class="header-actions">
+          <button type="button" class="btn-theme-mode theme-toggle-btn" id="view1ThemeToggle" title="Toggle Light/Dark Mode" aria-label="Toggle Light/Dark Mode">
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+
+          <!-- Primary CTA Button: Expected Result -->
+          <button type="button" class="btn btn-primary btn-expected-result" id="btnGoToResult">
+            <span>Expected Result</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="btn-icon">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
           </button>
         </div>
       </div>
-    </section>
+    </header>
 
-    <!-- Extracted Live Palette Strip -->
-    <section class="palette-section glass-panel">
-      <div class="section-header">
-        <div>
-          <h2 class="section-title">Extracted Adaptive Palette</h2>
-          <p class="section-desc">Click any swatch to copy its HEX code or inspect values</p>
-        </div>
-
-        <!-- Palette Harmony Switcher (Vibrant, Muted/Pastel, Deep Dark) -->
-        <div class="harmony-control-wrapper">
-          <span class="harmony-label">Harmony Mode:</span>
-          <div class="harmony-segmented" id="harmonySegmented" role="group" aria-label="Palette Harmony Mode">
-            <button type="button" class="harmony-pill active" data-harmony="vibrant" id="harmonyVibrantBtn">
-              <span class="harmony-dot"></span>
-              Vibrant
-            </button>
-            <button type="button" class="harmony-pill" data-harmony="muted" id="harmonyMutedBtn">
-              <span class="harmony-dot"></span>
-              Muted / Pastel
-            </button>
-            <button type="button" class="harmony-pill" data-harmony="deep" id="harmonyDeepBtn">
-              <span class="harmony-dot"></span>
-              Deep Dark
-            </button>
+    <!-- Studio Main Content (2-Column Split + Bottom Swatches) -->
+    <main class="studio-main container">
+      <!-- 2-Column Split -->
+      <section class="studio-hero-split">
+        <!-- Left Column: Typography & Metrics -->
+        <div class="hero-left-col">
+          <div class="status-chip">
+            <span class="status-indicator pulse"></span>
+            <span id="heroThemeStatus">Active Theme: Citrus Orange Harmony</span>
           </div>
-        </div>
 
-        <div class="palette-badges">
-          <span class="badge badge-accent" id="activeHueBadge">Primary Hue: 28°</span>
-          <span class="badge badge-surface" id="paletteShadesCount">6 Reactive Tokens</span>
-        </div>
-      </div>
+          <h1 class="hero-heading">
+            Upload any photo.<br>
+            Watch the <span class="text-gradient">entire site adapt</span>.
+          </h1>
 
-      <div class="palette-swatches-grid" id="paletteGrid">
-        <!-- Rendered dynamically by app.js -->
-      </div>
-    </section>
+          <p class="hero-subtitle">
+            ChromaShift quantizes image pixels in real-time, extracts harmonic scales, and computes WCAG compliant design tokens. Test your photo below, then preview the live SaaS sample!
+          </p>
 
-    <!-- Component Playground / Theme Showcase -->
-    <section class="showcase-section">
-      <div class="section-header">
-        <div>
-          <h2 class="section-title">Live Dynamic Component Showcase</h2>
-          <p class="section-desc">See how your uploaded photo transforms real-world web components in real-time</p>
-        </div>
-      </div>
-
-      <div class="showcase-grid">
-        <!-- Card 1: Live Analytics & Sparklines -->
-        <div class="card glass-panel component-card">
-          <div class="card-header">
-            <div>
-              <span class="card-eyebrow">Interactive Analytics</span>
-              <h3 class="card-title">Performance Metrics</h3>
+          <div class="hero-metrics-pill glass-panel">
+            <div class="metric-mini">
+              <span class="metric-mini-label">Accessibility</span>
+              <span class="metric-mini-val text-accent" id="contrastModeLabel">WCAG AAA (12.8:1)</span>
             </div>
-            <span class="badge badge-primary">+28.4% Today</span>
-          </div>
-          
-          <div class="metric-row">
-            <div class="metric-block">
-              <span class="metric-value" id="metricAudience">148,920</span>
-              <span class="metric-sub">Active Visitors</span>
+            <div class="metric-divider"></div>
+            <div class="metric-mini">
+              <span class="metric-mini-label">Active Scale</span>
+              <span class="metric-mini-val" id="extractDominantName">Vibrant Orange & Leaf Green</span>
             </div>
-            <div class="metric-block">
-              <span class="metric-value text-accent" id="metricConversions">94.6%</span>
-              <span class="metric-sub">Palette Harmony</span>
+            <div class="metric-divider"></div>
+            <div class="metric-mini">
+              <span class="metric-mini-label">Primary Hue</span>
+              <span class="metric-mini-val" id="activeHueBadge">28° Amber</span>
             </div>
-          </div>
-
-          <!-- Dynamic SVG Chart styled by extracted colors -->
-          <div class="chart-container">
-            <svg class="dynamic-chart" viewBox="0 0 400 120" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.45"/>
-                  <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path class="chart-area" d="M 0 100 Q 60 40, 120 70 T 240 30 T 320 60 T 400 20 L 400 120 L 0 120 Z" fill="url(#chartGradient)"></path>
-              <path class="chart-line" d="M 0 100 Q 60 40, 120 70 T 240 30 T 320 60 T 400 20" fill="none" stroke="var(--primary)" stroke-width="3.5" stroke-linecap="round"></path>
-              <!-- Data Points with Accent Glow -->
-              <circle cx="120" cy="70" r="4.5" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="3"></circle>
-              <circle cx="240" cy="30" r="4.5" fill="var(--bg-surface)" stroke="var(--accent)" stroke-width="3"></circle>
-              <circle cx="400" cy="20" r="5.5" fill="var(--accent)" stroke="var(--bg-surface)" stroke-width="2.5"></circle>
-            </svg>
-          </div>
-
-          <div class="card-footer">
-            <span class="text-muted text-xs">Updated in real-time from theme state</span>
-            <button type="button" class="btn btn-sm btn-ghost">View Insights →</button>
           </div>
         </div>
 
-        <!-- Card 2: Interactive Audio & Media Player -->
-        <div class="card glass-panel component-card media-player-card">
-          <div class="card-header">
-            <div>
-              <span class="card-eyebrow">Adaptive Media</span>
-              <h3 class="card-title">Now Playing</h3>
-            </div>
-            <div class="music-wave" id="musicWave">
-              <span></span><span></span><span></span><span></span>
-            </div>
-          </div>
-
-          <div class="media-body">
-            <div class="media-artwork-box">
-              <img id="mediaArtwork" src="assets/sample-orange.jpg" alt="Track artwork" class="media-thumb">
-              <div class="media-play-overlay" id="playToggleBtn">
-                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
-                  <polygon points="5 3 19 12 5 21 5 3"/>
-                </svg>
-              </div>
-            </div>
-            <div class="media-details">
-              <h4 class="track-title" id="trackTitle">Ambient Resonance</h4>
-              <p class="track-artist" id="trackArtist">ChromaShift Acoustic Studio</p>
-              
-              <!-- Progress bar -->
-              <div class="track-progress-container" id="trackProgressWrapper">
-                <div class="track-progress-bar" id="trackProgressBar" style="width: 58%;"></div>
-              </div>
-              <div class="track-timestamps">
-                <span>02:14</span>
-                <span>03:45</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="media-controls">
-            <button type="button" class="btn-icon-subtle" title="Previous Track">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="19 20 9 12 19 4 19 20"/>
-                <line x1="5" y1="19" x2="5" y2="5"/>
-              </svg>
-            </button>
-            <button type="button" class="btn-icon-primary" id="mediaPlayLargeBtn" title="Play / Pause">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="6 4 18 12 6 20 6 4"/>
-              </svg>
-            </button>
-            <button type="button" class="btn-icon-subtle" title="Next Track">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="5 4 15 12 5 20 5 4"/>
-                <line x1="19" y1="5" x2="19" y2="19"/>
-              </svg>
-            </button>
-            <button type="button" class="btn-icon-subtle" title="Favorite">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Card 3: Artisan Menu / Product Card (Connected to Menu-Maker theme!) -->
-        <div class="card glass-panel component-card">
-          <div class="card-header">
-            <div>
-              <span class="card-eyebrow">Menu Item Card</span>
-              <h3 class="card-title" id="menuItemTitle">Sunset Citrus Glaze</h3>
-            </div>
-            <span class="badge badge-accent" id="menuItemBadge">Chef's Special</span>
-          </div>
-
-          <div class="menu-item-content">
-            <p class="menu-desc" id="menuItemDesc">
-              Handcrafted infusion harmonized with subtle sweet botanicals, extracted zest, and organic crystalline honey.
-            </p>
-            <div class="menu-tags" id="menuItemTags">
-              <span class="tag">Gluten-Free</span>
-              <span class="tag">Seasonal</span>
-              <span class="tag">Organic</span>
-            </div>
+        <!-- Right Column: Interactive Upload Dropzone Card -->
+        <div class="hero-right-col">
+          <div class="upload-card glass-panel" id="dropzoneCard">
+            <input type="file" id="imageFileInput" accept="image/*" class="file-input-hidden" aria-label="Upload an image to generate theme">
             
-            <div class="price-action-row">
-              <div class="price-group">
-                <span class="price-currency">$</span>
-                <span class="price-number" id="menuItemPrice">14.50</span>
+            <div class="upload-dropzone" id="dropzone">
+              <div class="image-preview-wrapper" id="previewContainer">
+                <img id="currentImagePreview" src="assets/sample-orange.jpg" alt="Active theme source" class="preview-img">
+                <div class="preview-overlay">
+                  <span class="overlay-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/>
+                      <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Click or Drop new image to change
+                  </span>
+                </div>
               </div>
-              <button type="button" class="btn btn-primary" id="btnAddToCart">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-                  <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                  <line x1="3" y1="6" x2="21" y2="6"/>
-                  <path d="M16 10a4 4 0 0 1-8 0"/>
+
+              <div class="dropzone-hints">
+                <span class="hint-text"><strong>Drag & Drop</strong> any photo here or <strong>browse files</strong></span>
+                <span class="hint-sub">Supports JPG, PNG, WebP, SVG</span>
+              </div>
+            </div>
+
+            <!-- Upload Footer Bar with Shift Hue Action -->
+            <div class="upload-footer-bar">
+              <div class="file-status-indicator">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="16" height="16">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
                 </svg>
-                Order Now
+                <span id="uploadFileNameLabel">sample-orange.jpg</span>
+              </div>
+
+              <button type="button" class="btn btn-sm btn-ghost" id="randomizeHueBtn" title="Shift Hue by 35°">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                Shift Hue (+35°)
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Section: Horizontal Extracted Adaptive Palette Bar -->
+      <section class="palette-horizontal-section glass-panel">
+        <div class="palette-header-row">
+          <div class="palette-title-group">
+            <h2 class="palette-title">Extracted Adaptive Palette</h2>
+            <p class="palette-sub">Click any swatch to copy its HEX code instantly</p>
+          </div>
+
+          <!-- Palette Harmony Switcher [Vibrant, Muted/Pastel, Deep Dark] -->
+          <div class="harmony-control-wrapper">
+            <span class="harmony-label">Harmony Mode:</span>
+            <div class="harmony-segmented" id="harmonySegmented" role="group" aria-label="Palette Harmony Mode">
+              <button type="button" class="harmony-pill active" data-harmony="vibrant" id="harmonyVibrantBtn">
+                <span class="harmony-dot"></span>
+                Vibrant
+              </button>
+              <button type="button" class="harmony-pill" data-harmony="muted" id="harmonyMutedBtn">
+                <span class="harmony-dot"></span>
+                Muted / Pastel
+              </button>
+              <button type="button" class="harmony-pill" data-harmony="deep" id="harmonyDeepBtn">
+                <span class="harmony-dot"></span>
+                Deep Dark
               </button>
             </div>
           </div>
 
-          <div class="card-footer">
-            <div class="item-rating">
-              <span class="stars" style="color: var(--accent);">★★★★★</span>
-              <span class="rating-text">4.9 (184 reviews)</span>
-            </div>
-            <span class="in-stock-tag text-accent">● Freshly Prepared</span>
-          </div>
+          <button type="button" class="btn btn-sm btn-outline btn-view-samples-shortcut" id="btnShortcutExpectedResult">
+            <span>View Design Samples →</span>
+          </button>
         </div>
 
-        <!-- Card 4: Interactive Controls & Form Elements -->
-        <div class="card glass-panel component-card">
-          <div class="card-header">
-            <div>
-              <span class="card-eyebrow">Theme Controls</span>
-              <h3 class="card-title">Interactive Elements</h3>
-            </div>
-            <span class="badge badge-surface">Form UI</span>
-          </div>
-
-          <div class="controls-form">
-            <!-- Range Slider -->
-            <div class="form-group">
-              <div class="form-label-row">
-                <label for="saturationSlider" class="form-label">Theme Saturation Boost</label>
-                <span class="form-value" id="saturationValue">100%</span>
-              </div>
-              <input type="range" min="30" max="180" value="100" class="custom-range" id="saturationSlider">
-            </div>
-
-            <!-- Segmented Pill Control -->
-            <div class="form-group">
-              <label class="form-label">Component Corner Radius</label>
-              <div class="segmented-control" id="radiusSegmented">
-                <button type="button" class="segment-btn" data-radius="8px">Sharp</button>
-                <button type="button" class="segment-btn active" data-radius="18px">Smooth</button>
-                <button type="button" class="segment-btn" data-radius="28px">Pill</button>
-              </div>
-            </div>
-
-            <!-- Interactive Toggle Switches -->
-            <div class="toggle-group">
-              <label class="toggle-switch">
-                <input type="checkbox" id="ambientMotionToggle" checked>
-                <span class="toggle-slider"></span>
-                <span class="toggle-text">Dynamic Ambient Glow</span>
-              </label>
-              <label class="toggle-switch">
-                <input type="checkbox" id="glassmorphismToggle" checked>
-                <span class="toggle-slider"></span>
-                <span class="toggle-text">Glassmorphism Frosted Blur</span>
-              </label>
-            </div>
-
-            <!-- Button Row -->
-            <div class="button-preview-group">
-              <button type="button" class="btn btn-primary">Primary Glow</button>
-              <button type="button" class="btn btn-secondary">Secondary</button>
-              <button type="button" class="btn btn-accent">Accent Pop</button>
-              <button type="button" class="btn btn-outline">Outline</button>
-            </div>
-          </div>
+        <div class="palette-swatches-grid" id="paletteGrid">
+          <!-- Rendered dynamically by app.js (Primary, Secondary, Accent, Surface, Subtle, On-Primary) -->
         </div>
+      </section>
+    </main>
+  </div>
+
+
+  <!-- =========================================================================
+       VIEW 2: Expected Result / Real-World Design Sample Page
+       ========================================================================= -->
+  <div class="spa-view" id="viewResult">
+    <div class="dashboard-layout">
+      <!-- 1. Left Vertical Sidebar -->
+      <aside class="dashboard-sidebar glass-panel">
+        <div class="sidebar-top">
+          <div class="sidebar-brand">
+            <div class="brand-logo sm">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 2a7 7 0 0 0 0 14c2.5 0 4.5-2 4.5-4.5 0-1.5-1-2.5-2-2.5h-1"/>
+                <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/>
+                <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="brand-text">
+              <span class="brand-title sm">Chroma<span class="text-gradient">Shift</span></span>
+            </div>
+          </div>
+
+          <!-- Back to Studio Action Button -->
+          <button type="button" class="btn btn-outline btn-sm btn-back-studio" id="btnBackToStudio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15">
+              <line x1="19" y1="12" x2="5" y2="12"/>
+              <polyline points="12 19 5 12 12 5"/>
+            </svg>
+            <span>Back to Studio</span>
+          </button>
+        </div>
+
+        <!-- Sidebar Navigation Menu Items -->
+        <nav class="sidebar-nav" aria-label="Component Navigation">
+          <div class="nav-section-title">Design Showcase</div>
+          
+          <button type="button" class="sidebar-nav-item active" data-filter="all" id="navFilterAll">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/>
+              <rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/>
+              <rect x="3" y="14" width="7" height="7"/>
+            </svg>
+            <span>All Components</span>
+            <span class="nav-badge">4</span>
+          </button>
+
+          <button type="button" class="sidebar-nav-item" data-filter="analytics" id="navFilterAnalytics">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            <span>Analytics & Graphs</span>
+          </button>
+
+          <button type="button" class="sidebar-nav-item" data-filter="media" id="navFilterMedia">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <polygon points="10 8 16 12 10 16 10 8"/>
+            </svg>
+            <span>Adaptive Media Player</span>
+          </button>
+
+          <button type="button" class="sidebar-nav-item" data-filter="menu" id="navFilterMenu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 0 1-8 0"/>
+            </svg>
+            <span>E-Commerce / Menu Card</span>
+          </button>
+
+          <button type="button" class="sidebar-nav-item" data-filter="controls" id="navFilterControls">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>Interactive Controls</span>
+          </button>
+        </nav>
+
+        <!-- Sidebar Footer Theme Snapshot -->
+        <div class="sidebar-theme-card">
+          <div class="theme-snapshot-label">Active Palette</div>
+          <div class="theme-snapshot-dots">
+            <span class="theme-dot dot-primary"></span>
+            <span class="theme-dot dot-secondary"></span>
+            <span class="theme-dot dot-accent"></span>
+            <span class="theme-dot dot-surface"></span>
+          </div>
+          <div class="theme-snapshot-name" id="sidebarThemeSnapshotName">Citrus Orange</div>
+        </div>
+      </aside>
+
+      <!-- 2. Main Dashboard Area (Top Header + Main Canvas Grid) -->
+      <div class="dashboard-main-area">
+        <!-- Top Header Bar inside View 2 -->
+        <header class="dashboard-header glass-panel">
+          <div class="dashboard-breadcrumb">
+            <button type="button" class="breadcrumb-link" id="breadcrumbStudioLink">Studio</button>
+            <span class="breadcrumb-separator">/</span>
+            <span class="breadcrumb-current">Live Design Sample — Real-World Theme Preview</span>
+          </div>
+
+          <div class="dashboard-header-actions">
+            <!-- View 2 Theme Toggle -->
+            <button type="button" class="btn-theme-mode theme-toggle-btn" id="view2ThemeToggle" title="Toggle Light/Dark Mode" aria-label="Toggle Light/Dark Mode">
+              <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+              <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            </button>
+
+            <!-- Primary CTA Button: Export Theme -->
+            <button type="button" class="btn btn-primary" id="view2ExportBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span>Export Theme</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- 3. Main Canvas: Design Sample Grid -->
+        <main class="dashboard-content">
+          <div class="showcase-grid" id="showcaseGrid">
+            <!-- Sample Card 1: Live Analytics & Sparklines -->
+            <div class="card glass-panel component-card sample-widget" data-category="analytics" id="sampleCardAnalytics">
+              <div class="card-header">
+                <div>
+                  <span class="card-eyebrow">Interactive Analytics</span>
+                  <h3 class="card-title">Performance Metrics</h3>
+                </div>
+                <span class="badge badge-primary">+28.4% Today</span>
+              </div>
+              
+              <div class="metric-row">
+                <div class="metric-block">
+                  <span class="metric-value" id="metricAudience">148,920</span>
+                  <span class="metric-sub">Active Visitors</span>
+                </div>
+                <div class="metric-block">
+                  <span class="metric-value text-accent" id="metricConversions">94.6%</span>
+                  <span class="metric-sub">Palette Harmony</span>
+                </div>
+              </div>
+
+              <!-- Dynamic SVG Chart styled by extracted colors -->
+              <div class="chart-container">
+                <svg class="dynamic-chart" viewBox="0 0 400 120" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.45"/>
+                      <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.0"/>
+                    </linearGradient>
+                  </defs>
+                  <path class="chart-area" d="M 0 100 Q 60 40, 120 70 T 240 30 T 320 60 T 400 20 L 400 120 L 0 120 Z" fill="url(#chartGradient)"></path>
+                  <path class="chart-line" d="M 0 100 Q 60 40, 120 70 T 240 30 T 320 60 T 400 20" fill="none" stroke="var(--primary)" stroke-width="3.5" stroke-linecap="round"></path>
+                  <circle cx="120" cy="70" r="4.5" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="3"></circle>
+                  <circle cx="240" cy="30" r="4.5" fill="var(--bg-surface)" stroke="var(--accent)" stroke-width="3"></circle>
+                  <circle cx="400" cy="20" r="5.5" fill="var(--accent)" stroke="var(--bg-surface)" stroke-width="2.5"></circle>
+                </svg>
+              </div>
+
+              <div class="card-footer">
+                <span class="text-muted text-xs">Updated in real-time from theme state</span>
+                <button type="button" class="btn btn-sm btn-ghost">View Insights →</button>
+              </div>
+            </div>
+
+            <!-- Sample Card 2: Interactive Audio & Media Player -->
+            <div class="card glass-panel component-card media-player-card sample-widget" data-category="media" id="sampleCardMedia">
+              <div class="card-header">
+                <div>
+                  <span class="card-eyebrow">Adaptive Media</span>
+                  <h3 class="card-title">Now Playing</h3>
+                </div>
+                <div class="music-wave" id="musicWave">
+                  <span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+
+              <div class="media-body">
+                <div class="media-artwork-box">
+                  <img id="mediaArtwork" src="assets/sample-orange.jpg" alt="Track artwork" class="media-thumb">
+                  <div class="media-play-overlay" id="playToggleBtn">
+                    <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="media-details">
+                  <h4 class="track-title" id="trackTitle">Ambient Resonance</h4>
+                  <p class="track-artist" id="trackArtist">ChromaShift Acoustic Studio</p>
+                  
+                  <div class="track-progress-container" id="trackProgressWrapper">
+                    <div class="track-progress-bar" id="trackProgressBar" style="width: 58%;"></div>
+                  </div>
+                  <div class="track-timestamps">
+                    <span>02:14</span>
+                    <span>03:45</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="media-controls">
+                <button type="button" class="btn-icon-subtle" title="Previous Track">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="19 20 9 12 19 4 19 20"/>
+                    <line x1="5" y1="19" x2="5" y2="5"/>
+                  </svg>
+                </button>
+                <button type="button" class="btn-icon-primary" id="mediaPlayLargeBtn" title="Play / Pause">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="6 4 18 12 6 20 6 4"/>
+                  </svg>
+                </button>
+                <button type="button" class="btn-icon-subtle" title="Next Track">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 4 15 12 5 20 5 4"/>
+                    <line x1="19" y1="5" x2="19" y2="19"/>
+                  </svg>
+                </button>
+                <button type="button" class="btn-icon-subtle" title="Favorite">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Sample Card 3: Artisan Menu / Product Card -->
+            <div class="card glass-panel component-card sample-widget" data-category="menu" id="sampleCardMenu">
+              <div class="card-header">
+                <div>
+                  <span class="card-eyebrow">Menu Item Card</span>
+                  <h3 class="card-title" id="menuItemTitle">Sunset Citrus Glaze</h3>
+                </div>
+                <span class="badge badge-accent" id="menuItemBadge">Chef's Special</span>
+              </div>
+
+              <div class="menu-item-content">
+                <p class="menu-desc" id="menuItemDesc">
+                  Handcrafted infusion harmonized with subtle sweet botanicals, extracted zest, and organic crystalline honey.
+                </p>
+                <div class="menu-tags" id="menuItemTags">
+                  <span class="tag">Gluten-Free</span>
+                  <span class="tag">Seasonal</span>
+                  <span class="tag">Organic</span>
+                </div>
+                
+                <div class="price-action-row">
+                  <div class="price-group">
+                    <span class="price-currency">$</span>
+                    <span class="price-number" id="menuItemPrice">14.50</span>
+                  </div>
+                  <button type="button" class="btn btn-primary" id="btnAddToCart">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                      <line x1="3" y1="6" x2="21" y2="6"/>
+                      <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    Order Now
+                  </button>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <div class="item-rating">
+                  <span class="stars" style="color: var(--accent);">★★★★★</span>
+                  <span class="rating-text">4.9 (184 reviews)</span>
+                </div>
+                <span class="in-stock-tag text-accent">● Freshly Prepared</span>
+              </div>
+            </div>
+
+            <!-- Sample Card 4: Interactive Controls & Form Elements -->
+            <div class="card glass-panel component-card sample-widget" data-category="controls" id="sampleCardControls">
+              <div class="card-header">
+                <div>
+                  <span class="card-eyebrow">Theme Controls</span>
+                  <h3 class="card-title">Interactive Elements</h3>
+                </div>
+                <span class="badge badge-surface">Form UI</span>
+              </div>
+
+              <div class="controls-form">
+                <!-- Range Slider -->
+                <div class="form-group">
+                  <div class="form-label-row">
+                    <label for="saturationSlider" class="form-label">Theme Saturation Boost</label>
+                    <span class="form-value" id="saturationValue">100%</span>
+                  </div>
+                  <input type="range" min="30" max="180" value="100" class="custom-range" id="saturationSlider">
+                </div>
+
+                <!-- Segmented Pill Control -->
+                <div class="form-group">
+                  <label class="form-label">Component Corner Radius</label>
+                  <div class="segmented-control" id="radiusSegmented">
+                    <button type="button" class="segment-btn" data-radius="8px">Sharp</button>
+                    <button type="button" class="segment-btn active" data-radius="18px">Smooth</button>
+                    <button type="button" class="segment-btn" data-radius="28px">Pill</button>
+                  </div>
+                </div>
+
+                <!-- Interactive Toggle Switches -->
+                <div class="toggle-group">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="ambientMotionToggle" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text">Dynamic Ambient Glow</span>
+                  </label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="glassmorphismToggle" checked>
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-text">Glassmorphism Frosted Blur</span>
+                  </label>
+                </div>
+
+                <!-- Button Row -->
+                <div class="button-preview-group">
+                  <button type="button" class="btn btn-primary">Primary Glow</button>
+                  <button type="button" class="btn btn-secondary">Secondary</button>
+                  <button type="button" class="btn btn-accent">Accent Pop</button>
+                  <button type="button" class="btn btn-outline">Outline</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <!-- Offscreen canvas for color extraction -->
-    <canvas id="extractionCanvas" style="display:none;"></canvas>
-  </main>
 
-  <!-- Export Theme Modal -->
+  <!-- =========================================================================
+       Export Theme Modal (Triggered from View 2 Top-Right "Export Theme" Button)
+       ========================================================================= -->
   <div class="modal-backdrop" id="exportModal" aria-hidden="true">
     <div class="modal-card glass-panel">
       <div class="modal-header">
         <div>
           <h3 class="modal-title">Export Theme Tokens</h3>
-          <p class="modal-sub">Copy ready-to-use CSS, Tailwind CSS config, or JSON design tokens</p>
+          <p class="modal-sub">Ready-to-use production tokens extracted by ChromaShift</p>
         </div>
         <button type="button" class="btn-close" id="closeExportModalBtn" aria-label="Close modal">✕</button>
       </div>
 
-      <!-- Tab selectors -->
+      <!-- Tab selectors: Tailwind CSS, Native CSS, JSON Tokens, SCSS/Shadcn -->
       <div class="modal-tabs">
-        <button type="button" class="tab-btn active" data-tab="tailwind">Tailwind CSS (config)</button>
-        <button type="button" class="tab-btn" data-tab="css">Native CSS Variables (:root)</button>
+        <button type="button" class="tab-btn active" data-tab="tailwind">Tailwind Config</button>
+        <button type="button" class="tab-btn" data-tab="css">CSS Variables (:root)</button>
         <button type="button" class="tab-btn" data-tab="json">JSON Tokens</button>
+        <button type="button" class="tab-btn" data-tab="scss">SCSS / Shadcn</button>
       </div>
 
       <!-- Code block view -->
@@ -428,13 +596,23 @@
 
       <div class="modal-footer">
         <span class="copy-status" id="copyStatusText">Ready to copy</span>
-        <button type="button" class="btn btn-primary" id="copyTokensBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-          </svg>
-          Copy Code
-        </button>
+        <div class="modal-actions-group">
+          <button type="button" class="btn btn-outline btn-sm" id="downloadTokensBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download File
+          </button>
+          <button type="button" class="btn btn-primary" id="copyTokensBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copy Code
+          </button>
+        </div>
       </div>
     </div>
   </div>

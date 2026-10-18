@@ -1,6 +1,6 @@
 /**
  * ChromaShift — Adaptive Intelligent Theme Engine
- * Real-time image color quantization, harmonic palette generation, and site-wide theme propagation.
+ * Two-View SPA Architecture: View 1 (Studio) & View 2 (Expected Result)
  */
 
 // Preset Configurations
@@ -55,8 +55,9 @@ const PRESETS = {
   }
 };
 
-// Current active state
+// Global State
 const state = {
+  currentView: 'studio', // 'studio' | 'result'
   currentPreset: 'orange',
   themeMode: 'dark', // 'dark' | 'light'
   harmonyMode: 'vibrant', // 'vibrant' | 'muted' | 'deep'
@@ -67,16 +68,30 @@ const state = {
   rawSecondary: null,
   rawAccent: null,
   imageSrc: 'assets/sample-orange.jpg',
+  fileName: 'sample-orange.jpg',
   exportTab: 'tailwind'
 };
 
-// DOM Elements
+// DOM Elements: Views
+const viewStudio = document.getElementById('viewStudio');
+const viewResult = document.getElementById('viewResult');
+const btnGoToResult = document.getElementById('btnGoToResult');
+const btnBackToStudio = document.getElementById('btnBackToStudio');
+const brandHomeTrigger = document.getElementById('brandHomeTrigger');
+const breadcrumbStudioLink = document.getElementById('breadcrumbStudioLink');
+const btnShortcutExpectedResult = document.getElementById('btnShortcutExpectedResult');
+
+// DOM Elements: Theme Toggles
+const view1ThemeToggle = document.getElementById('view1ThemeToggle');
+const view2ThemeToggle = document.getElementById('view2ThemeToggle');
+
+// DOM Elements: Studio
 const currentImagePreview = document.getElementById('currentImagePreview');
 const mediaArtwork = document.getElementById('mediaArtwork');
 const imageFileInput = document.getElementById('imageFileInput');
 const dropzone = document.getElementById('dropzone');
 const dropzoneCard = document.getElementById('dropzoneCard');
-const themeModeToggle = document.getElementById('themeModeToggle');
+const uploadFileNameLabel = document.getElementById('uploadFileNameLabel');
 const paletteGrid = document.getElementById('paletteGrid');
 const heroThemeStatus = document.getElementById('heroThemeStatus');
 const extractDominantName = document.getElementById('extractDominantName');
@@ -91,7 +106,8 @@ const glassmorphismToggle = document.getElementById('glassmorphismToggle');
 const ambientMeshGlow = document.getElementById('ambientMeshGlow');
 const harmonySegmented = document.getElementById('harmonySegmented');
 
-// Showcase card elements
+// DOM Elements: View 2 Sidebar & Showcase
+const sidebarThemeSnapshotName = document.getElementById('sidebarThemeSnapshotName');
 const menuItemTitle = document.getElementById('menuItemTitle');
 const menuItemDesc = document.getElementById('menuItemDesc');
 const menuItemBadge = document.getElementById('menuItemBadge');
@@ -106,16 +122,81 @@ const btnAddToCart = document.getElementById('btnAddToCart');
 
 // Export Modal Elements
 const exportModal = document.getElementById('exportModal');
-const openExportModalBtn = document.getElementById('openExportModalBtn');
+const view2ExportBtn = document.getElementById('view2ExportBtn');
 const closeExportModalBtn = document.getElementById('closeExportModalBtn');
 const exportCodeBlock = document.getElementById('exportCodeBlock');
 const copyTokensBtn = document.getElementById('copyTokensBtn');
+const downloadTokensBtn = document.getElementById('downloadTokensBtn');
 const copyStatusText = document.getElementById('copyStatusText');
 const toastContainer = document.getElementById('toastContainer');
 
 // Canvas for extraction
 const extractionCanvas = document.getElementById('extractionCanvas');
 const ctx = extractionCanvas.getContext('2d');
+
+/* ==========================================================================
+   SPA View Routing & Navigation
+   ========================================================================== */
+
+function switchView(targetView) {
+  if (targetView === state.currentView) return;
+
+  state.currentView = targetView;
+  window.location.hash = targetView === 'result' ? '#result' : '#studio';
+
+  if (targetView === 'result') {
+    viewStudio.classList.remove('active-view');
+    viewResult.classList.add('active-view');
+    updateSidebarThemeSnapshot();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast('Navigated to Expected Result Design Sample 🚀');
+  } else {
+    viewResult.classList.remove('active-view');
+    viewStudio.classList.add('active-view');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    showToast('Returned to Theme Studio 🎨');
+  }
+}
+
+function updateSidebarThemeSnapshot() {
+  if (sidebarThemeSnapshotName) {
+    const cleanName = heroThemeStatus.textContent.replace('Active Theme: ', '');
+    sidebarThemeSnapshotName.textContent = cleanName;
+  }
+}
+
+// Sidebar Navigation filtering & smooth highlight
+document.querySelectorAll('.sidebar-nav-item').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.sidebar-nav-item').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+    const cards = document.querySelectorAll('.sample-widget');
+
+    if (filter === 'all') {
+      cards.forEach(card => {
+        card.style.display = 'flex';
+        card.classList.remove('highlight-pulse');
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast('Showing all components');
+    } else {
+      cards.forEach(card => {
+        const isMatch = card.dataset.category === filter;
+        card.style.display = 'flex'; // keep grid intact but highlight
+        if (isMatch) {
+          card.classList.add('highlight-pulse');
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => card.classList.remove('highlight-pulse'), 1800);
+        } else {
+          card.classList.remove('highlight-pulse');
+        }
+      });
+      showToast(`Focused on: ${btn.querySelector('span').textContent}`);
+    }
+  });
+});
 
 /* ==========================================================================
    Color Utilities & Math
@@ -128,7 +209,7 @@ function rgbToHsl(r, g, b) {
   let h, s, l = (max + min) / 2;
 
   if (max === min) {
-    h = s = 0; // achromatic
+    h = s = 0;
   } else {
     const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -218,7 +299,7 @@ function extractColorsFromImage(imgElement) {
 
     const [h, s, l] = rgbToHsl(r, g, b);
 
-    // Skip almost washed out gray or pure black/white
+    // Skip extreme washed out gray or pure black/white
     if (s < 12 && (l < 15 || l > 85)) continue;
 
     const hueBin = Math.round(h / 15) * 15;
@@ -291,7 +372,6 @@ function extractColorsFromImage(imgElement) {
     accentCandidate = { r: ar, g: ag, b: ab, h: accHue, s: 90, l: 52 };
   }
 
-  // Cache raw base extracted colors for instant Harmony Mode switching
   state.rawDominant = dominant;
   state.rawSecondary = secondaryCandidate;
   state.rawAccent = accentCandidate;
@@ -314,19 +394,12 @@ function generateFallbackPalette(baseHue) {
   return assembleAdaptivePalette(dom, sec, acc);
 }
 
-/**
- * Re-assembles palette considering the active Harmony Mode:
- * - 'vibrant': High saturation, vivid radiant hues
- * - 'muted': Soft pastel saturation, delicate balanced tones
- * - 'deep': Rich velvety saturation, moody low-lightness with bright neon accents
- */
 function assembleAdaptivePalette(dom, sec, acc) {
   const shiftHue = h => ((h + state.hueOffset) % 360 + 360) % 360;
 
   let sPrimary, lPrimary, sSec, lSec, sAcc, lAcc;
 
   if (state.harmonyMode === 'muted') {
-    // Muted / Pastel Harmony
     sPrimary = Math.max(22, Math.min(48, Math.round(dom.s * 0.42 * state.saturationBoost)));
     lPrimary = state.themeMode === 'dark' ? 62 : 45;
 
@@ -336,7 +409,6 @@ function assembleAdaptivePalette(dom, sec, acc) {
     sAcc = Math.max(30, Math.min(54, Math.round(acc.s * 0.5 * state.saturationBoost)));
     lAcc = state.themeMode === 'dark' ? 74 : 52;
   } else if (state.harmonyMode === 'deep') {
-    // Deep Dark Moody Harmony
     sPrimary = Math.max(65, Math.min(95, Math.round(dom.s * 0.9 * state.saturationBoost)));
     lPrimary = 32;
 
@@ -344,9 +416,9 @@ function assembleAdaptivePalette(dom, sec, acc) {
     lSec = 28;
 
     sAcc = Math.max(80, Math.min(100, Math.round(acc.s * 1.1 * state.saturationBoost)));
-    lAcc = 58; // High contrast neon highlight against deep dark surfaces
+    lAcc = 58;
   } else {
-    // Vibrant (Default) Harmony
+    // Vibrant (Default)
     sPrimary = Math.max(35, Math.min(100, Math.round(dom.s * 1.15 * state.saturationBoost)));
     lPrimary = Math.max(44, Math.min(56, dom.l));
 
@@ -365,13 +437,8 @@ function assembleAdaptivePalette(dom, sec, acc) {
   const [sr, sg, sb] = hslToRgb(hSec, sSec, lSec);
   const [ar, ag, ab] = hslToRgb(hAcc, sAcc, lAcc);
 
-  // Surface Tint
   const [surR, surG, surB] = hslToRgb(hPrimary, state.harmonyMode === 'muted' ? 12 : 20, 11);
-
-  // Subtle Border Tone
   const [subR, subG, subB] = hslToRgb(hPrimary, 42, 28);
-
-  // Contrast text color calculation for primary button
   const textOnPrimary = getRelativeLuminance(pr, pg, pb) > 0.4 ? '#0f172a' : '#ffffff';
 
   return [
@@ -420,9 +487,6 @@ function assembleAdaptivePalette(dom, sec, acc) {
   ];
 }
 
-/**
- * Recomputes palette using cached raw image extraction without re-uploading
- */
 function recalculatePaletteFromRaw() {
   if (!state.rawDominant) return;
   const palette = assembleAdaptivePalette(state.rawDominant, state.rawSecondary, state.rawAccent);
@@ -443,7 +507,7 @@ function applyPaletteToDocument(palette) {
   const surface = palette[3];
   const onPrimary = palette[5];
 
-  // Set CSS Custom Properties
+  // Set CSS Custom Properties globally
   root.style.setProperty('--primary', primary.hex);
   root.style.setProperty('--primary-rgb', `${primary.rgb[0]}, ${primary.rgb[1]}, ${primary.rgb[2]}`);
   root.style.setProperty('--secondary', secondary.hex);
@@ -452,8 +516,7 @@ function applyPaletteToDocument(palette) {
   root.style.setProperty('--accent-rgb', `${accent.rgb[0]}, ${accent.rgb[1]}, ${accent.rgb[2]}`);
   root.style.setProperty('--text-on-primary', onPrimary.hex);
 
-  // Dynamic Ambient Background Glow:
-  // Smoothly crossfades the large radial mesh gradient
+  // Dynamic Ambient Background Glow crossfade
   if (ambientMeshGlow) {
     ambientMeshGlow.style.opacity = '0.08';
     setTimeout(() => {
@@ -473,11 +536,14 @@ function applyPaletteToDocument(palette) {
   }
 
   // Update Status and Labels
-  activeHueBadge.textContent = `Primary Hue: ${primary.hsl[0]}°`;
-  contrastModeLabel.textContent = `WCAG Contrast ${primary.contrast}:1`;
+  activeHueBadge.textContent = `${primary.hsl[0]}° Hue`;
+  contrastModeLabel.textContent = `WCAG AAA (${primary.contrast}:1)`;
 
-  // Render Swatches
+  // Render Swatches in View 1
   renderPaletteSwatches(palette);
+
+  // Update View 2 Sidebar Theme Snapshot
+  updateSidebarThemeSnapshot();
 
   // Update export code preview
   updateExportCode();
@@ -501,7 +567,7 @@ function renderPaletteSwatches(palette) {
         <span class="swatch-role">${item.role}</span>
         <div class="swatch-hex">
           <span>${item.hex.toUpperCase()}</span>
-          <svg class="swatch-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <svg class="swatch-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
           </svg>
@@ -527,6 +593,7 @@ function selectPreset(presetKey) {
 
   state.currentPreset = presetKey;
   state.imageSrc = preset.image;
+  state.fileName = preset.image.split('/').pop();
   state.hueOffset = 0;
 
   // Update active pill styling
@@ -537,6 +604,7 @@ function selectPreset(presetKey) {
   // Update preview image
   currentImagePreview.src = preset.image;
   mediaArtwork.src = preset.image;
+  uploadFileNameLabel.textContent = state.fileName;
 
   // Update hero status
   heroThemeStatus.textContent = `Active Theme: ${preset.name}`;
@@ -579,6 +647,9 @@ function handleCustomImageUpload(file) {
     return;
   }
 
+  state.fileName = file.name;
+  uploadFileNameLabel.textContent = file.name;
+
   const reader = new FileReader();
   reader.onload = e => {
     const imgDataUrl = e.target.result;
@@ -606,7 +677,7 @@ function handleCustomImageUpload(file) {
 }
 
 /* ==========================================================================
-   Complete Export Generator (Tailwind CSS, Native CSS, JSON Tokens)
+   Complete Export Generator (Tailwind, CSS :root, JSON, SCSS/Shadcn)
    ========================================================================== */
 
 function updateExportCode() {
@@ -723,7 +794,59 @@ module.exports = {
       }
     };
     exportCodeBlock.textContent = JSON.stringify(tokens, null, 2);
+  } else if (state.exportTab === 'scss') {
+    exportCodeBlock.textContent = `/**
+ * SCSS / Shadcn Design Tokens
+ * Extracted by ChromaShift (${themeName})
+ */
+
+$primary: ${p.hex};
+$primary-foreground: ${onP.hex};
+$secondary: ${s.hex};
+$accent: ${a.hex};
+$surface: ${surf.hex};
+$border: ${subtle.hex};
+
+// Shadcn UI Variables Compatible
+@layer base {
+  :root {
+    --primary: ${p.hsl[0]} ${p.hsl[1]}% ${p.hsl[2]}%;
+    --primary-foreground: ${onP.hex === '#ffffff' ? '0 0% 100%' : '222 47% 11%'};
+    --secondary: ${s.hsl[0]} ${s.hsl[1]}% ${s.hsl[2]}%;
+    --accent: ${a.hsl[0]} ${a.hsl[1]}% ${a.hsl[2]}%;
+    --card: ${surf.hsl[0]} ${surf.hsl[1]}% ${surf.hsl[2]}%;
+    --border: ${subtle.hsl[0]} ${subtle.hsl[1]}% ${subtle.hsl[2]}%;
   }
+}`;
+  }
+}
+
+function downloadActiveThemeFile() {
+  const content = exportCodeBlock.textContent;
+  let filename = 'tailwind.config.js';
+  let mimeType = 'text/javascript';
+
+  if (state.exportTab === 'css') {
+    filename = 'theme.css';
+    mimeType = 'text/css';
+  } else if (state.exportTab === 'json') {
+    filename = 'tokens.json';
+    mimeType = 'application/json';
+  } else if (state.exportTab === 'scss') {
+    filename = 'theme.scss';
+    mimeType = 'text/x-scss';
+  }
+
+  const blob = new Blob([content], { type: mimeType });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast(`Downloaded ${filename} 📥`);
 }
 
 /* ==========================================================================
@@ -769,9 +892,27 @@ function showToast(message) {
   }, 3000);
 }
 
+function toggleThemeMode() {
+  state.themeMode = state.themeMode === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', state.themeMode);
+  recalculatePaletteFromRaw();
+  showToast(`Switched to ${state.themeMode.toUpperCase()} mode`);
+}
+
 /* ==========================================================================
    Event Listeners
    ========================================================================== */
+
+// Navigation between View 1 and View 2
+btnGoToResult.addEventListener('click', () => switchView('result'));
+btnShortcutExpectedResult.addEventListener('click', () => switchView('result'));
+btnBackToStudio.addEventListener('click', () => switchView('studio'));
+brandHomeTrigger.addEventListener('click', () => switchView('studio'));
+breadcrumbStudioLink.addEventListener('click', () => switchView('studio'));
+
+// Synchronized Dark/Light Mode Toggles
+view1ThemeToggle.addEventListener('click', toggleThemeMode);
+view2ThemeToggle.addEventListener('click', toggleThemeMode);
 
 // Drag & drop dropzone
 dropzoneCard.addEventListener('click', () => imageFileInput.click());
@@ -823,14 +964,6 @@ if (harmonySegmented) {
     });
   });
 }
-
-// Light / Dark mode toggle
-themeModeToggle.addEventListener('click', () => {
-  state.themeMode = state.themeMode === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', state.themeMode);
-  recalculatePaletteFromRaw();
-  showToast(`Switched to ${state.themeMode.toUpperCase()} mode`);
-});
 
 // Saturation slider
 saturationSlider.addEventListener('input', e => {
@@ -897,8 +1030,8 @@ btnAddToCart.addEventListener('click', () => {
   showToast(`Added "${menuItemTitle.textContent}" to cart! 🍽️`);
 });
 
-// Export Modal
-openExportModalBtn.addEventListener('click', () => {
+// Export Modal (Triggered from View 2 Top-Right "Export Theme" Button)
+view2ExportBtn.addEventListener('click', () => {
   exportModal.classList.add('open');
   exportModal.setAttribute('aria-hidden', 'false');
   updateExportCode();
@@ -916,7 +1049,7 @@ exportModal.addEventListener('click', e => {
   }
 });
 
-// Modal tabs (Tailwind CSS, Native CSS, JSON Tokens)
+// Modal tabs (Tailwind, CSS :root, JSON, SCSS/Shadcn)
 document.querySelectorAll('.modal-tabs .tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.modal-tabs .tab-btn').forEach(b => b.classList.remove('active'));
@@ -943,6 +1076,9 @@ copyTokensBtn.addEventListener('click', () => {
   }, 2200);
 });
 
+// Download File button
+downloadTokensBtn.addEventListener('click', downloadActiveThemeFile);
+
 // Keyboard shortcut (Escape to close modal)
 window.addEventListener('keydown', e => {
   if (e.key === 'Escape' && exportModal.classList.contains('open')) {
@@ -950,9 +1086,24 @@ window.addEventListener('keydown', e => {
   }
 });
 
+// Hash navigation listener
+window.addEventListener('hashchange', () => {
+  const hash = window.location.hash;
+  if (hash === '#result') {
+    switchView('result');
+  } else {
+    switchView('studio');
+  }
+});
+
 /* ==========================================================================
    Initialization
    ========================================================================== */
 window.addEventListener('DOMContentLoaded', () => {
+  if (window.location.hash === '#result') {
+    switchView('result');
+  } else {
+    switchView('studio');
+  }
   selectPreset('orange');
 });
