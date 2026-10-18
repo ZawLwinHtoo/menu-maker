@@ -122,9 +122,11 @@ function switchView(targetView) {
 function activateSingleComponent(componentId) {
   state.activeComponentTab = componentId;
 
-  // Update Left Sidebar Tabs
-  document.querySelectorAll('.sidebar-nav-item').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === componentId);
+  // Update Top Navigation Switcher Tabs
+  document.querySelectorAll('.sidebar-nav-item, .switcher-tab-pill').forEach(btn => {
+    const isTarget = btn.dataset.tab === componentId;
+    btn.classList.toggle('active', isTarget);
+    btn.setAttribute('aria-selected', isTarget ? 'true' : 'false');
   });
 
   // Switch Center Stage: Display ONLY that single selected full-page template
@@ -846,11 +848,13 @@ function toggleThemeMode() {
    ========================================================================== */
 
 // Navigation between View 1 and View 2
-btnGoToResult.addEventListener('click', () => switchView('result'));
-btnShortcutExpectedResult.addEventListener('click', () => switchView('result'));
-btnBackToStudio.addEventListener('click', () => switchView('studio'));
-brandHomeTrigger.addEventListener('click', () => switchView('studio'));
-breadcrumbStudioLink.addEventListener('click', () => switchView('studio'));
+if (btnGoToResult) btnGoToResult.addEventListener('click', () => switchView('result'));
+if (btnShortcutExpectedResult) btnShortcutExpectedResult.addEventListener('click', () => switchView('result'));
+if (btnBackToStudio) btnBackToStudio.addEventListener('click', () => switchView('studio'));
+if (brandHomeTrigger) brandHomeTrigger.addEventListener('click', () => switchView('studio'));
+const brandHomeTrigger2 = document.getElementById('brandHomeTrigger2');
+if (brandHomeTrigger2) brandHomeTrigger2.addEventListener('click', () => switchView('studio'));
+if (breadcrumbStudioLink) breadcrumbStudioLink.addEventListener('click', () => switchView('studio'));
 
 // Synchronized Dark/Light Mode Toggles
 view1ThemeToggle.addEventListener('click', toggleThemeMode);

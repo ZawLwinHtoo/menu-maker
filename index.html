@@ -221,11 +221,12 @@
        VIEW 2: Expected Result / Complete Full-Page Application Templates
        ========================================================================= -->
   <div class="spa-view" id="viewResult">
-    <div class="dashboard-layout">
-      <!-- 1. Left Vertical Sidebar (Strict 4-Tab Single-View Navigation) -->
-      <aside class="dashboard-sidebar glass-panel">
-        <div class="sidebar-top">
-          <div class="sidebar-brand">
+    <!-- Top Modern Application Navigation Bar (Linear / macOS Inspired, Clean & Premium) -->
+    <header class="view2-topbar glass-panel" id="viewResultNavbar">
+      <div class="view2-topbar-inner">
+        <!-- Left: Brand Logo & Back to Studio -->
+        <div class="view2-nav-left">
+          <div class="view2-brand-pill" id="brandHomeTrigger2" role="button" tabindex="0" title="Return to Studio">
             <div class="brand-logo sm">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                 <circle cx="12" cy="12" r="10"/>
@@ -234,120 +235,101 @@
                 <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor"/>
               </svg>
             </div>
-            <div class="brand-text">
-              <span class="brand-title sm">Chroma<span class="text-gradient">Shift</span></span>
-            </div>
+            <span class="brand-title sm">Chroma<span class="text-gradient">Shift</span></span>
           </div>
 
-          <!-- Back to Studio Action Button -->
-          <button type="button" class="btn btn-outline btn-sm btn-back-studio" id="btnBackToStudio">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15">
+          <div class="view2-nav-divider"></div>
+
+          <button type="button" class="btn-back-studio-nav" id="btnBackToStudio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14">
               <line x1="19" y1="12" x2="5" y2="12"/>
               <polyline points="12 19 5 12 12 5"/>
             </svg>
-            <span>Back to Studio</span>
+            <span>Studio</span>
           </button>
         </div>
 
-        <!-- Strict 4-Item Single View Navigation Tabs -->
-        <nav class="sidebar-nav" aria-label="Full Page Templates Navigation">
-          <div class="nav-section-title">Select App Template</div>
-          
-          <!-- Tab 1: Analytics Dashboard (Default Active) -->
-          <button type="button" class="sidebar-nav-item active" data-tab="analytics" id="tabAnalytics">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <!-- Center: Modern Segmented Template Switcher (Linear / Apple style) -->
+        <nav class="view2-template-switcher" role="tablist" aria-label="Application Templates">
+          <button type="button" class="switcher-tab-pill sidebar-nav-item active" data-tab="analytics" id="tabAnalytics" role="tab" aria-selected="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
               <line x1="18" y1="20" x2="18" y2="10"/>
               <line x1="12" y1="20" x2="12" y2="4"/>
               <line x1="6" y1="20" x2="6" y2="14"/>
             </svg>
-            <span>SaaS Analytics Dashboard</span>
+            <span>Analytics Dashboard</span>
           </button>
 
-          <!-- Tab 2: Music Streaming App -->
-          <button type="button" class="sidebar-nav-item" data-tab="media" id="tabMedia">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <button type="button" class="switcher-tab-pill sidebar-nav-item" data-tab="media" id="tabMedia" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
               <circle cx="12" cy="12" r="10"/>
               <polygon points="10 8 16 12 10 16 10 8"/>
             </svg>
-            <span>Music Streaming App</span>
+            <span>Music Streaming</span>
           </button>
 
-          <!-- Tab 3: Storefront & Product Page -->
-          <button type="button" class="sidebar-nav-item" data-tab="menu" id="tabMenu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <button type="button" class="switcher-tab-pill sidebar-nav-item" data-tab="menu" id="tabMenu" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
-            <span>Storefront & Product Page</span>
+            <span>Storefront & Product</span>
           </button>
 
-          <!-- Tab 4: Design System Sandbox -->
-          <button type="button" class="sidebar-nav-item" data-tab="controls" id="tabControls">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <button type="button" class="switcher-tab-pill sidebar-nav-item" data-tab="controls" id="tabControls" role="tab" aria-selected="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
               <circle cx="12" cy="12" r="3"/>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
             </svg>
-            <span>Design System & UI Kit</span>
+            <span>Design System</span>
           </button>
         </nav>
 
-        <!-- Sidebar Footer Theme Snapshot -->
-        <div class="sidebar-theme-card">
-          <div class="theme-snapshot-label">Active Palette</div>
-          <div class="theme-snapshot-dots">
-            <span class="theme-dot dot-primary"></span>
-            <span class="theme-dot dot-secondary"></span>
-            <span class="theme-dot dot-accent"></span>
-            <span class="theme-dot dot-surface"></span>
+        <!-- Right: Palette Indicator + Theme Mode + Export CTA -->
+        <div class="view2-nav-right">
+          <div class="view2-palette-pill" title="Active Theme Palette">
+            <div class="view2-palette-dots">
+              <span class="theme-dot dot-primary"></span>
+              <span class="theme-dot dot-secondary"></span>
+              <span class="theme-dot dot-accent"></span>
+            </div>
+            <span class="view2-theme-name" id="sidebarThemeSnapshotName">Citrus Orange</span>
           </div>
-          <div class="theme-snapshot-name" id="sidebarThemeSnapshotName">Citrus Orange</div>
+
+          <!-- View 2 Theme Toggle -->
+          <button type="button" class="btn-theme-mode theme-toggle-btn" id="view2ThemeToggle" title="Toggle Light/Dark Mode" aria-label="Toggle Light/Dark Mode">
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </button>
+
+          <!-- Primary CTA Button: Export Theme -->
+          <button type="button" class="btn btn-primary btn-sm btn-export-nav" id="view2ExportBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Export Theme</span>
+          </button>
         </div>
-      </aside>
+      </div>
+    </header>
 
-      <!-- 2. Main Dashboard Area (Top Header + Full-Page App Canvas) -->
-      <div class="dashboard-main-area">
-        <!-- Top Header Bar inside View 2 -->
-        <header class="dashboard-header glass-panel">
-          <div class="dashboard-breadcrumb">
-            <button type="button" class="breadcrumb-link" id="breadcrumbStudioLink">Studio</button>
-            <span class="breadcrumb-separator">/</span>
-            <span class="breadcrumb-current" id="breadcrumbActiveComponentName">SaaS Analytics Dashboard</span>
-          </div>
-
-          <div class="dashboard-header-actions">
-            <!-- View 2 Theme Toggle -->
-            <button type="button" class="btn-theme-mode theme-toggle-btn" id="view2ThemeToggle" title="Toggle Light/Dark Mode" aria-label="Toggle Light/Dark Mode">
-              <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="5"/>
-                <line x1="12" y1="1" x2="12" y2="3"/>
-                <line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1" y1="12" x2="3" y2="12"/>
-                <line x1="21" y1="12" x2="23" y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-              </svg>
-              <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-              </svg>
-            </button>
-
-            <!-- Primary CTA Button: Export Theme -->
-            <button type="button" class="btn btn-primary" id="view2ExportBtn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-              </svg>
-              <span>Export Theme</span>
-            </button>
-          </div>
-        </header>
-
-        <!-- 3. Full-Page Application Templates Container (fills the workspace) -->
-        <main class="dashboard-content">
+    <!-- Full-Width Application Templates Container -->
+    <main class="dashboard-content">
           <!-- =========================================================================
                TEMPLATE 1: Full SaaS Analytics Dashboard Page
                ========================================================================= -->
@@ -1235,8 +1217,6 @@
             </div>
           </div>
         </main>
-      </div>
-    </div>
   </div>
 
 
