@@ -205,7 +205,7 @@
           </div>
 
           <button type="button" class="btn btn-sm btn-outline btn-view-samples-shortcut" id="btnShortcutExpectedResult">
-            <span>View Design Samples →</span>
+            <span>View Full App Templates →</span>
           </button>
         </div>
 
@@ -218,7 +218,7 @@
 
 
   <!-- =========================================================================
-       VIEW 2: Expected Result / Single-Component Centered View
+       VIEW 2: Expected Result / Complete Full-Page Application Templates
        ========================================================================= -->
   <div class="spa-view" id="viewResult">
     <div class="dashboard-layout">
@@ -250,45 +250,45 @@
         </div>
 
         <!-- Strict 4-Item Single View Navigation Tabs -->
-        <nav class="sidebar-nav" aria-label="Single Component View Tabs">
-          <div class="nav-section-title">Select Component View</div>
+        <nav class="sidebar-nav" aria-label="Full Page Templates Navigation">
+          <div class="nav-section-title">Select App Template</div>
           
-          <!-- Tab 1: Analytics & Graph (Default Active) -->
+          <!-- Tab 1: Analytics Dashboard (Default Active) -->
           <button type="button" class="sidebar-nav-item active" data-tab="analytics" id="tabAnalytics">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="20" x2="18" y2="10"/>
               <line x1="12" y1="20" x2="12" y2="4"/>
               <line x1="6" y1="20" x2="6" y2="14"/>
             </svg>
-            <span>Analytics & Graph</span>
+            <span>SaaS Analytics Dashboard</span>
           </button>
 
-          <!-- Tab 2: Media / Music Player -->
+          <!-- Tab 2: Music Streaming App -->
           <button type="button" class="sidebar-nav-item" data-tab="media" id="tabMedia">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
               <polygon points="10 8 16 12 10 16 10 8"/>
             </svg>
-            <span>Media / Music Player</span>
+            <span>Music Streaming App</span>
           </button>
 
-          <!-- Tab 3: E-Commerce Product Card -->
+          <!-- Tab 3: Storefront & Product Page -->
           <button type="button" class="sidebar-nav-item" data-tab="menu" id="tabMenu">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
-            <span>E-Commerce Product Card</span>
+            <span>Storefront & Product Page</span>
           </button>
 
-          <!-- Tab 4: Interactive Theme Controls -->
+          <!-- Tab 4: Design System Sandbox -->
           <button type="button" class="sidebar-nav-item" data-tab="controls" id="tabControls">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="3"/>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
             </svg>
-            <span>Interactive Theme Controls</span>
+            <span>Design System & UI Kit</span>
           </button>
         </nav>
 
@@ -305,14 +305,14 @@
         </div>
       </aside>
 
-      <!-- 2. Main Dashboard Area (Top Header + Prominent Single-Component Center Stage) -->
+      <!-- 2. Main Dashboard Area (Top Header + Full-Page App Canvas) -->
       <div class="dashboard-main-area">
         <!-- Top Header Bar inside View 2 -->
         <header class="dashboard-header glass-panel">
           <div class="dashboard-breadcrumb">
             <button type="button" class="breadcrumb-link" id="breadcrumbStudioLink">Studio</button>
             <span class="breadcrumb-separator">/</span>
-            <span class="breadcrumb-current" id="breadcrumbActiveComponentName">Analytics & Graph Preview</span>
+            <span class="breadcrumb-current" id="breadcrumbActiveComponentName">SaaS Analytics Dashboard</span>
           </div>
 
           <div class="dashboard-header-actions">
@@ -346,209 +346,890 @@
           </div>
         </header>
 
-        <!-- 3. Prominently Centered Single-Component Stage -->
-        <main class="dashboard-single-stage">
-          <div class="stage-centered-wrapper">
-            <!-- Component 1: Analytics & Graph (Default) -->
-            <div class="card glass-panel component-card single-stage-card active-card" data-component="analytics" id="sampleCardAnalytics">
-              <div class="card-header">
-                <div>
-                  <span class="card-eyebrow">Real-World SaaS Component</span>
-                  <h3 class="card-title">Performance Metrics & Graph</h3>
-                </div>
-                <span class="badge badge-primary">+28.4% Today</span>
+        <!-- 3. Full-Page Application Templates Container (fills the workspace) -->
+        <main class="dashboard-content">
+          <!-- =========================================================================
+               TEMPLATE 1: Full SaaS Analytics Dashboard Page
+               ========================================================================= -->
+          <div class="full-app-template active-template" id="templateAnalytics" data-component="analytics">
+            <!-- Dashboard Welcome & Range Header -->
+            <div class="template-header-bar">
+              <div>
+                <h2 class="template-page-title">Executive SaaS Analytics</h2>
+                <p class="template-page-sub">Real-time enterprise metrics adapted to your visual color identity</p>
               </div>
-              
-              <div class="metric-row">
-                <div class="metric-block">
-                  <span class="metric-value" id="metricAudience">148,920</span>
-                  <span class="metric-sub">Active Visitors</span>
+              <div class="template-header-actions">
+                <div class="date-range-badge glass-panel">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  <span>Last 30 Days: Oct 1 – Oct 31</span>
                 </div>
-                <div class="metric-block">
-                  <span class="metric-value text-accent" id="metricConversions">94.6%</span>
-                  <span class="metric-sub">Palette Harmony Score</span>
-                </div>
-              </div>
-
-              <!-- Dynamic SVG Chart styled by extracted colors -->
-              <div class="chart-container-large">
-                <svg class="dynamic-chart" viewBox="0 0 460 140" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.45"/>
-                      <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.0"/>
-                    </linearGradient>
-                  </defs>
-                  <path class="chart-area" d="M 0 120 Q 70 45, 140 80 T 280 35 T 380 70 T 460 25 L 460 140 L 0 140 Z" fill="url(#chartGradient)"></path>
-                  <path class="chart-line" d="M 0 120 Q 70 45, 140 80 T 280 35 T 380 70 T 460 25" fill="none" stroke="var(--primary)" stroke-width="3.8" stroke-linecap="round"></path>
-                  <circle cx="140" cy="80" r="5" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="3.5"></circle>
-                  <circle cx="280" cy="35" r="5" fill="var(--bg-surface)" stroke="var(--accent)" stroke-width="3.5"></circle>
-                  <circle cx="460" cy="25" r="6" fill="var(--accent)" stroke="var(--bg-surface)" stroke-width="3"></circle>
-                </svg>
-              </div>
-
-              <div class="card-footer">
-                <span class="text-muted text-xs">Dynamic SVG stroke & gradient fill synced to extracted Primary/Accent</span>
-                <button type="button" class="btn btn-sm btn-ghost">View Deep Insights →</button>
+                <button type="button" class="btn btn-sm btn-primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download Report
+                </button>
               </div>
             </div>
 
-            <!-- Component 2: Media / Music Player -->
-            <div class="card glass-panel component-card media-player-card single-stage-card" data-component="media" id="sampleCardMedia">
-              <div class="card-header">
-                <div>
-                  <span class="card-eyebrow">Adaptive Media Player</span>
-                  <h3 class="card-title">Now Playing</h3>
+            <!-- Top Row: 4 KPI Stat Cards -->
+            <div class="kpi-grid">
+              <!-- KPI 1 -->
+              <div class="kpi-card glass-panel">
+                <div class="kpi-top">
+                  <span class="kpi-label">Total Revenue</span>
+                  <span class="badge badge-primary">+18.4%</span>
                 </div>
-                <div class="music-wave" id="musicWave">
-                  <span></span><span></span><span></span><span></span>
+                <div class="kpi-value-row">
+                  <span class="kpi-number">$128,450.00</span>
+                  <!-- SVG Mini Sparkline -->
+                  <svg class="kpi-sparkline" viewBox="0 0 80 28">
+                    <path d="M 0 24 Q 20 8, 40 16 T 80 4" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="kpi-footnote">+$19,840 vs. prior period</span>
+              </div>
+
+              <!-- KPI 2 -->
+              <div class="kpi-card glass-panel">
+                <div class="kpi-top">
+                  <span class="kpi-label">Active Users</span>
+                  <span class="badge badge-accent">+12.6%</span>
+                </div>
+                <div class="kpi-value-row">
+                  <span class="kpi-number" id="metricAudience">42,890</span>
+                  <svg class="kpi-sparkline" viewBox="0 0 80 28">
+                    <path d="M 0 20 Q 25 24, 50 10 T 80 6" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="kpi-footnote">7,420 monthly new signups</span>
+              </div>
+
+              <!-- KPI 3 -->
+              <div class="kpi-card glass-panel">
+                <div class="kpi-top">
+                  <span class="kpi-label">Conversion Rate</span>
+                  <span class="badge badge-primary">+2.4%</span>
+                </div>
+                <div class="kpi-value-row">
+                  <span class="kpi-number text-accent">3.84%</span>
+                  <svg class="kpi-sparkline" viewBox="0 0 80 28">
+                    <path d="M 0 18 Q 30 5, 55 12 T 80 3" fill="none" stroke="var(--secondary)" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <span class="kpi-footnote">Peak checkout efficiency</span>
+              </div>
+
+              <!-- KPI 4 -->
+              <div class="kpi-card glass-panel">
+                <div class="kpi-top">
+                  <span class="kpi-label">Color Harmony Index</span>
+                  <span class="badge badge-surface">WCAG AAA</span>
+                </div>
+                <div class="kpi-value-row">
+                  <span class="kpi-number" id="metricConversions">98.6%</span>
+                  <div class="kpi-pulse-dot" style="background: var(--primary);"></div>
+                </div>
+                <span class="kpi-footnote" id="kpiContrastNote">Full AAA accessibility certified</span>
+              </div>
+            </div>
+
+            <!-- Middle Row: 2-Column Split (2/3 Large Area Graph + 1/3 Traffic Breakdown) -->
+            <div class="dashboard-middle-grid">
+              <!-- Large Graph Card (2/3 width) -->
+              <div class="analytics-graph-card glass-panel">
+                <div class="graph-header">
+                  <div>
+                    <h3 class="card-title">Revenue & Traffic Velocity</h3>
+                    <p class="card-subtitle">Aggregated daily transactions across global regions</p>
+                  </div>
+                  <!-- Time range filter pills -->
+                  <div class="graph-filter-pills">
+                    <button type="button" class="graph-pill">7D</button>
+                    <button type="button" class="graph-pill active">30D</button>
+                    <button type="button" class="graph-pill">1Y</button>
+                  </div>
+                </div>
+
+                <!-- Large Interactive SVG Area Graph -->
+                <div class="large-chart-wrapper">
+                  <svg class="dynamic-chart" viewBox="0 0 800 240" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="saasAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.5"/>
+                        <stop offset="60%" stop-color="var(--accent)" stop-opacity="0.15"/>
+                        <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.0"/>
+                      </linearGradient>
+                    </defs>
+                    <!-- Background Grid lines -->
+                    <line x1="0" y1="60" x2="800" y2="60" stroke="var(--border-subtle)" stroke-dasharray="4 4"/>
+                    <line x1="0" y1="120" x2="800" y2="120" stroke="var(--border-subtle)" stroke-dasharray="4 4"/>
+                    <line x1="0" y1="180" x2="800" y2="180" stroke="var(--border-subtle)" stroke-dasharray="4 4"/>
+                    
+                    <!-- Area Fill & Stroke -->
+                    <path d="M 0 190 Q 120 70, 240 140 T 480 50 T 640 100 T 800 35 L 800 240 L 0 240 Z" fill="url(#saasAreaGradient)"/>
+                    <path d="M 0 190 Q 120 70, 240 140 T 480 50 T 640 100 T 800 35" fill="none" stroke="var(--primary)" stroke-width="4.2" stroke-linecap="round"/>
+
+                    <!-- Data Nodes with Glow -->
+                    <circle cx="240" cy="140" r="6" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="3.5"/>
+                    <circle cx="480" cy="50" r="6" fill="var(--bg-surface)" stroke="var(--accent)" stroke-width="3.5"/>
+                    <circle cx="640" cy="100" r="6" fill="var(--bg-surface)" stroke="var(--secondary)" stroke-width="3.5"/>
+                    <circle cx="800" cy="35" r="7" fill="var(--accent)" stroke="var(--bg-surface)" stroke-width="3"/>
+                  </svg>
+                </div>
+
+                <div class="graph-legend-row">
+                  <div class="legend-item"><span class="legend-dot" style="background: var(--primary);"></span> Primary Stream: In-App Purchases</div>
+                  <div class="legend-item"><span class="legend-dot" style="background: var(--accent);"></span> Accent Stream: API & Enterprise</div>
+                  <div class="legend-item"><span class="legend-dot" style="background: var(--secondary);"></span> Organic Growth (+24%)</div>
                 </div>
               </div>
 
-              <div class="media-body">
-                <div class="media-artwork-box lg">
-                  <img id="mediaArtwork" src="assets/sample-orange.jpg" alt="Track artwork" class="media-thumb">
-                  <div class="media-play-overlay" id="playToggleBtn">
-                    <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+              <!-- Acquisition Channels Breakdown Card (1/3 width) -->
+              <div class="acquisition-card glass-panel">
+                <div class="card-header">
+                  <div>
+                    <h3 class="card-title">Acquisition Channels</h3>
+                    <p class="card-subtitle">Traffic volume distribution</p>
+                  </div>
+                </div>
+
+                <div class="channels-list">
+                  <div class="channel-row">
+                    <div class="channel-meta">
+                      <span class="channel-name">Direct & Organic Search</span>
+                      <span class="channel-pct">48%</span>
+                    </div>
+                    <div class="channel-progress-track">
+                      <div class="channel-progress-fill" style="width: 48%; background: var(--primary);"></div>
+                    </div>
+                  </div>
+
+                  <div class="channel-row">
+                    <div class="channel-meta">
+                      <span class="channel-name">Social & Referrals</span>
+                      <span class="channel-pct">28%</span>
+                    </div>
+                    <div class="channel-progress-track">
+                      <div class="channel-progress-fill" style="width: 28%; background: var(--accent);"></div>
+                    </div>
+                  </div>
+
+                  <div class="channel-row">
+                    <div class="channel-meta">
+                      <span class="channel-name">Partner Ecosystem</span>
+                      <span class="channel-pct">16%</span>
+                    </div>
+                    <div class="channel-progress-track">
+                      <div class="channel-progress-fill" style="width: 16%; background: var(--secondary);"></div>
+                    </div>
+                  </div>
+
+                  <div class="channel-row">
+                    <div class="channel-meta">
+                      <span class="channel-name">Developer Marketplace</span>
+                      <span class="channel-pct">8%</span>
+                    </div>
+                    <div class="channel-progress-track">
+                      <div class="channel-progress-fill" style="width: 8%; background: rgba(var(--primary-rgb), 0.5);"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-footer-box">
+                  <span class="text-xs text-muted">100% harmonized with extracted theme</span>
+                  <button type="button" class="btn btn-sm btn-ghost">Full Audit →</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Row: Recent Activity & Transactions Table -->
+            <div class="transactions-card glass-panel">
+              <div class="table-header-box">
+                <div>
+                  <h3 class="card-title">Recent Customer Transactions</h3>
+                  <p class="card-subtitle">Live verified billing events processed across gateways</p>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline">Export CSV</button>
+              </div>
+
+              <div class="table-responsive-wrapper">
+                <table class="saas-table">
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Transaction ID</th>
+                      <th>Service Tier</th>
+                      <th>Date</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="customer-cell">
+                        <div class="user-avatar" style="background: linear-gradient(135deg, var(--primary), var(--accent));">SL</div>
+                        <div>
+                          <div class="user-name">Sarah Linwood</div>
+                          <div class="user-email">sarah.l@acme.ai</div>
+                        </div>
+                      </td>
+                      <td class="mono-text">#TXN-90821</td>
+                      <td>Enterprise Growth</td>
+                      <td>Today, 2:15 PM</td>
+                      <td class="amount-cell">$2,450.00</td>
+                      <td><span class="status-pill status-verified">Completed</span></td>
+                      <td><button type="button" class="btn btn-sm btn-ghost">View</button></td>
+                    </tr>
+
+                    <tr>
+                      <td class="customer-cell">
+                        <div class="user-avatar" style="background: linear-gradient(135deg, var(--secondary), var(--primary));">MK</div>
+                        <div>
+                          <div class="user-name">Marcus Vance</div>
+                          <div class="user-email">m.vance@solaris.co</div>
+                        </div>
+                      </td>
+                      <td class="mono-text">#TXN-90820</td>
+                      <td>Artisan Studio Pro</td>
+                      <td>Today, 11:42 AM</td>
+                      <td class="amount-cell">$890.00</td>
+                      <td><span class="status-pill status-verified">Completed</span></td>
+                      <td><button type="button" class="btn btn-sm btn-ghost">View</button></td>
+                    </tr>
+
+                    <tr>
+                      <td class="customer-cell">
+                        <div class="user-avatar" style="background: linear-gradient(135deg, var(--accent), var(--secondary));">EK</div>
+                        <div>
+                          <div class="user-name">Elena Kostas</div>
+                          <div class="user-email">elena@novadesign.io</div>
+                        </div>
+                      </td>
+                      <td class="mono-text">#TXN-90819</td>
+                      <td>Developer Tier</td>
+                      <td>Yesterday, 6:30 PM</td>
+                      <td class="amount-cell">$420.00</td>
+                      <td><span class="status-pill status-pending">Processing</span></td>
+                      <td><button type="button" class="btn btn-sm btn-ghost">View</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- =========================================================================
+               TEMPLATE 2: Full Music Streaming Web App (Spotify/Apple Music Style)
+               ========================================================================= -->
+          <div class="full-app-template" id="templateMedia" data-component="media">
+            <!-- Top Hero Banner: Featured Album Header -->
+            <div class="music-hero-banner glass-panel">
+              <div class="music-hero-artwork-box">
+                <img id="mediaArtwork" src="assets/sample-orange.jpg" alt="Featured Album Art" class="music-hero-img">
+                <div class="music-hero-glow-shadow" style="background: var(--primary);"></div>
+              </div>
+              <div class="music-hero-meta">
+                <div class="music-badge-pill">
+                  <span class="badge badge-accent">Featured Studio Release</span>
+                  <span class="badge badge-surface">Lossless Audio • 24-bit/96kHz</span>
+                </div>
+                <h1 class="music-album-title" id="trackTitle">Ambient Citrus Resonance</h1>
+                <p class="music-artist-lead" id="trackArtist">ChromaShift Acoustic Studio & Friends</p>
+                <div class="music-album-details">
+                  <span>2026 Album</span>
+                  <span>•</span>
+                  <span>6 Tracks, 24 min 38 sec</span>
+                  <span>•</span>
+                  <span class="text-accent">Over 1.8M Streams</span>
+                </div>
+                <!-- Play CTA row -->
+                <div class="music-hero-actions">
+                  <button type="button" class="btn btn-primary btn-play-album" id="mediaPlayHeroBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
                       <polygon points="5 3 19 12 5 21 5 3"/>
                     </svg>
-                  </div>
-                </div>
-                <div class="media-details">
-                  <h4 class="track-title" id="trackTitle">Ambient Citrus Resonance</h4>
-                  <p class="track-artist" id="trackArtist">ChromaShift Acoustic Studio</p>
-                  
-                  <div class="track-progress-container" id="trackProgressWrapper">
-                    <div class="track-progress-bar" id="trackProgressBar" style="width: 58%;"></div>
-                  </div>
-                  <div class="track-timestamps">
-                    <span>02:14</span>
-                    <span>03:45</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="media-controls">
-                <button type="button" class="btn-icon-subtle" title="Previous Track">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="19 20 9 12 19 4 19 20"/>
-                    <line x1="5" y1="19" x2="5" y2="5"/>
-                  </svg>
-                </button>
-                <button type="button" class="btn-icon-primary" id="mediaPlayLargeBtn" title="Play / Pause">
-                  <svg viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="6 4 18 12 6 20 6 4"/>
-                  </svg>
-                </button>
-                <button type="button" class="btn-icon-subtle" title="Next Track">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polygon points="5 4 15 12 5 20 5 4"/>
-                    <line x1="19" y1="5" x2="19" y2="19"/>
-                  </svg>
-                </button>
-                <button type="button" class="btn-icon-subtle" title="Favorite">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <!-- Component 3: E-Commerce Product Card -->
-            <div class="card glass-panel component-card single-stage-card" data-component="menu" id="sampleCardMenu">
-              <div class="card-header">
-                <div>
-                  <span class="card-eyebrow">E-Commerce & Menu Item</span>
-                  <h3 class="card-title" id="menuItemTitle">Sunset Citrus Glaze</h3>
-                </div>
-                <span class="badge badge-accent" id="menuItemBadge">Chef's Special</span>
-              </div>
-
-              <div class="menu-item-content">
-                <p class="menu-desc" id="menuItemDesc">
-                  Handcrafted botanical infusion harmonized with sweet citrus oils, extracted zest, and organic crystalline honey.
-                </p>
-                <div class="menu-tags" id="menuItemTags">
-                  <span class="tag">Gluten-Free</span>
-                  <span class="tag">Seasonal</span>
-                  <span class="tag">Organic</span>
-                </div>
-                
-                <div class="price-action-row">
-                  <div class="price-group">
-                    <span class="price-currency">$</span>
-                    <span class="price-number" id="menuItemPrice">14.50</span>
-                  </div>
-                  <button type="button" class="btn btn-primary" id="btnAddToCart">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-                      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-                      <line x1="3" y1="6" x2="21" y2="6"/>
-                      <path d="M16 10a4 4 0 0 1-8 0"/>
+                    Play Album
+                  </button>
+                  <button type="button" class="btn btn-outline">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
                     </svg>
-                    Order Now
+                    Save to Library
+                  </button>
+                  <button type="button" class="btn-icon-subtle" title="Share Album">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="18" cy="5" r="3"/>
+                      <circle cx="6" cy="12" r="3"/>
+                      <circle cx="18" cy="19" r="3"/>
+                      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
                   </button>
                 </div>
               </div>
+            </div>
 
-              <div class="card-footer">
-                <div class="item-rating">
-                  <span class="stars" style="color: var(--accent);">★★★★★</span>
-                  <span class="rating-text">4.9 (184 reviews)</span>
+            <!-- Main Content Split (Tracklist Table + Right Now-Playing Visualizer) -->
+            <div class="music-main-split">
+              <!-- Left: Tracklist Table -->
+              <div class="tracklist-container glass-panel">
+                <div class="tracklist-header-row">
+                  <span class="col-num">#</span>
+                  <span class="col-title">Title</span>
+                  <span class="col-plays">Plays</span>
+                  <span class="col-time">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </span>
+                  <span class="col-action"></span>
                 </div>
-                <span class="in-stock-tag text-accent">● Freshly Prepared</span>
+
+                <!-- Track 1 (Active Playing) -->
+                <div class="track-row active-track">
+                  <span class="col-num">
+                    <div class="music-wave" id="musicWave">
+                      <span></span><span></span><span></span><span></span>
+                    </div>
+                  </span>
+                  <div class="col-title-group">
+                    <div class="track-main-name">Acoustic Citrus Sunrise</div>
+                    <div class="track-sub-artist">Original Master Studio Mix</div>
+                  </div>
+                  <span class="col-plays">642,890</span>
+                  <span class="col-time">03:45</span>
+                  <span class="col-action">
+                    <button type="button" class="btn-heart-track text-accent" title="Liked">♥</button>
+                  </span>
+                </div>
+
+                <!-- Track 2 -->
+                <div class="track-row">
+                  <span class="col-num">2</span>
+                  <div class="col-title-group">
+                    <div class="track-main-name">Neon Highway Reverie</div>
+                    <div class="track-sub-artist">Synthwave Echoes</div>
+                  </div>
+                  <span class="col-plays">418,204</span>
+                  <span class="col-time">04:12</span>
+                  <span class="col-action">
+                    <button type="button" class="btn-heart-track" title="Like">♡</button>
+                  </span>
+                </div>
+
+                <!-- Track 3 -->
+                <div class="track-row">
+                  <span class="col-num">3</span>
+                  <div class="col-title-group">
+                    <div class="track-main-name">Rainforest Mist & Dew</div>
+                    <div class="track-sub-artist">Deep Foliage Meditation</div>
+                  </div>
+                  <span class="col-plays">312,980</span>
+                  <span class="col-time">03:28</span>
+                  <span class="col-action">
+                    <button type="button" class="btn-heart-track" title="Like">♡</button>
+                  </span>
+                </div>
+
+                <!-- Track 4 -->
+                <div class="track-row">
+                  <span class="col-num">4</span>
+                  <div class="col-title-group">
+                    <div class="track-main-name">Velvet Midnight Hues</div>
+                    <div class="track-sub-artist">Lo-fi Chill Hop Groove</div>
+                  </div>
+                  <span class="col-plays">284,110</span>
+                  <span class="col-time">05:04</span>
+                  <span class="col-action">
+                    <button type="button" class="btn-heart-track text-accent" title="Liked">♥</button>
+                  </span>
+                </div>
+
+                <!-- Track 5 -->
+                <div class="track-row">
+                  <span class="col-num">5</span>
+                  <div class="col-title-group">
+                    <div class="track-main-name">Prism Harmonic Horizon</div>
+                    <div class="track-sub-artist">ChromaShift Acoustic Studio</div>
+                  </div>
+                  <span class="col-plays">195,430</span>
+                  <span class="col-time">03:52</span>
+                  <span class="col-action">
+                    <button type="button" class="btn-heart-track" title="Like">♡</button>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Right Panel: Expanded Now Playing Card & Visualizer -->
+              <div class="now-playing-panel glass-panel">
+                <span class="card-eyebrow">Audio Visualizer</span>
+                <div class="now-playing-cover-box">
+                  <img id="mediaArtworkRight" src="assets/sample-orange.jpg" alt="Now playing album artwork" class="now-playing-cover-img">
+                </div>
+                <div class="now-playing-info">
+                  <h3 class="now-playing-song">Acoustic Citrus Sunrise</h3>
+                  <p class="now-playing-singer">ChromaShift Studio</p>
+                </div>
+
+                <!-- Animated Equalizer Bars Spectrum -->
+                <div class="equalizer-spectrum-box">
+                  <span style="height: 40%;"></span>
+                  <span style="height: 85%;"></span>
+                  <span style="height: 60%;"></span>
+                  <span style="height: 100%;"></span>
+                  <span style="height: 75%;"></span>
+                  <span style="height: 90%;"></span>
+                  <span style="height: 50%;"></span>
+                  <span style="height: 80%;"></span>
+                  <span style="height: 65%;"></span>
+                  <span style="height: 95%;"></span>
+                </div>
+
+                <!-- Lyrics Snippet Card -->
+                <div class="lyrics-snippet-card">
+                  <div class="lyrics-line-active" style="color: var(--primary);">"Lost in the cadence of ambient light..."</div>
+                  <div class="lyrics-line-sub">"Where colors resonate into sound."</div>
+                </div>
               </div>
             </div>
 
-            <!-- Component 4: Interactive Theme Controls -->
-            <div class="card glass-panel component-card single-stage-card" data-component="controls" id="sampleCardControls">
-              <div class="card-header">
+            <!-- Bottom Docked Player Bar (Persistent Media Dock) -->
+            <div class="docked-player-bar glass-panel">
+              <!-- Left: Mini artwork & Title -->
+              <div class="dock-track-info">
+                <img id="mediaArtworkMini" src="assets/sample-orange.jpg" alt="Mini track artwork" class="dock-thumb">
                 <div>
-                  <span class="card-eyebrow">Design System Sandbox</span>
-                  <h3 class="card-title">Interactive Theme Controls</h3>
+                  <div class="dock-song-title">Acoustic Citrus Sunrise</div>
+                  <div class="dock-artist-name">ChromaShift Studio</div>
                 </div>
-                <span class="badge badge-surface">Micro UI</span>
+                <button type="button" class="btn-heart-track text-accent">♥</button>
               </div>
 
-              <div class="controls-form">
-                <!-- Range Slider -->
-                <div class="form-group">
-                  <div class="form-label-row">
-                    <label for="saturationSlider" class="form-label">Theme Saturation Boost</label>
-                    <span class="form-value" id="saturationValue">100%</span>
+              <!-- Center: Controls & Progress Scrubber -->
+              <div class="dock-center-controls">
+                <div class="dock-buttons-row">
+                  <button type="button" class="btn-icon-subtle" title="Shuffle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <polyline points="16 3 21 3 21 8"/>
+                      <line x1="4" y1="20" x2="21" y2="3"/>
+                      <polyline points="21 16 21 21 16 21"/>
+                      <line x1="15" y1="15" x2="21" y2="21"/>
+                      <line x1="4" y1="4" x2="9" y2="9"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="btn-icon-subtle" title="Previous">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                      <polygon points="19 20 9 12 19 4 19 20"/>
+                      <line x1="5" y1="19" x2="5" y2="5"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="btn-icon-primary" id="mediaPlayLargeBtn" title="Play / Pause">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                      <polygon points="6 4 18 12 6 20 6 4"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="btn-icon-subtle" title="Next">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                      <polygon points="5 4 15 12 5 20 5 4"/>
+                      <line x1="19" y1="5" x2="19" y2="19"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="btn-icon-subtle" title="Repeat">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <polyline points="17 1 21 5 17 9"/>
+                      <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                      <polyline points="7 23 3 19 7 15"/>
+                      <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                    </svg>
+                  </button>
+                </div>
+                <!-- Progress Scrubber -->
+                <div class="dock-scrubber-row">
+                  <span class="timestamp-label">02:14</span>
+                  <div class="track-progress-container" id="trackProgressWrapper">
+                    <div class="track-progress-bar" id="trackProgressBar" style="width: 58%;"></div>
                   </div>
-                  <input type="range" min="30" max="180" value="100" class="custom-range" id="saturationSlider">
+                  <span class="timestamp-label">03:45</span>
+                </div>
+              </div>
+
+              <!-- Right: Volume & Devices -->
+              <div class="dock-volume-controls">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+                <div class="volume-slider-track">
+                  <div class="volume-slider-fill" style="width: 72%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- =========================================================================
+               TEMPLATE 3: Full Storefront & Product Detail Page
+               ========================================================================= -->
+          <div class="full-app-template" id="templateStore" data-component="menu">
+            <!-- Mini Store Navbar -->
+            <div class="store-navbar glass-panel">
+              <div class="store-nav-brand">
+                <span class="store-brand-text">AURA <span class="text-gradient">STORE</span></span>
+              </div>
+              <div class="store-nav-links">
+                <a href="#store" class="store-link active">Signature Reserves</a>
+                <a href="#store" class="store-link">Artisan Blends</a>
+                <a href="#store" class="store-link">Pantry Specials</a>
+                <a href="#store" class="store-link">Our Story</a>
+              </div>
+              <div class="store-nav-actions">
+                <div class="store-search-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input type="text" placeholder="Search delicacies..." class="store-search-input">
+                </div>
+                <button type="button" class="btn btn-sm btn-primary btn-cart-badge">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <circle cx="9" cy="21" r="1"/>
+                    <circle cx="20" cy="21" r="1"/>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                  </svg>
+                  <span>Cart (3)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Main Product Hero (2-Column Split) -->
+            <div class="store-product-split glass-panel">
+              <!-- Left Column: Large Product Imagery Showcase -->
+              <div class="product-gallery-col">
+                <div class="product-hero-frame">
+                  <img id="productMainImage" src="assets/sample-orange.jpg" alt="Artisan Product Feature" class="product-hero-img">
+                  <span class="product-sale-badge badge-accent">Featured Harvest</span>
+                </div>
+                <!-- Gallery Thumbnail Selector Row -->
+                <div class="product-thumbnails-row">
+                  <div class="product-thumb active">
+                    <img src="assets/sample-orange.jpg" alt="Thumbnail 1">
+                  </div>
+                  <div class="product-thumb">
+                    <img src="assets/sample-forest.jpg" alt="Thumbnail 2">
+                  </div>
+                  <div class="product-thumb">
+                    <img src="assets/sample-cyberpunk.jpg" alt="Thumbnail 3">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Product Detail & Ordering -->
+              <div class="product-details-col">
+                <div class="product-kicker">
+                  <span class="badge badge-primary">Artisan Reserve Series</span>
+                  <span class="text-xs text-muted">SKU: AUR-89201</span>
                 </div>
 
-                <!-- Segmented Pill Control -->
-                <div class="form-group">
-                  <label class="form-label">Component Corner Radius</label>
-                  <div class="segmented-control" id="radiusSegmented">
-                    <button type="button" class="segment-btn" data-radius="8px">Sharp</button>
-                    <button type="button" class="segment-btn active" data-radius="18px">Smooth</button>
-                    <button type="button" class="segment-btn" data-radius="28px">Pill</button>
+                <h1 class="store-product-title" id="menuItemTitle">Sunset Citrus Glaze Reserve</h1>
+
+                <!-- Rating -->
+                <div class="product-rating-box">
+                  <div class="stars" style="color: var(--accent);">★★★★★</div>
+                  <span class="rating-number">4.9</span>
+                  <span class="rating-count">(248 customer reviews)</span>
+                  <span class="badge badge-surface">● In Stock</span>
+                </div>
+
+                <!-- Price tag -->
+                <div class="product-price-box">
+                  <span class="price-symbol">$</span>
+                  <span class="price-val" id="menuItemPrice">24.50</span>
+                  <span class="price-original">$32.00</span>
+                  <span class="price-discount-tag text-accent">Save 23% Today</span>
+                </div>
+
+                <!-- Product Description -->
+                <p class="store-product-desc" id="menuItemDesc">
+                  Handcrafted botanical infusion cold-pressed from ripe organic citrus groves, harmonized with Mediterranean blossom honey, wild thyme, and crystal sea salt flakes.
+                </p>
+
+                <!-- Dietary & Feature Tags -->
+                <div class="store-tags-row" id="menuItemTags">
+                  <span class="tag">100% Organic</span>
+                  <span class="tag">Cold-Pressed Extract</span>
+                  <span class="tag">Non-GMO Certified</span>
+                  <span class="tag">Eco Glass Bottle</span>
+                </div>
+
+                <!-- Size / Option Selector -->
+                <div class="product-options-group">
+                  <label class="option-label">Package Size:</label>
+                  <div class="options-pills">
+                    <button type="button" class="option-pill active">Single Bottle (250ml)</button>
+                    <button type="button" class="option-pill">Duo Reserve (500ml)</button>
+                    <button type="button" class="option-pill">Artisan Gift Crate</button>
                   </div>
                 </div>
 
-                <!-- Interactive Toggle Switches -->
-                <div class="toggle-group">
-                  <label class="toggle-switch">
-                    <input type="checkbox" id="ambientMotionToggle" checked>
-                    <span class="toggle-slider"></span>
-                    <span class="toggle-text">Dynamic Ambient Glow</span>
-                  </label>
-                  <label class="toggle-switch">
-                    <input type="checkbox" id="glassmorphismToggle" checked>
-                    <span class="toggle-slider"></span>
-                    <span class="toggle-text">Glassmorphism Frosted Blur</span>
-                  </label>
+                <!-- Quantity & Add to Cart -->
+                <div class="product-actions-bar">
+                  <div class="quantity-picker">
+                    <button type="button" class="qty-btn">-</button>
+                    <span class="qty-val">1</span>
+                    <button type="button" class="qty-btn">+</button>
+                  </div>
+                  <button type="button" class="btn btn-primary btn-add-cart-large" id="btnAddToCart">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                      <circle cx="9" cy="21" r="1"/>
+                      <circle cx="20" cy="21" r="1"/>
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                    </svg>
+                    Add to Cart
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-buy-now">Buy Now</button>
                 </div>
 
-                <!-- Button Preview Row -->
-                <div class="button-preview-group">
-                  <button type="button" class="btn btn-primary">Primary Glow</button>
-                  <button type="button" class="btn btn-secondary">Secondary</button>
-                  <button type="button" class="btn btn-accent">Accent Pop</button>
-                  <button type="button" class="btn btn-outline">Outline</button>
+                <!-- Guarantee perks -->
+                <div class="store-perks-row">
+                  <div class="perk-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <rect x="1" y="3" width="15" height="13"/>
+                      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                      <circle cx="5.5" cy="18.5" r="2.5"/>
+                      <circle cx="18.5" cy="18.5" r="2.5"/>
+                    </svg>
+                    <span>Free express shipping over $45</span>
+                  </div>
+                  <div class="perk-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span>30-Day freshness guarantee</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Section: Customer Reviews & Related Products -->
+            <div class="store-bottom-grid">
+              <!-- Customer Reviews Column -->
+              <div class="store-reviews-box glass-panel">
+                <div class="card-header">
+                  <div>
+                    <h3 class="card-title">Verified Customer Reviews</h3>
+                    <p class="card-subtitle">Real experiences with this harvest batch</p>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-outline">Write a Review</button>
+                </div>
+
+                <div class="review-cards-list">
+                  <div class="review-card">
+                    <div class="review-meta-row">
+                      <div class="stars" style="color: var(--accent);">★★★★★</div>
+                      <span class="review-author">David K.</span>
+                      <span class="badge badge-primary">Verified Buyer</span>
+                    </div>
+                    <p class="review-comment">"The flavor balance is unbelievable. The citrus notes pop without overwhelming acidity. Stunning packaging too!"</p>
+                  </div>
+
+                  <div class="review-card">
+                    <div class="review-meta-row">
+                      <div class="stars" style="color: var(--accent);">★★★★★</div>
+                      <span class="review-author">Mireille T.</span>
+                      <span class="badge badge-primary">Verified Buyer</span>
+                    </div>
+                    <p class="review-comment">"Pairs elegantly with grilled seafood and desserts alike. An essential addition to our culinary pantry."</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Frequently Paired With -->
+              <div class="store-paired-box glass-panel">
+                <div class="card-header">
+                  <div>
+                    <h3 class="card-title">Frequently Paired</h3>
+                    <p class="card-subtitle">Complete your artisan kitchen palette</p>
+                  </div>
+                </div>
+
+                <div class="paired-items-list">
+                  <div class="paired-item-card">
+                    <img src="assets/sample-forest.jpg" alt="Botanical Matcha" class="paired-item-img">
+                    <div class="paired-item-info">
+                      <div class="paired-item-title">Matcha Botanical Elixir</div>
+                      <div class="paired-item-price">$18.00</div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline">+ Add</button>
+                  </div>
+
+                  <div class="paired-item-card">
+                    <img src="assets/sample-cyberpunk.jpg" alt="Night Acai" class="paired-item-img">
+                    <div class="paired-item-info">
+                      <div class="paired-item-title">Dark Berry Reduction</div>
+                      <div class="paired-item-price">$21.50</div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline">+ Add</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- =========================================================================
+               TEMPLATE 4: Full Design System & UI Kit Playground
+               ========================================================================= -->
+          <div class="full-app-template" id="templateControls" data-component="controls">
+            <!-- Top Bar: Live Theme Tuning Controls -->
+            <div class="ui-kit-top-controls glass-panel">
+              <div class="tuning-col">
+                <div class="form-label-row">
+                  <label for="saturationSlider" class="form-label">Theme Saturation Boost</label>
+                  <span class="form-value" id="saturationValue">100%</span>
+                </div>
+                <input type="range" min="30" max="180" value="100" class="custom-range" id="saturationSlider">
+              </div>
+
+              <div class="tuning-divider"></div>
+
+              <div class="tuning-col">
+                <label class="form-label">Component Corner Radius</label>
+                <div class="segmented-control" id="radiusSegmented">
+                  <button type="button" class="segment-btn" data-radius="8px">Sharp (8px)</button>
+                  <button type="button" class="segment-btn active" data-radius="18px">Smooth (18px)</button>
+                  <button type="button" class="segment-btn" data-radius="28px">Pill (28px)</button>
+                </div>
+              </div>
+
+              <div class="tuning-divider"></div>
+
+              <div class="tuning-toggles-col">
+                <label class="toggle-switch">
+                  <input type="checkbox" id="ambientMotionToggle" checked>
+                  <span class="toggle-slider"></span>
+                  <span class="toggle-text">Dynamic Ambient Glow</span>
+                </label>
+                <label class="toggle-switch">
+                  <input type="checkbox" id="glassmorphismToggle" checked>
+                  <span class="toggle-slider"></span>
+                  <span class="toggle-text">Glassmorphism Frosted Blur</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Bento Grid of UI Kit Elements -->
+            <div class="bento-ui-grid">
+              <!-- Panel 1: Buttons & Actions Showcase -->
+              <div class="bento-panel glass-panel">
+                <div class="bento-panel-header">
+                  <span class="card-eyebrow">Interactive Tokens</span>
+                  <h3 class="card-title">Buttons & Action Hierarchy</h3>
+                </div>
+                <div class="bento-panel-body">
+                  <div class="buttons-showcase-row">
+                    <button type="button" class="btn btn-primary">Primary Glow</button>
+                    <button type="button" class="btn btn-secondary">Secondary Solid</button>
+                    <button type="button" class="btn btn-accent">Accent Highlight</button>
+                    <button type="button" class="btn btn-outline">Outline Stroke</button>
+                    <button type="button" class="btn btn-ghost">Ghost Text</button>
+                  </div>
+                  <div class="buttons-showcase-row">
+                    <button type="button" class="btn btn-sm btn-primary">Small Button</button>
+                    <button type="button" class="btn btn-sm btn-outline">Secondary Sm</button>
+                    <button type="button" class="btn btn-sm btn-accent" disabled style="opacity: 0.5; cursor: not-allowed;">Disabled State</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel 2: Form & Input Controls -->
+              <div class="bento-panel glass-panel">
+                <div class="bento-panel-header">
+                  <span class="card-eyebrow">Form Architecture</span>
+                  <h3 class="card-title">Inputs & Selection States</h3>
+                </div>
+                <div class="bento-panel-body">
+                  <div class="form-grid-sample">
+                    <div class="sample-input-group">
+                      <label class="sample-input-label">Email Address</label>
+                      <input type="email" value="designer@chromashift.studio" class="sample-text-input">
+                    </div>
+                    <div class="sample-input-group">
+                      <label class="sample-input-label">Project Domain</label>
+                      <select class="sample-select-input">
+                        <option>Production Ready (Tailwind)</option>
+                        <option>CSS Custom Properties</option>
+                        <option>Design Tokens JSON</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="sample-checks-row">
+                    <label class="sample-checkbox-label">
+                      <input type="checkbox" checked class="sample-native-check">
+                      <span>Enable WCAG High Contrast</span>
+                    </label>
+                    <label class="sample-checkbox-label">
+                      <input type="checkbox" checked class="sample-native-check">
+                      <span>Auto-sync Ambient Radiance</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel 3: Typography & Accessibility Badge -->
+              <div class="bento-panel glass-panel">
+                <div class="bento-panel-header">
+                  <span class="card-eyebrow">Typography & Accessibility</span>
+                  <h3 class="card-title">Scales & Contrast Verification</h3>
+                </div>
+                <div class="bento-panel-body typography-sample-col">
+                  <div class="sample-heading-display">
+                    Display Heading <span class="text-gradient">Harmonized</span>
+                  </div>
+                  <p class="sample-body-text">
+                    Body text rendered in high-legibility Plus Jakarta Sans. Formatted against reactive backgrounds to guarantee AAA compliant readability scores.
+                  </p>
+                  <div class="sample-badges-strip">
+                    <span class="badge badge-primary">Primary Token</span>
+                    <span class="badge badge-secondary">Secondary Harmony</span>
+                    <span class="badge badge-accent">Accent Pop</span>
+                    <span class="badge badge-surface">Neutral Glass</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel 4: Notification Alerts & Feedback Banners -->
+              <div class="bento-panel glass-panel">
+                <div class="bento-panel-header">
+                  <span class="card-eyebrow">Feedback Components</span>
+                  <h3 class="card-title">Alerts & System Banners</h3>
+                </div>
+                <div class="bento-panel-body alerts-sample-col">
+                  <div class="sample-alert alert-primary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="12" y1="8" x2="12" y2="12"/>
+                      <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    <span><strong>Theme Active:</strong> All UI tokens automatically updated from uploaded imagery.</span>
+                  </div>
+                  <div class="sample-alert alert-accent">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <span><strong>Verified Contrast:</strong> Text-to-surface contrast ratio meets or exceeds 12:1.</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -591,8 +1272,8 @@
           <button type="button" class="btn btn-outline btn-sm" id="downloadTokensBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17 8 12 3 7 8"/>
-              <line x1="12" y1="3" x2="12" y2="15"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
             Download File
           </button>

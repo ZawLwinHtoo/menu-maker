@@ -22,10 +22,10 @@ const state = {
 
 // Component Name Dictionary
 const COMPONENT_NAMES = {
-  analytics: 'Analytics & Graph Preview',
-  media: 'Media / Music Player Preview',
-  menu: 'E-Commerce Product Card Preview',
-  controls: 'Interactive Theme Controls Preview'
+  analytics: 'SaaS Analytics Dashboard',
+  media: 'Music Streaming Web App',
+  menu: 'Storefront & Product Detail Page',
+  controls: 'Design System & UI Kit Playground'
 };
 
 // DOM Elements: Views
@@ -64,19 +64,21 @@ const glassmorphismToggle = document.getElementById('glassmorphismToggle');
 const ambientMeshGlow = document.getElementById('ambientMeshGlow');
 const harmonySegmented = document.getElementById('harmonySegmented');
 
-// DOM Elements: View 2 Sidebar & Showcase Cards
+// DOM Elements: View 2 Sidebar & Template Elements
 const sidebarThemeSnapshotName = document.getElementById('sidebarThemeSnapshotName');
 const menuItemTitle = document.getElementById('menuItemTitle');
 const menuItemDesc = document.getElementById('menuItemDesc');
-const menuItemBadge = document.getElementById('menuItemBadge');
 const menuItemPrice = document.getElementById('menuItemPrice');
 const menuItemTags = document.getElementById('menuItemTags');
 const trackTitle = document.getElementById('trackTitle');
 const trackArtist = document.getElementById('trackArtist');
-const playToggleBtn = document.getElementById('playToggleBtn');
+const mediaPlayHeroBtn = document.getElementById('mediaPlayHeroBtn');
 const mediaPlayLargeBtn = document.getElementById('mediaPlayLargeBtn');
 const musicWave = document.getElementById('musicWave');
 const btnAddToCart = document.getElementById('btnAddToCart');
+const productMainImage = document.getElementById('productMainImage');
+const mediaArtworkRight = document.getElementById('mediaArtworkRight');
+const mediaArtworkMini = document.getElementById('mediaArtworkMini');
 
 // Export Modal Elements
 const exportModal = document.getElementById('exportModal');
@@ -125,19 +127,19 @@ function activateSingleComponent(componentId) {
     btn.classList.toggle('active', btn.dataset.tab === componentId);
   });
 
-  // Switch Center Stage: Display ONLY that single selected component
-  document.querySelectorAll('.single-stage-card').forEach(card => {
-    const isMatch = card.dataset.component === componentId;
+  // Switch Center Stage: Display ONLY that single selected full-page template
+  document.querySelectorAll('.full-app-template').forEach(template => {
+    const isMatch = template.dataset.component === componentId;
     if (isMatch) {
-      card.classList.add('active-card');
+      template.classList.add('active-template');
     } else {
-      card.classList.remove('active-card');
+      template.classList.remove('active-template');
     }
   });
 
   // Update Breadcrumb Current Title
   if (breadcrumbActiveComponentName) {
-    breadcrumbActiveComponentName.textContent = COMPONENT_NAMES[componentId] || 'Component Preview';
+    breadcrumbActiveComponentName.textContent = COMPONENT_NAMES[componentId] || 'App Template';
   }
 }
 
@@ -608,15 +610,18 @@ function handleCustomImageUpload(file) {
   reader.onload = e => {
     const imgDataUrl = e.target.result;
     currentImagePreview.src = imgDataUrl;
-    mediaArtwork.src = imgDataUrl;
+    if (mediaArtwork) mediaArtwork.src = imgDataUrl;
+    if (mediaArtworkRight) mediaArtworkRight.src = imgDataUrl;
+    if (mediaArtworkMini) mediaArtworkMini.src = imgDataUrl;
+    if (productMainImage) productMainImage.src = imgDataUrl;
+
     state.imageSrc = imgDataUrl;
     state.hueOffset = 0;
 
     heroThemeStatus.textContent = `Theme: ${file.name.replace(/\.[^/.]+$/, '')}`;
     extractDominantName.textContent = `Uploaded Photo (${file.name})`;
-    menuItemTitle.textContent = 'Artisan Selection';
-    menuItemDesc.textContent = 'Theme dynamically harmonized from your uploaded visual palette.';
-    menuItemBadge.textContent = 'Custom Origin';
+    if (menuItemTitle) menuItemTitle.textContent = 'Artisan Reserve Special';
+    if (menuItemDesc) menuItemDesc.textContent = 'Theme dynamically harmonized from your uploaded visual palette.';
 
     currentImagePreview.onload = () => {
       processImageTheme();
@@ -944,22 +949,126 @@ glassmorphismToggle.addEventListener('change', e => {
 let isPlaying = false;
 function togglePlay() {
   isPlaying = !isPlaying;
-  musicWave.querySelectorAll('span').forEach(bar => {
+  if (musicWave) {
+    musicWave.querySelectorAll('span').forEach(bar => {
+      bar.style.animationPlayState = isPlaying ? 'running' : 'paused';
+    });
+  }
+  document.querySelectorAll('.equalizer-spectrum-box span').forEach(bar => {
     bar.style.animationPlayState = isPlaying ? 'running' : 'paused';
   });
-  const playIconHtml = isPlaying
-    ? `<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`
-    : `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 18 12 6 20 6 4"/></svg>`;
-  mediaPlayLargeBtn.innerHTML = playIconHtml;
+
+  const playSvg = `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><polygon points="6 4 18 12 6 20 6 4"/></svg>`;
+  const pauseSvg = `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`;
+
+  if (mediaPlayLargeBtn) {
+    mediaPlayLargeBtn.innerHTML = isPlaying ? pauseSvg : playSvg;
+  }
+  if (mediaPlayHeroBtn) {
+    mediaPlayHeroBtn.innerHTML = isPlaying
+      ? `<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Pause Album`
+      : `<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><polygon points="5 3 19 12 5 21 5 3"/></svg> Play Album`;
+  }
 }
 
-playToggleBtn.addEventListener('click', togglePlay);
-mediaPlayLargeBtn.addEventListener('click', togglePlay);
+if (mediaPlayHeroBtn) mediaPlayHeroBtn.addEventListener('click', togglePlay);
+if (mediaPlayLargeBtn) mediaPlayLargeBtn.addEventListener('click', togglePlay);
 
-// Add to cart interaction
-btnAddToCart.addEventListener('click', () => {
-  showToast(`Added "${menuItemTitle.textContent}" to cart! 🍽️`);
+// Track progress scrubber
+const trackProgressWrapper = document.getElementById('trackProgressWrapper');
+const trackProgressBar = document.getElementById('trackProgressBar');
+if (trackProgressWrapper && trackProgressBar) {
+  trackProgressWrapper.addEventListener('click', e => {
+    const rect = trackProgressWrapper.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const pct = Math.max(0, Math.min(100, Math.round((clickX / rect.width) * 100)));
+    trackProgressBar.style.width = `${pct}%`;
+  });
+}
+
+// Tracklist row selection
+document.querySelectorAll('.track-row').forEach(row => {
+  row.addEventListener('click', () => {
+    document.querySelectorAll('.track-row').forEach(r => r.classList.remove('active-track'));
+    row.classList.add('active-track');
+    const titleEl = row.querySelector('.track-main-name');
+    const artistEl = row.querySelector('.track-sub-artist');
+    if (titleEl) {
+      const nowSong = document.querySelector('.now-playing-song');
+      const dockSong = document.querySelector('.dock-song-title');
+      if (nowSong) nowSong.textContent = titleEl.textContent;
+      if (dockSong) dockSong.textContent = titleEl.textContent;
+    }
+    if (artistEl) {
+      const nowSinger = document.querySelector('.now-playing-singer');
+      const dockSinger = document.querySelector('.dock-artist-name');
+      if (nowSinger) nowSinger.textContent = artistEl.textContent;
+      if (dockSinger) dockSinger.textContent = artistEl.textContent;
+    }
+  });
 });
+
+// Product thumbnail gallery click
+document.querySelectorAll('.product-thumb').forEach(thumb => {
+  thumb.addEventListener('click', () => {
+    document.querySelectorAll('.product-thumb').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+    const img = thumb.querySelector('img');
+    if (img && productMainImage) {
+      productMainImage.src = img.src;
+    }
+  });
+});
+
+// Product option pills selection
+document.querySelectorAll('.options-pills .option-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.options-pills .option-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+  });
+});
+
+// Product quantity counter
+const qtyMinus = document.querySelector('.quantity-picker .qty-btn:first-child');
+const qtyPlus = document.querySelector('.quantity-picker .qty-btn:last-child');
+const qtyVal = document.querySelector('.quantity-picker .qty-val');
+if (qtyMinus && qtyPlus && qtyVal) {
+  let count = 1;
+  qtyMinus.addEventListener('click', () => {
+    if (count > 1) {
+      count--;
+      qtyVal.textContent = count;
+    }
+  });
+  qtyPlus.addEventListener('click', () => {
+    count++;
+    qtyVal.textContent = count;
+  });
+}
+
+// Analytics graph time-range pills
+document.querySelectorAll('.graph-filter-pills .graph-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.graph-filter-pills .graph-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    showToast(`Showing analytics for past ${pill.textContent} 📊`);
+  });
+});
+
+// Add to cart & Buy now interactions
+if (btnAddToCart) {
+  btnAddToCart.addEventListener('click', () => {
+    const title = menuItemTitle ? menuItemTitle.textContent : 'Artisan Reserve Special';
+    showToast(`Added "${title}" to cart! 🛍️`);
+  });
+}
+
+const btnBuyNow = document.querySelector('.btn-buy-now');
+if (btnBuyNow) {
+  btnBuyNow.addEventListener('click', () => {
+    showToast('Proceeding directly to instant checkout! 💳');
+  });
+}
 
 // Export Modal (Triggered from View 2 Top-Right "Export Theme" Button)
 view2ExportBtn.addEventListener('click', () => {
