@@ -59,11 +59,15 @@ const PRESETS = {
 const state = {
   currentPreset: 'orange',
   themeMode: 'dark', // 'dark' | 'light'
+  harmonyMode: 'vibrant', // 'vibrant' | 'muted' | 'deep'
   saturationBoost: 1.0,
   hueOffset: 0,
   palette: [],
+  rawDominant: null,
+  rawSecondary: null,
+  rawAccent: null,
   imageSrc: 'assets/sample-orange.jpg',
-  exportTab: 'css'
+  exportTab: 'tailwind'
 };
 
 // DOM Elements
@@ -84,6 +88,8 @@ const randomizeHueBtn = document.getElementById('randomizeHueBtn');
 const radiusSegmented = document.getElementById('radiusSegmented');
 const ambientMotionToggle = document.getElementById('ambientMotionToggle');
 const glassmorphismToggle = document.getElementById('glassmorphismToggle');
+const ambientMeshGlow = document.getElementById('ambientMeshGlow');
+const harmonySegmented = document.getElementById('harmonySegmented');
 
 // Showcase card elements
 const menuItemTitle = document.getElementById('menuItemTitle');
@@ -193,7 +199,6 @@ function getContrastRatio(rgb1, rgb2) {
    ========================================================================== */
 
 function extractColorsFromImage(imgElement) {
-  // Render onto 120x120 canvas for fast sampling
   const size = 120;
   extractionCanvas.width = size;
   extractionCanvas.height = size;
@@ -203,7 +208,6 @@ function extractColorsFromImage(imgElement) {
   const data = imageData.data;
   const colorBuckets = {};
 
-  // Sample pixels, ignoring extreme black or extreme white noise
   for (let i = 0; i < data.length; i += 16) {
     const r = data[i];
     const g = data[i + 1];
@@ -217,7 +221,6 @@ function extractColorsFromImage(imgElement) {
     // Skip almost washed out gray or pure black/white
     if (s < 12 && (l < 15 || l > 85)) continue;
 
-    // Quantize into 24 hue bins and 4 saturation/lightness bins
     const hueBin = Math.round(h / 15) * 15;
     const bucketKey = `${hueBin}_${Math.round(s / 25)}_${Math.round(l / 25)}`;
 
@@ -239,7 +242,6 @@ function extractColorsFromImage(imgElement) {
     colorBuckets[bucketKey].bSum += b;
   }
 
-  // Convert to sorted candidate list
   const candidates = Object.values(colorBuckets).map(bucket => {
     const count = bucket.count;
     const avgR = Math.round(bucket.rSum / count);
@@ -247,7 +249,6 @@ function extractColorsFromImage(imgElement) {
     const avgB = Math.round(bucket.bSum / count);
     const [h, s, l] = rgbToHsl(avgR, avgG, avgB);
 
-    // Score based on frequency, saturation, and healthy lightness
     const vibrancyScore = count * (s / 100) * (1 - Math.abs(l - 50) / 60);
 
     return {
@@ -263,28 +264,23 @@ function extractColorsFromImage(imgElement) {
   }).sort((a, b) => b.score - a.score);
 
   if (candidates.length === 0) {
-    // Fallback if image is mono
     return generateFallbackPalette(28);
   }
 
-  // Pick top dominant vibrant color as Primary
   const dominant = candidates[0];
   const primaryHue = dominant.h;
 
-  // Find complementary or high contrast secondary
   let secondaryCandidate = candidates.find(c => {
     const hueDiff = Math.abs(c.h - primaryHue);
     return (hueDiff > 50 && hueDiff < 310) && c.s > 25;
   });
 
   if (!secondaryCandidate) {
-    // Synthesize harmony hue (60 deg split)
     const secHue = (primaryHue + 150) % 360;
     const [sr, sg, sb] = hslToRgb(secHue, Math.min(85, dominant.s + 10), 48);
     secondaryCandidate = { r: sr, g: sg, b: sb, h: secHue, s: 75, l: 48 };
   }
 
-  // Accent color (higher saturation or warm highlight)
   let accentCandidate = candidates.find(c => {
     return c !== dominant && c !== secondaryCandidate && c.s > 50;
   });
@@ -295,6 +291,11 @@ function extractColorsFromImage(imgElement) {
     accentCandidate = { r: ar, g: ag, b: ab, h: accHue, s: 90, l: 52 };
   }
 
+  // Cache raw base extracted colors for instant Harmony Mode switching
+  state.rawDominant = dominant;
+  state.rawSecondary = secondaryCandidate;
+  state.rawAccent = accentCandidate;
+
   return assembleAdaptivePalette(dominant, secondaryCandidate, accentCandidate);
 }
 
@@ -302,40 +303,75 @@ function generateFallbackPalette(baseHue) {
   const [pr, pg, pb] = hslToRgb(baseHue, 88, 52);
   const [sr, sg, sb] = hslToRgb((baseHue + 140) % 360, 72, 45);
   const [ar, ag, ab] = hslToRgb((baseHue + 40) % 360, 92, 54);
-  return assembleAdaptivePalette(
-    { r: pr, g: pg, b: pb, h: baseHue, s: 88, l: 52 },
-    { r: sr, g: sg, b: sb, h: (baseHue + 140) % 360, s: 72, l: 45 },
-    { r: ar, g: ag, b: ab, h: (baseHue + 40) % 360, s: 92, l: 54 }
-  );
+  const dom = { r: pr, g: pg, b: pb, h: baseHue, s: 88, l: 52 };
+  const sec = { r: sr, g: sg, b: sb, h: (baseHue + 140) % 360, s: 72, l: 45 };
+  const acc = { r: ar, g: ag, b: ab, h: (baseHue + 40) % 360, s: 92, l: 54 };
+
+  state.rawDominant = dom;
+  state.rawSecondary = sec;
+  state.rawAccent = acc;
+
+  return assembleAdaptivePalette(dom, sec, acc);
 }
 
+/**
+ * Re-assembles palette considering the active Harmony Mode:
+ * - 'vibrant': High saturation, vivid radiant hues
+ * - 'muted': Soft pastel saturation, delicate balanced tones
+ * - 'deep': Rich velvety saturation, moody low-lightness with bright neon accents
+ */
 function assembleAdaptivePalette(dom, sec, acc) {
-  // Apply state modifications (hue shift and saturation boost)
   const shiftHue = h => ((h + state.hueOffset) % 360 + 360) % 360;
-  const boostSat = s => Math.max(15, Math.min(100, Math.round(s * state.saturationBoost)));
+
+  let sPrimary, lPrimary, sSec, lSec, sAcc, lAcc;
+
+  if (state.harmonyMode === 'muted') {
+    // Muted / Pastel Harmony
+    sPrimary = Math.max(22, Math.min(48, Math.round(dom.s * 0.42 * state.saturationBoost)));
+    lPrimary = state.themeMode === 'dark' ? 62 : 45;
+
+    sSec = Math.max(20, Math.min(44, Math.round(sec.s * 0.38 * state.saturationBoost)));
+    lSec = state.themeMode === 'dark' ? 68 : 50;
+
+    sAcc = Math.max(30, Math.min(54, Math.round(acc.s * 0.5 * state.saturationBoost)));
+    lAcc = state.themeMode === 'dark' ? 74 : 52;
+  } else if (state.harmonyMode === 'deep') {
+    // Deep Dark Moody Harmony
+    sPrimary = Math.max(65, Math.min(95, Math.round(dom.s * 0.9 * state.saturationBoost)));
+    lPrimary = 32;
+
+    sSec = Math.max(60, Math.min(90, Math.round(sec.s * 0.85 * state.saturationBoost)));
+    lSec = 28;
+
+    sAcc = Math.max(80, Math.min(100, Math.round(acc.s * 1.1 * state.saturationBoost)));
+    lAcc = 58; // High contrast neon highlight against deep dark surfaces
+  } else {
+    // Vibrant (Default) Harmony
+    sPrimary = Math.max(35, Math.min(100, Math.round(dom.s * 1.15 * state.saturationBoost)));
+    lPrimary = Math.max(44, Math.min(56, dom.l));
+
+    sSec = Math.max(30, Math.min(95, Math.round(sec.s * 1.05 * state.saturationBoost)));
+    lSec = Math.max(40, Math.min(54, sec.l));
+
+    sAcc = Math.max(55, Math.min(100, Math.round(acc.s * 1.2 * state.saturationBoost)));
+    lAcc = Math.max(48, Math.min(62, acc.l));
+  }
 
   const hPrimary = shiftHue(dom.h);
-  const sPrimary = boostSat(dom.s);
-  const lPrimary = Math.max(38, Math.min(62, dom.l));
-  const [pr, pg, pb] = hslToRgb(hPrimary, sPrimary, lPrimary);
-
   const hSec = shiftHue(sec.h);
-  const sSec = boostSat(sec.s);
-  const lSec = Math.max(35, Math.min(58, sec.l));
-  const [sr, sg, sb] = hslToRgb(hSec, sSec, lSec);
-
   const hAcc = shiftHue(acc.h);
-  const sAcc = boostSat(acc.s);
-  const lAcc = Math.max(45, Math.min(65, acc.l));
+
+  const [pr, pg, pb] = hslToRgb(hPrimary, sPrimary, lPrimary);
+  const [sr, sg, sb] = hslToRgb(hSec, sSec, lSec);
   const [ar, ag, ab] = hslToRgb(hAcc, sAcc, lAcc);
 
-  // Surface Tint (Ambient dark surface)
-  const [surR, surG, surB] = hslToRgb(hPrimary, 18, 11);
+  // Surface Tint
+  const [surR, surG, surB] = hslToRgb(hPrimary, state.harmonyMode === 'muted' ? 12 : 20, 11);
 
   // Subtle Border Tone
-  const [subR, subG, subB] = hslToRgb(hPrimary, 40, 28);
+  const [subR, subG, subB] = hslToRgb(hPrimary, 42, 28);
 
-  // Contrast text color for primary button
+  // Contrast text color calculation for primary button
   const textOnPrimary = getRelativeLuminance(pr, pg, pb) > 0.4 ? '#0f172a' : '#ffffff';
 
   return [
@@ -384,8 +420,17 @@ function assembleAdaptivePalette(dom, sec, acc) {
   ];
 }
 
+/**
+ * Recomputes palette using cached raw image extraction without re-uploading
+ */
+function recalculatePaletteFromRaw() {
+  if (!state.rawDominant) return;
+  const palette = assembleAdaptivePalette(state.rawDominant, state.rawSecondary, state.rawAccent);
+  applyPaletteToDocument(palette);
+}
+
 /* ==========================================================================
-   Applying Palette to the Site
+   Applying Palette to the Site & Ambient Glow
    ========================================================================== */
 
 function applyPaletteToDocument(palette) {
@@ -407,7 +452,16 @@ function applyPaletteToDocument(palette) {
   root.style.setProperty('--accent-rgb', `${accent.rgb[0]}, ${accent.rgb[1]}, ${accent.rgb[2]}`);
   root.style.setProperty('--text-on-primary', onPrimary.hex);
 
-  // Ambient backdrops
+  // Dynamic Ambient Background Glow:
+  // Smoothly crossfades the large radial mesh gradient
+  if (ambientMeshGlow) {
+    ambientMeshGlow.style.opacity = '0.08';
+    setTimeout(() => {
+      ambientMeshGlow.style.opacity = '0.16';
+    }, 180);
+  }
+
+  // Adaptive background surfaces
   if (state.themeMode === 'dark') {
     root.style.setProperty('--bg-base', `hsl(${primary.hsl[0]}, 16%, 6%)`);
     root.style.setProperty('--bg-surface', `hsla(${primary.hsl[0]}, 16%, 11%, 0.75)`);
@@ -425,7 +479,7 @@ function applyPaletteToDocument(palette) {
   // Render Swatches
   renderPaletteSwatches(palette);
 
-  // Update export code preview if modal is active
+  // Update export code preview
   updateExportCode();
 }
 
@@ -501,7 +555,6 @@ function selectPreset(presetKey) {
   trackTitle.textContent = preset.track.title;
   trackArtist.textContent = preset.track.artist;
 
-  // Trigger color extraction once image is loaded
   if (currentImagePreview.complete) {
     processImageTheme();
   } else {
@@ -514,7 +567,7 @@ function processImageTheme() {
     const palette = extractColorsFromImage(currentImagePreview);
     applyPaletteToDocument(palette);
   } catch (err) {
-    console.warn('Canvas extraction blocked (cross-origin or local), using computed fallback:', err);
+    console.warn('Canvas extraction fallback:', err);
     const fallback = generateFallbackPalette(state.currentPreset === 'forest' ? 145 : state.currentPreset === 'cyberpunk' ? 190 : 28);
     applyPaletteToDocument(fallback);
   }
@@ -535,7 +588,6 @@ function handleCustomImageUpload(file) {
     state.currentPreset = 'custom';
     state.hueOffset = 0;
 
-    // Deselect preset pills
     document.querySelectorAll('.preset-pill').forEach(btn => btn.classList.remove('active'));
 
     heroThemeStatus.textContent = 'Active Theme: Custom Uploaded Image';
@@ -554,56 +606,120 @@ function handleCustomImageUpload(file) {
 }
 
 /* ==========================================================================
-   Export Generator (CSS / Tailwind / JSON)
+   Complete Export Generator (Tailwind CSS, Native CSS, JSON Tokens)
    ========================================================================== */
 
 function updateExportCode() {
   if (!state.palette || state.palette.length === 0) return;
 
   const [p, s, a, surf, subtle, onP] = state.palette;
+  const themeName = heroThemeStatus.textContent.replace('Active Theme: ', '');
 
-  if (state.exportTab === 'css') {
-    exportCodeBlock.textContent = `:root {
-  /* ChromaShift Generated Theme */
-  --primary: ${p.hex};
-  --primary-rgb: ${p.rgb.join(', ')};
-  --secondary: ${s.hex};
-  --secondary-rgb: ${s.rgb.join(', ')};
-  --accent: ${a.hex};
-  --accent-rgb: ${a.rgb.join(', ')};
-  --bg-surface: ${surf.hex};
-  --border-subtle: ${subtle.hex};
-  --text-on-primary: ${onP.hex};
-}`;
-  } else if (state.exportTab === 'tailwind') {
-    exportCodeBlock.textContent = `// tailwind.config.js
+  if (state.exportTab === 'tailwind') {
+    exportCodeBlock.textContent = `/**
+ * Tailwind CSS Theme Configuration
+ * Extracted by ChromaShift (${themeName})
+ * Mode: ${state.harmonyMode.toUpperCase()} | Theme: ${state.themeMode.toUpperCase()}
+ */
+
+// tailwind.config.js
 module.exports = {
   theme: {
     extend: {
       colors: {
         primary: {
           DEFAULT: '${p.hex}',
+          rgb: 'rgb(${p.rgb.join(', ')})',
           hover: '${a.hex}',
+          foreground: '${onP.hex}',
         },
-        secondary: '${s.hex}',
-        accent: '${a.hex}',
-        surface: '${surf.hex}',
-        border: '${subtle.hex}',
+        secondary: {
+          DEFAULT: '${s.hex}',
+          rgb: 'rgb(${s.rgb.join(', ')})',
+        },
+        accent: {
+          DEFAULT: '${a.hex}',
+          rgb: 'rgb(${a.rgb.join(', ')})',
+        },
+        surface: {
+          DEFAULT: '${surf.hex}',
+          border: '${subtle.hex}',
+        }
+      },
+      boxShadow: {
+        'glow-primary': '0 10px 30px -4px rgba(${p.rgb.join(', ')}, 0.35)',
+        'glow-accent': '0 10px 25px -4px rgba(${a.rgb.join(', ')}, 0.30)',
       }
     }
   }
 };`;
+  } else if (state.exportTab === 'css') {
+    exportCodeBlock.textContent = `/**
+ * Native CSS Variables (:root)
+ * Extracted by ChromaShift (${themeName})
+ * Mode: ${state.harmonyMode.toUpperCase()} | Contrast Ratio: ${p.contrast}:1
+ */
+
+:root {
+  /* Brand Core Hues */
+  --primary: ${p.hex};
+  --primary-rgb: ${p.rgb.join(', ')};
+  --primary-contrast: ${p.contrast}:1;
+
+  --secondary: ${s.hex};
+  --secondary-rgb: ${s.rgb.join(', ')};
+
+  --accent: ${a.hex};
+  --accent-rgb: ${a.rgb.join(', ')};
+
+  /* Surfaces & Borders */
+  --bg-surface: ${surf.hex};
+  --border-subtle: ${subtle.hex};
+  --border-glow: rgba(${p.rgb.join(', ')}, 0.35);
+
+  /* Typography */
+  --text-on-primary: ${onP.hex};
+
+  /* Ambient Glow Shadows */
+  --shadow-glow: 0 10px 30px -4px rgba(${p.rgb.join(', ')}, 0.32);
+  --shadow-accent-glow: 0 10px 25px -4px rgba(${a.rgb.join(', ')}, 0.28);
+}`;
   } else if (state.exportTab === 'json') {
     const tokens = {
-      name: heroThemeStatus.textContent.replace('Active Theme: ', ''),
+      generator: 'ChromaShift Adaptive Engine',
+      themeName,
+      harmonyMode: state.harmonyMode,
       themeMode: state.themeMode,
       tokens: {
-        primary: { hex: p.hex, rgb: p.rgb, hsl: p.hsl, contrast: p.contrast },
-        secondary: { hex: s.hex, rgb: s.rgb, hsl: s.hsl },
-        accent: { hex: a.hex, rgb: a.rgb, hsl: a.hsl },
-        surface: { hex: surf.hex, rgb: surf.rgb },
-        border: { hex: subtle.hex, rgb: subtle.rgb },
-        textOnPrimary: { hex: onP.hex }
+        primary: {
+          hex: p.hex,
+          rgb: p.rgb,
+          hsl: p.hsl,
+          contrastAgainstDark: p.contrast
+        },
+        secondary: {
+          hex: s.hex,
+          rgb: s.rgb,
+          hsl: s.hsl
+        },
+        accent: {
+          hex: a.hex,
+          rgb: a.rgb,
+          hsl: a.hsl
+        },
+        surface: {
+          hex: surf.hex,
+          rgb: surf.rgb,
+          hsl: surf.hsl
+        },
+        border: {
+          hex: subtle.hex,
+          rgb: subtle.rgb,
+          hsl: subtle.hsl
+        },
+        textOnPrimary: {
+          hex: onP.hex
+        }
       }
     };
     exportCodeBlock.textContent = JSON.stringify(tokens, null, 2);
@@ -689,11 +805,30 @@ document.querySelectorAll('.preset-pill').forEach(btn => {
   });
 });
 
+// Palette Harmony Mode Switcher [Vibrant, Muted/Pastel, Deep Dark]
+if (harmonySegmented) {
+  harmonySegmented.querySelectorAll('.harmony-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      harmonySegmented.querySelectorAll('.harmony-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.harmonyMode = btn.dataset.harmony;
+      recalculatePaletteFromRaw();
+
+      const labelMap = {
+        vibrant: 'Vibrant',
+        muted: 'Muted / Pastel',
+        deep: 'Deep Dark'
+      };
+      showToast(`Harmony Mode: ${labelMap[state.harmonyMode]} ✨`);
+    });
+  });
+}
+
 // Light / Dark mode toggle
 themeModeToggle.addEventListener('click', () => {
   state.themeMode = state.themeMode === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', state.themeMode);
-  processImageTheme();
+  recalculatePaletteFromRaw();
   showToast(`Switched to ${state.themeMode.toUpperCase()} mode`);
 });
 
@@ -702,13 +837,13 @@ saturationSlider.addEventListener('input', e => {
   const val = parseInt(e.target.value);
   saturationValue.textContent = `${val}%`;
   state.saturationBoost = val / 100;
-  processImageTheme();
+  recalculatePaletteFromRaw();
 });
 
 // Hue Shift button
 randomizeHueBtn.addEventListener('click', () => {
   state.hueOffset = (state.hueOffset + 35) % 360;
-  processImageTheme();
+  recalculatePaletteFromRaw();
   showToast(`Shifted palette hue by +35° (${state.palette[0].hsl[0]}°)`);
 });
 
@@ -726,8 +861,10 @@ radiusSegmented.querySelectorAll('.segment-btn').forEach(btn => {
 
 // Ambient and Glass toggles
 ambientMotionToggle.addEventListener('change', e => {
+  const displayVal = e.target.checked ? 'block' : 'none';
+  if (ambientMeshGlow) ambientMeshGlow.style.display = displayVal;
   document.querySelectorAll('.ambient-glow').forEach(glow => {
-    glow.style.display = e.target.checked ? 'block' : 'none';
+    glow.style.display = displayVal;
   });
 });
 
@@ -779,7 +916,7 @@ exportModal.addEventListener('click', e => {
   }
 });
 
-// Modal tabs
+// Modal tabs (Tailwind CSS, Native CSS, JSON Tokens)
 document.querySelectorAll('.modal-tabs .tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.modal-tabs .tab-btn').forEach(b => b.classList.remove('active'));
@@ -789,8 +926,21 @@ document.querySelectorAll('.modal-tabs .tab-btn').forEach(btn => {
   });
 });
 
+// 1-Click Copy Code with toast notification and button feedback
 copyTokensBtn.addEventListener('click', () => {
-  copyToClipboard(exportCodeBlock.textContent, 'Theme tokens copied!');
+  copyToClipboard(exportCodeBlock.textContent, 'Theme tokens copied to clipboard! 📋');
+  const originalHtml = copyTokensBtn.innerHTML;
+  copyTokensBtn.innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="btn-icon">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+    Copied!
+  `;
+  copyStatusText.textContent = '✓ Copied to clipboard!';
+  setTimeout(() => {
+    copyTokensBtn.innerHTML = originalHtml;
+    copyStatusText.textContent = 'Ready to copy';
+  }, 2200);
 });
 
 // Keyboard shortcut (Escape to close modal)
@@ -804,6 +954,5 @@ window.addEventListener('keydown', e => {
    Initialization
    ========================================================================== */
 window.addEventListener('DOMContentLoaded', () => {
-  // Start with Citrus Orange preset
   selectPreset('orange');
 });

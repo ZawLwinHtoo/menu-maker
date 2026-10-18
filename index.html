@@ -14,7 +14,8 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Ambient background lighting that reacts to the theme -->
+  <!-- Ambient background mesh gradient and reactive lighting -->
+  <div class="ambient-mesh-glow" id="ambientMeshGlow"></div>
   <div class="ambient-glow glow-1" id="ambientGlow1"></div>
   <div class="ambient-glow glow-2" id="ambientGlow2"></div>
   <div class="ambient-glow glow-3" id="ambientGlow3"></div>
@@ -149,6 +150,26 @@
           <h2 class="section-title">Extracted Adaptive Palette</h2>
           <p class="section-desc">Click any swatch to copy its HEX code or inspect values</p>
         </div>
+
+        <!-- Palette Harmony Switcher (Vibrant, Muted/Pastel, Deep Dark) -->
+        <div class="harmony-control-wrapper">
+          <span class="harmony-label">Harmony Mode:</span>
+          <div class="harmony-segmented" id="harmonySegmented" role="group" aria-label="Palette Harmony Mode">
+            <button type="button" class="harmony-pill active" data-harmony="vibrant" id="harmonyVibrantBtn">
+              <span class="harmony-dot"></span>
+              Vibrant
+            </button>
+            <button type="button" class="harmony-pill" data-harmony="muted" id="harmonyMutedBtn">
+              <span class="harmony-dot"></span>
+              Muted / Pastel
+            </button>
+            <button type="button" class="harmony-pill" data-harmony="deep" id="harmonyDeepBtn">
+              <span class="harmony-dot"></span>
+              Deep Dark
+            </button>
+          </div>
+        </div>
+
         <div class="palette-badges">
           <span class="badge badge-accent" id="activeHueBadge">Primary Hue: 28°</span>
           <span class="badge badge-surface" id="paletteShadesCount">6 Reactive Tokens</span>
@@ -395,8 +416,8 @@
 
       <!-- Tab selectors -->
       <div class="modal-tabs">
-        <button type="button" class="tab-btn active" data-tab="css">CSS Variables (:root)</button>
-        <button type="button" class="tab-btn" data-tab="tailwind">Tailwind Config</button>
+        <button type="button" class="tab-btn active" data-tab="tailwind">Tailwind CSS (config)</button>
+        <button type="button" class="tab-btn" data-tab="css">Native CSS Variables (:root)</button>
         <button type="button" class="tab-btn" data-tab="json">JSON Tokens</button>
       </div>
 
