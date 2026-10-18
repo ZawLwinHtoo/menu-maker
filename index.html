@@ -125,53 +125,40 @@
                 <img id="currentImagePreview" src="assets/sample-orange.jpg" alt="Active theme source" class="preview-img-hero">
                 <div class="preview-overlay-hero">
                   <span class="overlay-badge-hero">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                       <polyline points="17 8 12 3 7 8"/>
                       <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
-                    Change Photo
+                    <span>Click or Drag to Change Photo</span>
                   </span>
-                </div>
-              </div>
-
-              <!-- High Contrast Upload Callout Area -->
-              <div class="upload-cta-area">
-                <div class="upload-floating-icon" id="uploadFloatingIcon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
-                  </svg>
-                </div>
-                <div class="upload-instructions">
-                  <span class="instruction-main">Drag & Drop photo here, or</span>
-                  <button type="button" class="btn btn-primary btn-upload-trigger" id="btnBrowseFile">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="btn-icon">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                      <polyline points="17 8 12 3 7 8"/>
-                      <line x1="12" y1="3" x2="12" y2="15"/>
-                    </svg>
-                    Upload Photo / Browse Files
-                  </button>
-                  <span class="instruction-sub">Supports JPG, PNG, WebP, SVG • Instant adaptive extraction</span>
                 </div>
               </div>
             </div>
 
-            <!-- Upload Footer Bar with Shift Hue Action -->
+            <!-- Upload Compact Footer Bar -->
             <div class="upload-footer-bar">
               <div class="file-status-indicator">
                 <span class="file-status-dot"></span>
                 <span id="uploadFileNameLabel">sample-orange.jpg</span>
               </div>
 
-              <button type="button" class="btn btn-sm btn-ghost" id="randomizeHueBtn" title="Shift Hue by 35°">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
-                </svg>
-                Shift Hue (+35°)
-              </button>
+              <div class="upload-footer-actions">
+                <button type="button" class="btn btn-sm btn-outline btn-change-photo" id="btnBrowseFile">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                  <span>Change Photo</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-ghost btn-shift-hue" id="randomizeHueBtn" title="Shift Hue by 35°">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                  </svg>
+                  <span>Shift Hue (+35°)</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -330,959 +317,743 @@
 
     <!-- Full-Width Application Templates Container -->
     <main class="dashboard-content">
-          <!-- =========================================================================
-               TEMPLATE 1: Analytics Dashboard (High-Fidelity Sweatpals & Amplitude Clone)
-               ========================================================================= -->
-          <div class="full-app-template active-template" id="templateAnalytics" data-component="analytics">
-            <div class="analytics-app-frame glass-panel">
-              <!-- Sub-Navigation App Sidebar (matches Screenshot 4) -->
-              <aside class="analytics-sidebar">
-                <div class="analytics-sidebar-brand">
-                  <div class="analytics-brand-icon" style="background: var(--primary);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" width="18" height="18">
-                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                  </div>
-                  <span class="analytics-brand-name">Sweatpals</span>
+      <!-- =========================================================================
+           TEMPLATE 1: Executive SaaS Analytics Dashboard Frame
+           ========================================================================= -->
+      <div class="full-app-template active-template" id="templateAnalytics" data-component="analytics">
+        <div class="app-frame-window glass-panel">
+          <div class="app-frame-topbar">
+            <div class="window-controls">
+              <span class="window-dot dot-red"></span>
+              <span class="window-dot dot-yellow"></span>
+              <span class="window-dot dot-green"></span>
+            </div>
+            <div class="window-search-pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>analytics.chromashift.app/dashboard</span>
+            </div>
+            <div class="window-actions">
+              <span class="user-pill-avatar" style="background: var(--primary);">AG</span>
+            </div>
+          </div>
+
+          <div class="analytics-dashboard-inner">
+            <!-- Header Row -->
+            <div class="saas-header-row">
+              <div>
+                <div class="saas-badge" style="background: rgba(var(--primary-rgb), 0.15); color: var(--primary);">LIVE METRICS</div>
+                <h2 class="saas-title">Executive Performance Overview</h2>
+                <p class="saas-subtitle">Real-time revenue attribution harmonized with your visual identity.</p>
+              </div>
+              <div class="saas-header-actions">
+                <div class="saas-time-pills">
+                  <button type="button" class="saas-pill">24h</button>
+                  <button type="button" class="saas-pill active">7d</button>
+                  <button type="button" class="saas-pill">30d</button>
+                  <button type="button" class="saas-pill">90d</button>
                 </div>
+                <button type="button" class="btn btn-primary btn-sm">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <span>New Report</span>
+                </button>
+              </div>
+            </div>
 
-                <nav class="analytics-nav-list">
-                  <a href="#analytics" class="analytics-nav-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-                    <span>Overview</span>
-                  </a>
-                  <a href="#analytics" class="analytics-nav-link active">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                    <span>Analytics</span>
-                  </a>
-                  <a href="#analytics" class="analytics-nav-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                    <span>Schedule</span>
-                  </a>
-                  <a href="#analytics" class="analytics-nav-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    <span>Members</span>
-                  </a>
-                  <a href="#analytics" class="analytics-nav-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    <span>Live Events</span>
-                  </a>
-                  <a href="#analytics" class="analytics-nav-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                    <span>Transactions</span>
-                  </a>
-                  <div class="nav-subhead">Front Desk</div>
-                  <a href="#analytics" class="analytics-nav-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    <span>Check-in</span>
-                  </a>
-                  <a href="#analytics" class="analytics-nav-link">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                    <span>Point of Sale</span>
-                  </a>
-                </nav>
-              </aside>
-
-              <!-- Main Analytics Content Area -->
-              <div class="analytics-main-stage">
-                <!-- Event Header Card (matches Screenshot 4) -->
-                <div class="event-hero-card">
-                  <div class="event-hero-left">
-                    <img id="analyticsEventThumb" src="assets/sample-orange.jpg" alt="Event cover" class="event-thumb-img">
-                    <div>
-                      <div class="event-title-row">
-                        <h2 class="event-title">ASMobbin gathering</h2>
-                        <button type="button" class="btn-icon-link" title="Open external link">↗</button>
-                        <button type="button" class="btn-icon-link" title="Copy link">🔗</button>
-                      </div>
-                      <p class="event-meta-sub">Jul 11th, 12:00 AM - 2:00 AM CDT • Chicago, IL</p>
-                    </div>
-                  </div>
-                  <div class="event-hero-actions">
-                    <button type="button" class="btn btn-sm btn-primary">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                      Add attendee
-                    </button>
-                    <button type="button" class="btn btn-sm btn-outline">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                      Edit
-                    </button>
-                    <button type="button" class="btn btn-sm btn-ghost">•••</button>
-                  </div>
+            <!-- 4 KPI Cards -->
+            <div class="kpi-grid">
+              <div class="kpi-card glass-panel">
+                <div class="kpi-top">
+                  <span class="kpi-label">Total Revenue</span>
+                  <span class="trend-badge trend-up">+20.1%</span>
                 </div>
-
-                <!-- Tabs & Filters Row -->
-                <div class="analytics-tabs-bar">
-                  <div class="analytics-subtabs">
-                    <button type="button" class="analytics-subtab">RSVPs</button>
-                    <button type="button" class="analytics-subtab active">Analytics</button>
-                    <button type="button" class="analytics-subtab">Tracking links</button>
-                  </div>
-                  <div class="time-filter-pills">
-                    <button type="button" class="time-pill">All time</button>
-                    <button type="button" class="time-pill active">7d</button>
-                    <button type="button" class="time-pill">14d</button>
-                    <button type="button" class="time-pill">30d</button>
-                  </div>
+                <div class="kpi-value-row">
+                  <span class="kpi-value">$45,231.89</span>
                 </div>
+                <span class="kpi-meta">+ $3,450 vs previous cycle</span>
+              </div>
 
-                <!-- Top 3 Stat Cards Row -->
-                <div class="analytics-stats-grid">
-                  <div class="stat-box">
-                    <span class="stat-label">RSVPs</span>
-                    <div class="stat-num-row">
-                      <span class="stat-number">1,420</span>
-                      <span class="stat-badge badge-primary">+200%</span>
-                    </div>
+              <div class="kpi-card glass-panel">
+                <div class="kpi-top">
+                  <span class="kpi-label">Active Users</span>
+                  <span class="trend-badge trend-up">+180.1%</span>
+                </div>
+                <div class="kpi-value-row">
+                  <span class="kpi-value">2,350</span>
+                </div>
+                <span class="kpi-meta">+ 192 signups this week</span>
+              </div>
+
+              <div class="kpi-card glass-panel">
+                <div class="kpi-top">
+                  <span class="kpi-label">Conversion Rate</span>
+                  <span class="trend-badge trend-up">+4.1%</span>
+                </div>
+                <div class="kpi-value-row">
+                  <span class="kpi-value text-accent">12.2%</span>
+                </div>
+                <span class="kpi-meta">Above industry standard (8.5%)</span>
+              </div>
+
+              <div class="kpi-card glass-panel">
+                <div class="kpi-top">
+                  <span class="kpi-label">Harmony Score</span>
+                  <span class="trend-badge trend-accent">Optimal</span>
+                </div>
+                <div class="kpi-value-row">
+                  <span class="kpi-value">98.4%</span>
+                </div>
+                <span class="kpi-meta">WCAG AAA Contrast Standard</span>
+              </div>
+            </div>
+
+            <!-- Middle Split: Area Chart + Acquisition Channels -->
+            <div class="saas-middle-grid">
+              <div class="chart-container-card glass-panel">
+                <div class="card-inner-header">
+                  <div>
+                    <h3 class="card-inner-title">Revenue & Engagement Over Time</h3>
+                    <p class="card-inner-sub">Continuous dynamic timeline calculated from adaptive color scales</p>
                   </div>
-                  <div class="stat-box">
-                    <span class="stat-label">Event page views</span>
-                    <div class="stat-num-row">
-                      <span class="stat-number">8,640</span>
-                      <span class="stat-badge badge-accent">+100%</span>
-                    </div>
-                  </div>
-                  <div class="stat-box">
-                    <span class="stat-label">Conversion Rate</span>
-                    <div class="stat-num-row">
-                      <span class="stat-number text-accent">71.4%</span>
-                      <span class="stat-badge badge-secondary">+12.8%</span>
-                    </div>
+                  <div class="chart-legend-row">
+                    <span class="legend-indicator" style="background: var(--primary);"></span>
+                    <span class="legend-text">Current Period</span>
+                    <span class="legend-indicator" style="background: var(--border-subtle); margin-left: 12px;"></span>
+                    <span class="legend-text">Prior Baseline</span>
                   </div>
                 </div>
 
-                <!-- Middle Charts Grid: Ticket Sales Donut + Retention Rate -->
-                <div class="analytics-charts-grid">
-                  <!-- Card 1: Tickets Sales (Donut Chart) -->
-                  <div class="chart-box">
-                    <div class="chart-box-header">
-                      <h3 class="chart-title">Tickets Sales</h3>
-                      <button type="button" class="btn-icon-subtle">✎</button>
-                    </div>
-                    <div class="donut-chart-wrapper">
-                      <div class="svg-donut-container">
-                        <svg viewBox="0 0 100 100" class="donut-svg">
-                          <circle cx="50" cy="50" r="38" class="donut-bg-ring"/>
-                          <circle cx="50" cy="50" r="38" class="donut-primary-ring" stroke-dasharray="238.7" stroke-dashoffset="35"/>
-                        </svg>
-                        <div class="donut-center-text">
-                          <span class="donut-center-val">6</span>
-                          <span class="donut-center-lbl">Sold</span>
-                        </div>
-                      </div>
-                      <div class="donut-legend">
-                        <div class="legend-row">
-                          <span class="legend-dot" style="background: var(--primary);"></span>
-                          <span class="legend-text">Free</span>
-                          <span class="legend-val">6 (100%)</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Card 2: Retention Rate (Gauge Ring Chart) -->
-                  <div class="chart-box">
-                    <div class="chart-box-header">
-                      <h3 class="chart-title">Retention Rate</h3>
-                      <span class="text-xs text-muted">›</span>
-                    </div>
-                    <div class="donut-chart-wrapper">
-                      <div class="svg-donut-container">
-                        <svg viewBox="0 0 100 100" class="donut-svg">
-                          <circle cx="50" cy="50" r="38" class="donut-bg-ring"/>
-                          <circle cx="50" cy="50" r="38" class="donut-secondary-ring" stroke-dasharray="238.7" stroke-dashoffset="48"/>
-                        </svg>
-                        <div class="donut-center-text">
-                          <span class="donut-center-val">5</span>
-                          <span class="donut-center-lbl">Users</span>
-                        </div>
-                      </div>
-                      <div class="donut-legend">
-                        <div class="legend-row">
-                          <span class="legend-dot" style="background: var(--secondary);"></span>
-                          <span class="legend-text">First Timer</span>
-                          <span class="legend-val">5 (100%)</span>
-                        </div>
-                        <div class="legend-row">
-                          <span class="legend-dot" style="background: var(--accent);"></span>
-                          <span class="legend-text">Returning</span>
-                          <span class="legend-val">0 (0%)</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="svg-chart-wrapper">
+                  <svg viewBox="0 0 800 240" class="full-chart-svg" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="areaGradientPrimary" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.4"/>
+                        <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.0"/>
+                      </linearGradient>
+                    </defs>
+                    <!-- Grid Lines -->
+                    <line x1="0" y1="60" x2="800" y2="60" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4"/>
+                    <line x1="0" y1="120" x2="800" y2="120" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4"/>
+                    <line x1="0" y1="180" x2="800" y2="180" stroke="rgba(255,255,255,0.06)" stroke-dasharray="4"/>
+                    <!-- Area & Line -->
+                    <polygon points="0,200 80,180 160,150 240,165 320,110 400,125 480,80 560,95 640,45 720,60 800,25 800,240 0,240" fill="url(#areaGradientPrimary)"/>
+                    <polyline points="0,200 80,180 160,150 240,165 320,110 400,125 480,80 560,95 640,45 720,60 800,25" fill="none" stroke="var(--primary)" stroke-width="3" stroke-linecap="round"/>
+                  </svg>
                 </div>
+              </div>
 
-                <!-- Bottom Progress Cards Grid (Event Capacity + Check-in) -->
-                <div class="analytics-bottom-grid">
-                  <div class="capacity-box">
-                    <div class="capacity-header">
-                      <span class="capacity-title">Event Capacity</span>
-                      <span class="capacity-meta">10 spots</span>
+              <!-- Acquisition Channels -->
+              <div class="channels-card glass-panel">
+                <h3 class="card-inner-title">Attribution Channels</h3>
+                <p class="card-inner-sub">Top visitor traffic sources</p>
+
+                <div class="channel-rows-list">
+                  <div class="channel-item">
+                    <div class="channel-meta">
+                      <span class="channel-name">Direct Traffic</span>
+                      <span class="channel-pct">54%</span>
                     </div>
-                    <div class="capacity-progress-track">
-                      <div class="capacity-progress-fill" style="width: 60%; background: var(--primary);"></div>
-                    </div>
-                    <div class="capacity-legend">
-                      <div class="cap-legend-item">
-                        <span class="cap-dot" style="background: var(--primary);"></span>
-                        <span>Spots Taken</span>
-                        <strong class="ml-auto">6</strong>
-                      </div>
-                      <div class="cap-legend-item">
-                        <span class="cap-dot" style="background: var(--border-subtle);"></span>
-                        <span>Spots Remaining</span>
-                        <strong class="ml-auto">4</strong>
-                      </div>
+                    <div class="channel-track">
+                      <div class="channel-fill" style="width: 54%; background: var(--primary);"></div>
                     </div>
                   </div>
 
-                  <div class="capacity-box">
-                    <div class="capacity-header">
-                      <span class="capacity-title">Check-in Status</span>
-                      <span class="capacity-meta">6 tickets</span>
+                  <div class="channel-item">
+                    <div class="channel-meta">
+                      <span class="channel-name">Organic Search</span>
+                      <span class="channel-pct">28%</span>
                     </div>
-                    <div class="capacity-progress-track">
-                      <div class="capacity-progress-fill" style="width: 15%; background: var(--secondary);"></div>
+                    <div class="channel-track">
+                      <div class="channel-fill" style="width: 28%; background: var(--secondary);"></div>
                     </div>
-                    <div class="capacity-legend">
-                      <div class="cap-legend-item">
-                        <span class="cap-dot" style="background: var(--secondary);"></span>
-                        <span>Checked-in</span>
-                        <strong class="ml-auto">0</strong>
-                      </div>
-                      <div class="cap-legend-item">
-                        <span class="cap-dot" style="background: var(--accent);"></span>
-                        <span>No shows yet</span>
-                        <strong class="ml-auto">6</strong>
-                      </div>
+                  </div>
+
+                  <div class="channel-item">
+                    <div class="channel-meta">
+                      <span class="channel-name">Social Referrals</span>
+                      <span class="channel-pct">12%</span>
+                    </div>
+                    <div class="channel-track">
+                      <div class="channel-fill" style="width: 12%; background: var(--accent);"></div>
+                    </div>
+                  </div>
+
+                  <div class="channel-item">
+                    <div class="channel-meta">
+                      <span class="channel-name">Campaign Email</span>
+                      <span class="channel-pct">6%</span>
+                    </div>
+                    <div class="channel-track">
+                      <div class="channel-fill" style="width: 6%; background: var(--border-subtle);"></div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+
+            <!-- Recent Transactions Table -->
+            <div class="table-container-card glass-panel">
+              <div class="card-inner-header">
+                <div>
+                  <h3 class="card-inner-title">Recent Transactions</h3>
+                  <p class="card-inner-sub">Latest verified payments across regions</p>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline">Export CSV</button>
+              </div>
+
+              <div class="table-responsive-wrapper">
+                <table class="saas-table">
+                  <thead>
+                    <tr>
+                      <th>Transaction</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th style="text-align: right;">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="font-mono">#TX-8921</td>
+                      <td>
+                        <div class="customer-cell">
+                          <span class="customer-avatar" style="background: var(--primary);">JL</span>
+                          <span>Jessica Laurent</span>
+                        </div>
+                      </td>
+                      <td>Oct 18, 2026</td>
+                      <td><span class="status-pill status-complete">Completed</span></td>
+                      <td style="text-align: right; font-weight: 700;">$320.00</td>
+                    </tr>
+                    <tr>
+                      <td class="font-mono">#TX-8920</td>
+                      <td>
+                        <div class="customer-cell">
+                          <span class="customer-avatar" style="background: var(--secondary);">MR</span>
+                          <span>Marcus Ray</span>
+                        </div>
+                      </td>
+                      <td>Oct 18, 2026</td>
+                      <td><span class="status-pill status-complete">Completed</span></td>
+                      <td style="text-align: right; font-weight: 700;">$149.50</td>
+                    </tr>
+                    <tr>
+                      <td class="font-mono">#TX-8919</td>
+                      <td>
+                        <div class="customer-cell">
+                          <span class="customer-avatar" style="background: var(--accent);">SK</span>
+                          <span>Sophia Kim</span>
+                        </div>
+                      </td>
+                      <td>Oct 17, 2026</td>
+                      <td><span class="status-pill status-pending">Processing</span></td>
+                      <td style="text-align: right; font-weight: 700;">$89.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
+        </div>
+      </div>
 
-
-          <!-- =========================================================================
-               TEMPLATE 2: Music Streaming (High-Fidelity Spotify Web Player Clone)
-               ========================================================================= -->
-          <div class="full-app-template" id="templateMedia" data-component="media">
-            <div class="spotify-app-frame glass-panel">
-              <!-- Top Spotify Web Bar (matches Screenshot 1) -->
-              <div class="spotify-topbar">
-                <div class="spotify-top-left">
-                  <div class="spotify-logo-icon" style="color: var(--primary);">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
-                      <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
-                    </svg>
-                  </div>
-                  <button type="button" class="spotify-home-btn" title="Home">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                    </svg>
-                  </button>
-                  <div class="spotify-search-box">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    <input type="text" placeholder="What do you want to play?" class="spotify-search-input">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" class="spotify-browse-icon">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/>
-                    </svg>
-                  </div>
+      <!-- =========================================================================
+           TEMPLATE 2: Music Streaming (Spotify-Style Frame)
+           ========================================================================= -->
+      <div class="full-app-template" id="templateMedia" data-component="media">
+        <div class="app-frame-window spotify-frame glass-panel">
+          <div class="spotify-layout-wrapper">
+            <!-- Left Sidebar (240px fixed width, dark surface) -->
+            <aside class="spotify-sidebar-240">
+              <div class="spotify-brand-header">
+                <div class="spotify-icon-box" style="background: var(--primary);">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M8 12l8-5v10z"/></svg>
                 </div>
-
-                <div class="spotify-top-right">
-                  <a href="#media" class="spotify-link">Premium</a>
-                  <a href="#media" class="spotify-link">Support</a>
-                  <a href="#media" class="spotify-link">Download</a>
-                  <span class="spotify-divider">|</span>
-                  <button type="button" class="spotify-install-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                    Install App
-                  </button>
-                  <a href="#media" class="spotify-link">Sign up</a>
-                  <button type="button" class="btn btn-sm btn-primary spotify-login-btn">Log in</button>
-                </div>
+                <span class="spotify-brand-text">ChromaMusic</span>
               </div>
 
-              <!-- Main Spotify Workspace Split (matches Screenshot 1) -->
-              <div class="spotify-body-split">
-                <!-- Left Library Panel -->
-                <aside class="spotify-library-sidebar">
-                  <div class="library-header-row">
-                    <div class="library-title-group">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                      </svg>
-                      <span class="library-title">Your Library</span>
-                    </div>
-                    <button type="button" class="library-create-btn" title="Create playlist">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
-                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                      </svg>
-                      <span>Create</span>
-                    </button>
-                  </div>
+              <nav class="spotify-nav-menu">
+                <a href="#media" class="spotify-menu-item active">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                  <span>Home</span>
+                </a>
+                <a href="#media" class="spotify-menu-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span>Search</span>
+                </a>
+                <a href="#media" class="spotify-menu-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                  <span>Your Library</span>
+                </a>
+              </nav>
 
-                  <!-- Playlist Cards in Sidebar -->
-                  <div class="library-cards-scroll">
-                    <div class="library-callout-card">
-                      <h4 class="callout-title">Create your first playlist</h4>
-                      <p class="callout-sub">It's easy, we'll help you</p>
-                      <button type="button" class="btn btn-sm btn-outline btn-callout">Create playlist</button>
-                    </div>
+              <div class="sidebar-divider"></div>
 
-                    <div class="library-callout-card">
-                      <h4 class="callout-title">Let's find some podcasts to follow</h4>
-                      <p class="callout-sub">We'll keep you updated on new episodes</p>
-                      <button type="button" class="btn btn-sm btn-outline btn-callout">Browse podcasts</button>
-                    </div>
-                  </div>
-
-                  <!-- Footer Links & Language Pill -->
-                  <div class="library-footer">
-                    <div class="library-footer-links">
-                      <a href="#media">Legal</a>
-                      <a href="#media">Safety & Privacy Center</a>
-                      <a href="#media">Privacy Policy</a>
-                      <a href="#media">Cookies</a>
-                      <a href="#media">About Ads</a>
-                      <a href="#media">Accessibility</a>
-                    </div>
-                    <button type="button" class="spotify-lang-btn">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-                        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                      </svg>
-                      <span>English</span>
-                    </button>
-                  </div>
-                </aside>
-
-                <!-- Right Main Stage: Trending Songs & Popular Artists -->
-                <div class="spotify-main-stage">
-                  <!-- Section 1: Trending songs -->
-                  <section class="spotify-shelf">
-                    <div class="shelf-header">
-                      <h2 class="shelf-title">Trending songs</h2>
-                      <a href="#media" class="shelf-show-all">Show all</a>
-                    </div>
-
-                    <div class="shelf-cards-grid">
-                      <!-- Card 1: Uses Uploaded Photo -->
-                      <div class="spotify-album-card active-card" id="spotifyFeaturedCard">
-                        <div class="album-art-wrapper">
-                          <img id="mediaArtwork" src="assets/sample-orange.jpg" alt="Featured Song Art" class="album-cover-img">
-                          <button type="button" class="spotify-play-floating-btn" id="mediaPlayHeroBtn" title="Play">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
-                              <polygon points="6 4 18 12 6 20 6 4"/>
-                            </svg>
-                          </button>
-                        </div>
-                        <div class="album-card-title" id="trackTitle">expectations (feat. Chappell Roan)</div>
-                        <div class="album-card-artist" id="trackArtist">Olivia Rodrigo, Chappell Roan</div>
-                      </div>
-
-                      <!-- Card 2 -->
-                      <div class="spotify-album-card">
-                        <div class="album-art-wrapper">
-                          <img src="assets/sample-forest.jpg" alt="Housewife" class="album-cover-img">
-                          <button type="button" class="spotify-play-floating-btn" title="Play">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><polygon points="6 4 18 12 6 20 6 4"/></svg>
-                          </button>
-                        </div>
-                        <div class="album-card-title">Housewife</div>
-                        <div class="album-card-artist">Tate McRae</div>
-                      </div>
-
-                      <!-- Card 3 -->
-                      <div class="spotify-album-card">
-                        <div class="album-art-wrapper">
-                          <img src="assets/sample-cyberpunk.jpg" alt="NEON" class="album-cover-img">
-                          <button type="button" class="spotify-play-floating-btn" title="Play">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><polygon points="6 4 18 12 6 20 6 4"/></svg>
-                          </button>
-                        </div>
-                        <div class="album-card-title">NEON</div>
-                        <div class="album-card-artist">A2O, A2O LITE</div>
-                      </div>
-
-                      <!-- Card 4 -->
-                      <div class="spotify-album-card">
-                        <div class="album-art-wrapper">
-                          <div class="album-cover-art-placeholder" style="background: linear-gradient(135deg, var(--bg-surface-elevated), var(--primary));">
-                            <span>BIGBANG</span>
-                          </div>
-                          <button type="button" class="spotify-play-floating-btn" title="Play">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><polygon points="6 4 18 12 6 20 6 4"/></svg>
-                          </button>
-                        </div>
-                        <div class="album-card-title">FANTASTIC BABY - KR Ver.</div>
-                        <div class="album-card-artist">BIGBANG</div>
-                      </div>
-
-                      <!-- Card 5 -->
-                      <div class="spotify-album-card">
-                        <div class="album-art-wrapper">
-                          <div class="album-cover-art-placeholder" style="background: linear-gradient(135deg, var(--accent), var(--secondary));">
-                            <span>GTA VI</span>
-                          </div>
-                          <button type="button" class="spotify-play-floating-btn" title="Play">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><polygon points="6 4 18 12 6 20 6 4"/></svg>
-                          </button>
-                        </div>
-                        <div class="album-card-title">Flower In A Hurricane</div>
-                        <div class="album-card-artist">Justice, Tame Impala, SZA</div>
-                      </div>
-
-                      <!-- Card 6 -->
-                      <div class="spotify-album-card">
-                        <div class="album-art-wrapper">
-                          <div class="album-cover-art-placeholder" style="background: linear-gradient(135deg, var(--primary), var(--secondary));">
-                            <span>DAESUNG</span>
-                          </div>
-                          <button type="button" class="spotify-play-floating-btn" title="Play">
-                            <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><polygon points="6 4 18 12 6 20 6 4"/></svg>
-                          </button>
-                        </div>
-                        <div class="album-card-title">Universe</div>
-                        <div class="album-card-artist">DAESUNG</div>
-                      </div>
-                    </div>
-                  </section>
-
-                  <!-- Section 2: Popular artists -->
-                  <section class="spotify-shelf">
-                    <div class="shelf-header">
-                      <h2 class="shelf-title">Popular artists</h2>
-                      <a href="#media" class="shelf-show-all">Show all</a>
-                    </div>
-
-                    <div class="shelf-artists-grid">
-                      <div class="artist-circle-card">
-                        <div class="artist-avatar-wrapper" style="background: linear-gradient(135deg, var(--primary), var(--accent));">
-                          <span>TS</span>
-                        </div>
-                        <div class="artist-name">Taylor Swift</div>
-                        <div class="artist-role">Artist</div>
-                      </div>
-
-                      <div class="artist-circle-card">
-                        <div class="artist-avatar-wrapper" style="background: linear-gradient(135deg, var(--secondary), var(--primary));">
-                          <span>BE</span>
-                        </div>
-                        <div class="artist-name">Billie Eilish</div>
-                        <div class="artist-role">Artist</div>
-                      </div>
-
-                      <div class="artist-circle-card">
-                        <div class="artist-avatar-wrapper" style="background: linear-gradient(135deg, var(--accent), var(--secondary));">
-                          <span>TW</span>
-                        </div>
-                        <div class="artist-name">The Weeknd</div>
-                        <div class="artist-role">Artist</div>
-                      </div>
-
-                      <div class="artist-circle-card">
-                        <div class="artist-avatar-wrapper" style="background: linear-gradient(135deg, var(--bg-surface-elevated), var(--primary));">
-                          <span>HS</span>
-                        </div>
-                        <div class="artist-name">Harry Styles</div>
-                        <div class="artist-role">Artist</div>
-                      </div>
-
-                      <div class="artist-circle-card">
-                        <div class="artist-avatar-wrapper" style="background: linear-gradient(135deg, var(--secondary), var(--accent));">
-                          <span>DR</span>
-                        </div>
-                        <div class="artist-name">Drake</div>
-                        <div class="artist-role">Artist</div>
-                      </div>
-
-                      <div class="artist-circle-card">
-                        <div class="artist-avatar-wrapper" style="background: linear-gradient(135deg, var(--primary), var(--bg-surface-elevated));">
-                          <span>KL</span>
-                        </div>
-                        <div class="artist-name">Kendrick Lamar</div>
-                        <div class="artist-role">Artist</div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
+              <div class="sidebar-playlists-list">
+                <span class="sidebar-label">PLAYLISTS</span>
+                <a href="#media" class="playlist-link">ChromaShift Discover Weekly</a>
+                <a href="#media" class="playlist-link">Daily Mix 1 • Acoustic</a>
+                <a href="#media" class="playlist-link">Synthwave & Neon Drive</a>
+                <a href="#media" class="playlist-link">Deep Focus Ambient</a>
+                <a href="#media" class="playlist-link">Chill Lo-Fi Beats</a>
               </div>
+            </aside>
 
-              <!-- Bottom Persistent Media Bar -->
-              <div class="spotify-docked-bar">
-                <div class="dock-left-track">
-                  <img id="mediaArtworkMini" src="assets/sample-orange.jpg" alt="Mini Track Art" class="dock-track-thumb">
-                  <div>
-                    <div class="dock-track-name">expectations (feat. Chappell Roan)</div>
-                    <div class="dock-track-singer">Olivia Rodrigo</div>
-                  </div>
-                  <button type="button" class="btn-heart text-accent" title="Save to library">♥</button>
+            <!-- Main Content Grid (1fr) -->
+            <main class="spotify-main-content">
+              <!-- Top Banner (Compact 220px Height Header) -->
+              <div class="spotify-top-banner">
+                <div class="banner-cover-wrapper">
+                  <img id="mediaArtwork" src="assets/sample-orange.jpg" alt="Playlist Cover" class="banner-cover-img">
                 </div>
-
-                <div class="dock-center-playback">
-                  <div class="playback-buttons">
-                    <button type="button" class="btn-icon-subtle" title="Shuffle">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
-                    </button>
-                    <button type="button" class="btn-icon-subtle" title="Previous">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
-                    </button>
-                    <button type="button" class="spotify-play-circle-btn" id="mediaPlayLargeBtn" title="Play">
+                <div class="banner-info-col">
+                  <span class="banner-tag">PLAYLIST</span>
+                  <h1 class="banner-title" id="trackTitle">ChromaShift Originals</h1>
+                  <p class="banner-desc" id="trackArtist">Curated soundscape matched dynamically to your uploaded palette.</p>
+                  <div class="banner-actions-row">
+                    <button type="button" class="spotify-play-btn-48" id="mediaPlayHeroBtn" title="Play">
                       <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><polygon points="6 4 18 12 6 20 6 4"/></svg>
                     </button>
-                    <button type="button" class="btn-icon-subtle" title="Next">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
-                    </button>
-                    <button type="button" class="btn-icon-subtle" title="Repeat">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-                    </button>
-                  </div>
-                  <div class="playback-scrubber-row">
-                    <span class="playback-time">0:42</span>
-                    <div class="playback-track-bar" id="trackProgressWrapper">
-                      <div class="playback-fill-bar" id="trackProgressBar" style="width: 32%;"></div>
-                    </div>
-                    <span class="playback-time">3:18</span>
+                    <button type="button" class="btn-heart text-accent" title="Save to favorites">♥</button>
+                    <span class="banner-meta">24 songs • 1 hr 18 min</span>
                   </div>
                 </div>
+              </div>
 
-                <div class="dock-right-volume">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                  <div class="volume-bar-track">
-                    <div class="volume-bar-fill" style="width: 75%;"></div>
+              <!-- Below Banner: Clean 4-Column Card Grid -->
+              <div class="spotify-shelf-section">
+                <div class="shelf-header-row">
+                  <h3 class="shelf-title">Featured Tracks</h3>
+                  <a href="#media" class="shelf-link">Show all</a>
+                </div>
+
+                <div class="spotify-4col-grid">
+                  <!-- Card 1 (Features Uploaded Photo) -->
+                  <div class="spotify-card">
+                    <div class="card-art-box">
+                      <img id="mediaArtworkRight" src="assets/sample-orange.jpg" alt="Song 1" class="card-img-cover">
+                      <button type="button" class="hover-play-btn" title="Play Track">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><polygon points="6 4 18 12 6 20 6 4"/></svg>
+                      </button>
+                    </div>
+                    <h4 class="card-title-text">expectations</h4>
+                    <p class="card-artist-text">Olivia Rodrigo, Chappell</p>
                   </div>
+
+                  <!-- Card 2 -->
+                  <div class="spotify-card">
+                    <div class="card-art-box">
+                      <img src="assets/sample-forest.jpg" alt="Song 2" class="card-img-cover">
+                      <button type="button" class="hover-play-btn" title="Play Track">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><polygon points="6 4 18 12 6 20 6 4"/></svg>
+                      </button>
+                    </div>
+                    <h4 class="card-title-text">Housewife</h4>
+                    <p class="card-artist-text">Tate McRae</p>
+                  </div>
+
+                  <!-- Card 3 -->
+                  <div class="spotify-card">
+                    <div class="card-art-box">
+                      <img src="assets/sample-cyberpunk.jpg" alt="Song 3" class="card-img-cover">
+                      <button type="button" class="hover-play-btn" title="Play Track">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><polygon points="6 4 18 12 6 20 6 4"/></svg>
+                      </button>
+                    </div>
+                    <h4 class="card-title-text">NEON Dreams</h4>
+                    <p class="card-artist-text">A2O LITE</p>
+                  </div>
+
+                  <!-- Card 4 -->
+                  <div class="spotify-card">
+                    <div class="card-art-box">
+                      <div class="card-img-placeholder" style="background: linear-gradient(135deg, var(--secondary), var(--accent));">
+                        <span>GTA VI</span>
+                      </div>
+                      <button type="button" class="hover-play-btn" title="Play Track">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><polygon points="6 4 18 12 6 20 6 4"/></svg>
+                      </button>
+                    </div>
+                    <h4 class="card-title-text">Flower In A Hurricane</h4>
+                    <p class="card-artist-text">Justice, Tame Impala</p>
+                  </div>
+                </div>
+              </div>
+            </main>
+          </div>
+
+          <!-- Bottom Persistent Player Bar (80px Height) -->
+          <footer class="spotify-player-bar-80">
+            <div class="player-left-col">
+              <img id="mediaArtworkMini" src="assets/sample-orange.jpg" alt="Mini Track Art" class="player-mini-art">
+              <div class="player-track-info">
+                <span class="player-song-name">expectations</span>
+                <span class="player-artist-name">Olivia Rodrigo</span>
+              </div>
+              <button type="button" class="btn-heart text-accent" title="Like">♥</button>
+            </div>
+
+            <div class="player-center-col">
+              <div class="player-buttons-row">
+                <button type="button" class="btn-ctrl" title="Shuffle">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                </button>
+                <button type="button" class="btn-ctrl" title="Previous">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+                </button>
+                <button type="button" class="btn-ctrl-play" id="mediaPlayLargeBtn" title="Play / Pause">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><polygon points="6 4 18 12 6 20 6 4"/></svg>
+                </button>
+                <button type="button" class="btn-ctrl" title="Next">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                </button>
+                <button type="button" class="btn-ctrl" title="Repeat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                </button>
+              </div>
+
+              <div class="player-scrubber-row">
+                <span class="scrub-time">0:42</span>
+                <div class="scrub-track-bar" id="trackProgressWrapper">
+                  <div class="scrub-fill-bar" id="trackProgressBar" style="width: 32%;"></div>
+                </div>
+                <span class="scrub-time">3:18</span>
+              </div>
+            </div>
+
+            <div class="player-right-col">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <div class="volume-track-mini">
+                <div class="volume-fill-mini" style="width: 75%;"></div>
+              </div>
+            </div>
+          </footer>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           TEMPLATE 3: Storefront & Product (E-Commerce Frame)
+           ========================================================================= -->
+      <div class="full-app-template" id="templateStore" data-component="menu">
+        <div class="app-frame-window storefront-frame glass-panel">
+          <!-- Top Store Bar -->
+          <header class="store-topbar">
+            <div class="store-brand-group">
+              <span class="store-brand-logo">CHROMA<span style="color: var(--primary);">STORE</span></span>
+              <nav class="store-nav-links">
+                <a href="#store" class="store-link active">Featured</a>
+                <a href="#store" class="store-link">New Drops</a>
+                <a href="#store" class="store-link">Apparel</a>
+                <a href="#store" class="store-link">Accessories</a>
+              </nav>
+            </div>
+
+            <div class="store-top-actions">
+              <div class="store-search-box">
+                <input type="text" placeholder="Search curated products..." class="store-search-input">
+                <button type="button" class="store-search-btn" style="background: var(--primary); color: var(--text-on-primary);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="btn-icon"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </button>
+              </div>
+
+              <div class="store-cart-pill" id="btnAddToCart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                  <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                </svg>
+                <span>Bag</span>
+                <span class="cart-pill-badge" style="background: var(--accent);">2</span>
+              </div>
+            </div>
+          </header>
+
+          <!-- 2-Column Hero Grid (1fr 1fr, gap: 24px) -->
+          <div class="store-hero-split">
+            <!-- Left Card: Product Showcase Gallery -->
+            <div class="product-gallery-card glass-panel">
+              <div class="product-main-view">
+                <img id="productMainImage" src="assets/sample-orange.jpg" alt="Featured Product" class="product-contained-img">
+                <span class="product-status-pill" style="background: var(--primary); color: var(--text-on-primary);">AUTUMN DROP</span>
+              </div>
+
+              <div class="product-thumb-row">
+                <div class="thumb-slot active">
+                  <img src="assets/sample-orange.jpg" alt="Thumb 1" class="thumb-mini-img">
+                </div>
+                <div class="thumb-slot">
+                  <img src="assets/sample-forest.jpg" alt="Thumb 2" class="thumb-mini-img">
+                </div>
+                <div class="thumb-slot">
+                  <img src="assets/sample-cyberpunk.jpg" alt="Thumb 3" class="thumb-mini-img">
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Card: Product Details & Purchase Actions -->
+            <div class="product-info-card glass-panel">
+              <span class="product-eyebrow" style="color: var(--primary);">PREMIUM APPAREL</span>
+              <h2 class="product-title" id="menuItemTitle">Artisan Studio Runner</h2>
+
+              <div class="product-review-row">
+                <span class="review-stars" style="color: var(--accent);">★★★★★</span>
+                <span class="review-count">4.9 (128 verified reviews)</span>
+              </div>
+
+              <div class="product-price-bar">
+                <span class="price-current" id="menuItemPrice">$189.00</span>
+                <span class="price-strikethrough">$249.00</span>
+                <span class="discount-pill" style="background: rgba(var(--accent-rgb), 0.15); color: var(--accent);">Save 24%</span>
+              </div>
+
+              <p class="product-desc" id="menuItemDesc">
+                Designed with precision-engineered breathable canvas and adaptive accents matched dynamically to your uploaded photo palette.
+              </p>
+
+              <!-- Size Grid Selector -->
+              <div class="variant-select-section">
+                <div class="variant-header">
+                  <span class="variant-label">Select Size (US Men)</span>
+                  <a href="#store" class="size-guide-link">Size Guide</a>
+                </div>
+                <div class="size-pills-grid">
+                  <button type="button" class="size-pill">US 8</button>
+                  <button type="button" class="size-pill active" style="border-color: var(--primary); background: rgba(var(--primary-rgb), 0.15); color: var(--primary);">US 9</button>
+                  <button type="button" class="size-pill">US 10</button>
+                  <button type="button" class="size-pill">US 11</button>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="product-cta-row">
+                <button type="button" class="btn btn-primary btn-add-cart" id="btnAddToCartMain">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                  <span>Add to Bag • $189.00</span>
+                </button>
+                <button type="button" class="btn btn-outline btn-buy-instant">
+                  <span>Buy with 1-Click</span>
+                </button>
+              </div>
+
+              <!-- Spec Trust Badges -->
+              <div class="trust-specs-grid">
+                <div class="trust-spec-item">
+                  <span class="trust-icon">✈</span>
+                  <span>Free Express Worldwide Shipping</span>
+                </div>
+                <div class="trust-spec-item">
+                  <span class="trust-icon">↺</span>
+                  <span>30-Day Hassle-Free Returns</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- =========================================================================
+           TEMPLATE 4: Design System & UI Kit Playground Frame
+           ========================================================================= -->
+      <div class="full-app-template" id="templateControls" data-component="controls">
+        <div class="app-frame-window bento-frame glass-panel">
+          <!-- Top Live Tuning Bar -->
+          <div class="ui-kit-top-controls">
+            <div class="tuning-col">
+              <div class="form-label-row">
+                <label for="saturationSlider" class="form-label">Saturation Boost</label>
+                <span class="form-value" id="saturationValue">100%</span>
+              </div>
+              <input type="range" min="30" max="180" value="100" class="custom-range" id="saturationSlider">
+            </div>
+
+            <div class="tuning-col">
+              <label class="form-label">Component Corner Radius</label>
+              <div class="segmented-control" id="radiusSegmented">
+                <button type="button" class="segment-btn" data-radius="8px">Sharp (8px)</button>
+                <button type="button" class="segment-btn active" data-radius="18px">Smooth (18px)</button>
+                <button type="button" class="segment-btn" data-radius="28px">Pill (28px)</button>
+              </div>
+            </div>
+
+            <div class="tuning-col">
+              <label class="form-label">Visual Effects</label>
+              <div class="toggles-stack">
+                <div class="toggle-switch-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="ambientMotionToggle" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span class="toggle-label-text">Ambient Glow</span>
+                </div>
+                <div class="toggle-switch-row">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="glassmorphismToggle" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <span class="toggle-label-text">Glassmorphism</span>
                 </div>
               </div>
             </div>
           </div>
 
-
-          <!-- =========================================================================
-               TEMPLATE 3: Storefront & Product (High-Fidelity Amazon Storefront Clone)
-               ========================================================================= -->
-          <div class="full-app-template" id="templateStore" data-component="menu">
-            <div class="amazon-app-frame glass-panel">
-              <!-- Top Amazon Header (matches Screenshot 2) -->
-              <div class="amazon-header-top">
-                <div class="amazon-brand-logo">
-                  <span class="amazon-brand-name">amazon<span class="amazon-domain">.sg</span></span>
-                </div>
-
-                <div class="amazon-delivery-location">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                  </svg>
-                  <div class="location-text">
-                    <span class="location-label">Delivering to Singapore 049145</span>
-                    <span class="location-action">Update location</span>
-                  </div>
-                </div>
-
-                <!-- Search Bar with dynamic primary search button -->
-                <div class="amazon-search-container">
-                  <div class="search-category-dropdown">
-                    <span>All</span>
-                    <span class="dropdown-caret">▼</span>
-                  </div>
-                  <input type="text" placeholder="Search Amazon.sg" class="amazon-search-field">
-                  <button type="button" class="amazon-search-btn" style="background: var(--primary);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" width="18" height="18">
-                      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                  </button>
-                </div>
-
-                <div class="amazon-header-links">
-                  <div class="header-nav-item">
-                    <span class="country-flag">🇸🇬</span>
-                    <span class="lang-text">EN ▼</span>
-                  </div>
-                  <div class="header-nav-item">
-                    <span class="nav-sub">Hello, sign in</span>
-                    <span class="nav-main">Account & Lists ▼</span>
-                  </div>
-                  <div class="header-nav-item">
-                    <span class="nav-sub">Returns</span>
-                    <span class="nav-main">& Orders</span>
-                  </div>
-                  <div class="amazon-cart-pill" id="btnAddToCart">
-                    <div class="cart-icon-box">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
-                        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                      </svg>
-                      <span class="cart-count-badge" style="background: var(--primary);">3</span>
-                    </div>
-                    <span class="cart-label">Cart</span>
-                  </div>
-                </div>
+          <!-- Clean 3-Column Bento Grid -->
+          <div class="bento-3col-grid">
+            <!-- Bento 1: Calendar / Date Range Picker -->
+            <div class="bento-card glass-panel">
+              <div class="bento-card-header">
+                <span class="card-eyebrow" style="color: var(--primary);">DATE PICKER</span>
+                <h4 class="card-title">Calendar Schedule</h4>
               </div>
 
-              <!-- Sub-Navigation Categories Strip -->
-              <div class="amazon-subnav-strip">
-                <div class="subnav-item all-hamburger">
-                  <span>☰</span> <strong>All</strong>
-                </div>
-                <a href="#store" class="subnav-link">Best Sellers</a>
-                <a href="#store" class="subnav-link">Today's Deals</a>
-                <a href="#store" class="subnav-link">Prime ▼</a>
-                <a href="#store" class="subnav-link">Books</a>
-                <a href="#store" class="subnav-link">Electronics</a>
-                <a href="#store" class="subnav-link">Home</a>
-                <a href="#store" class="subnav-link">Toys and Games</a>
-                <a href="#store" class="subnav-link">Computers</a>
-                <a href="#store" class="subnav-link">Beauty</a>
-                <a href="#store" class="subnav-link">Gift Cards</a>
-                <a href="#store" class="subnav-link">Health & Personal Care</a>
-                <div class="subnav-prime-banner ml-auto">
-                  <span class="prime-tag">WATCH NOW</span>
-                  <span class="prime-brand">amazon prime</span>
-                </div>
-              </div>
-
-              <!-- Main Hero 5-Card Banner Grid (matches Screenshot 2) -->
-              <div class="amazon-hero-grid">
-                <!-- Card 1: Japan Mega Deal Event (Features Uploaded Photo) -->
-                <div class="amazon-card-box">
-                  <h3 class="card-hero-title">Japan Mega Deal Event</h3>
-                  <p class="card-hero-sub">From now till 19th Oct 11PM</p>
-                  <div class="card-hero-img-box">
-                    <img id="productMainImage" src="assets/sample-orange.jpg" alt="Japan Mega Deal Feature" class="hero-product-img">
-                  </div>
-                  <a href="#store" class="amazon-card-cta" style="color: var(--primary);">Explore deals</a>
-                </div>
-
-                <!-- Card 2: Get ready for Halloween -->
-                <div class="amazon-card-box">
-                  <h3 class="card-hero-title">Get ready for Halloween</h3>
-                  <p class="card-hero-sub">Spooky season must-haves</p>
-                  <div class="card-hero-img-box">
-                    <img src="assets/sample-forest.jpg" alt="Halloween Specials" class="hero-product-img">
-                  </div>
-                  <a href="#store" class="amazon-card-cta" style="color: var(--primary);">See more Halloween</a>
-                </div>
-
-                <!-- Card 3: Get free delivery with Prime -->
-                <div class="amazon-card-box">
-                  <h3 class="card-hero-title">Get free delivery with Prime</h3>
-                  <p class="card-hero-sub">Start your 30-day free trial</p>
-                  <div class="card-hero-img-box">
-                    <img src="assets/sample-cyberpunk.jpg" alt="Prime Delivery" class="hero-product-img">
-                  </div>
-                  <a href="#store" class="amazon-card-cta" style="color: var(--primary);">Try Prime free</a>
-                </div>
-
-                <!-- Card 4: Level up your savings -->
-                <div class="amazon-card-box">
-                  <h3 class="card-hero-title">Level up your savings</h3>
-                  <p class="card-hero-sub">Vouchers, Promotions & more</p>
-                  <div class="card-savings-promo">
-                    <div class="promo-badge" style="background: var(--accent);">%</div>
-                    <span class="promo-terms">Terms & Conditions apply.</span>
-                  </div>
-                  <a href="#store" class="amazon-card-cta" style="color: var(--primary);">Collect vouchers</a>
-                </div>
-
-                <!-- Card 5: Hot & Trending 4-Grid -->
-                <div class="amazon-card-box">
-                  <h3 class="card-hero-title">Hot & Trending</h3>
-                  <p class="card-hero-sub">From Amazon Germany</p>
-                  <div class="quad-product-grid">
-                    <div class="quad-item">
-                      <div class="quad-thumb" style="background: var(--surface);">📷</div>
-                      <span>Camera Lens</span>
-                    </div>
-                    <div class="quad-item">
-                      <div class="quad-thumb" style="background: var(--surface);">🔧</div>
-                      <span>Massage Gun</span>
-                    </div>
-                    <div class="quad-item">
-                      <div class="quad-thumb" style="background: var(--surface);">🎧</div>
-                      <span>Headphones</span>
-                    </div>
-                    <div class="quad-item">
-                      <div class="quad-thumb" style="background: var(--surface);">💾</div>
-                      <span>Crucial SSD</span>
-                    </div>
-                  </div>
-                  <a href="#store" class="amazon-card-cta" style="color: var(--primary);">See all trending</a>
-                </div>
-              </div>
-
-              <!-- Lower Rails Grid (4 multi-product category rails matching Screenshot 2) -->
-              <div class="amazon-lower-rails">
-                <div class="rail-card">
-                  <div class="rail-header">
-                    <h4>Prep, cook, serve</h4>
-                    <span class="rail-arrow">›</span>
-                  </div>
-                  <div class="rail-img-strip">
-                    <div class="mini-prod-box">☕ Tumbler</div>
-                    <div class="mini-prod-box">🍲 Cast Iron Pot</div>
+              <div class="calendar-box">
+                <div class="cal-nav-row">
+                  <span class="cal-month-title">October 2026</span>
+                  <div class="cal-arrows">
+                    <button type="button" class="btn-cal-arrow">‹</button>
+                    <button type="button" class="btn-cal-arrow">›</button>
                   </div>
                 </div>
-
-                <div class="rail-card">
-                  <div class="rail-header">
-                    <h4>Office product bestsellers under S$25</h4>
-                    <span class="rail-arrow">›</span>
-                  </div>
-                  <div class="rail-img-strip">
-                    <div class="mini-prod-box">🔌 USB-C Cable</div>
-                    <div class="mini-prod-box">💾 KIOXIA 64GB</div>
-                  </div>
-                </div>
-
-                <div class="rail-card">
-                  <div class="rail-header">
-                    <h4>Unlock Prime benefits</h4>
-                    <span class="rail-arrow">›</span>
-                  </div>
-                  <div class="rail-img-strip">
-                    <div class="mini-prod-box">📦 Fast Delivery</div>
-                    <div class="mini-prod-box">🎬 Prime Video</div>
-                  </div>
-                </div>
-
-                <div class="rail-card">
-                  <div class="rail-header">
-                    <h4>Step out in comfort</h4>
-                    <span class="rail-arrow">›</span>
-                  </div>
-                  <div class="rail-img-strip">
-                    <div class="mini-prod-box">👟 Running Shoes</div>
-                    <div class="mini-prod-box">👞 Casual Sneakers</div>
-                  </div>
+                <div class="cal-grid-cells">
+                  <span class="cal-head">Su</span><span class="cal-head">Mo</span><span class="cal-head">Tu</span><span class="cal-head">We</span><span class="cal-head">Th</span><span class="cal-head">Fr</span><span class="cal-head">Sa</span>
+                  <span class="cal-day text-muted">27</span><span class="cal-day text-muted">28</span><span class="cal-day text-muted">29</span><span class="cal-day text-muted">30</span>
+                  <span class="cal-day">1</span><span class="cal-day">2</span><span class="cal-day">3</span>
+                  <span class="cal-day">4</span><span class="cal-day">5</span><span class="cal-day">6</span><span class="cal-day">7</span><span class="cal-day">8</span><span class="cal-day">9</span><span class="cal-day">10</span>
+                  <span class="cal-day">11</span><span class="cal-day">12</span><span class="cal-day">13</span><span class="cal-day">14</span><span class="cal-day">15</span><span class="cal-day">16</span><span class="cal-day">17</span>
+                  <span class="cal-day selected" style="background: var(--primary); color: var(--text-on-primary);">18</span>
+                  <span class="cal-day in-range" style="background: rgba(var(--primary-rgb), 0.2); color: var(--primary);">19</span>
+                  <span class="cal-day in-range" style="background: rgba(var(--primary-rgb), 0.2); color: var(--primary);">20</span>
+                  <span class="cal-day in-range" style="background: rgba(var(--primary-rgb), 0.2); color: var(--primary);">21</span>
+                  <span class="cal-day selected" style="background: var(--primary); color: var(--text-on-primary);">22</span>
+                  <span class="cal-day">23</span><span class="cal-day">24</span>
                 </div>
               </div>
             </div>
-          </div>
 
+            <!-- Bento 2: Auth / Login Form -->
+            <div class="bento-card glass-panel">
+              <div class="bento-card-header">
+                <span class="card-eyebrow" style="color: var(--primary);">AUTHENTICATION</span>
+                <h4 class="card-title">Sign In Card</h4>
+              </div>
 
-          <!-- =========================================================================
-               TEMPLATE 4: Design System (Shadcn UI & Component Kit Frame)
-               ========================================================================= -->
-          <div class="full-app-template" id="templateControls" data-component="controls">
-            <!-- Top Bar: Live Theme Tuning Controls -->
-            <div class="ui-kit-top-controls glass-panel">
-              <div class="tuning-col">
-                <div class="form-label-row">
-                  <label for="saturationSlider" class="form-label">Theme Saturation Boost</label>
-                  <span class="form-value" id="saturationValue">100%</span>
+              <form class="auth-form" onsubmit="return false;">
+                <div class="form-group">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" value="alex@chromashift.app" class="form-input">
                 </div>
-                <input type="range" min="30" max="180" value="100" class="custom-range" id="saturationSlider">
-              </div>
-
-              <div class="tuning-divider"></div>
-
-              <div class="tuning-col">
-                <label class="form-label">Component Corner Radius</label>
-                <div class="segmented-control" id="radiusSegmented">
-                  <button type="button" class="segment-btn" data-radius="8px">Sharp (8px)</button>
-                  <button type="button" class="segment-btn active" data-radius="18px">Smooth (18px)</button>
-                  <button type="button" class="segment-btn" data-radius="28px">Pill (28px)</button>
+                <div class="form-group">
+                  <label class="form-label">Password</label>
+                  <input type="password" value="••••••••••••" class="form-input">
                 </div>
-              </div>
-
-              <div class="tuning-divider"></div>
-
-              <div class="tuning-toggles-col">
-                <label class="toggle-switch">
-                  <input type="checkbox" id="ambientMotionToggle" checked>
-                  <span class="toggle-slider"></span>
-                  <span class="toggle-text">Dynamic Ambient Glow</span>
-                </label>
-                <label class="toggle-switch">
-                  <input type="checkbox" id="glassmorphismToggle" checked>
-                  <span class="toggle-slider"></span>
-                  <span class="toggle-text">Glassmorphism Frosted Blur</span>
-                </label>
-              </div>
+                <button type="button" class="btn btn-primary btn-block">Sign In with Theme</button>
+              </form>
             </div>
 
-            <!-- Bento Grid of Real Interactive UI Components (Shadcn UI Frame) -->
-            <div class="bento-ui-grid">
-              <!-- Component 1: Date Range Picker / Calendar Card -->
-              <div class="bento-panel glass-panel">
-                <div class="bento-panel-header">
-                  <span class="card-eyebrow">Component</span>
-                  <h3 class="card-title">Calendar & Date Range</h3>
-                </div>
-                <div class="calendar-component-box">
-                  <div class="cal-header">
-                    <span>‹</span>
-                    <strong class="cal-month">October 2026</strong>
-                    <span>›</span>
-                  </div>
-                  <div class="cal-grid">
-                    <span class="cal-day-label">Mo</span><span class="cal-day-label">Tu</span><span class="cal-day-label">We</span><span class="cal-day-label">Th</span><span class="cal-day-label">Fr</span><span class="cal-day-label">Sa</span><span class="cal-day-label">Su</span>
-                    <span class="cal-day muted">28</span><span class="cal-day muted">29</span><span class="cal-day muted">30</span><span class="cal-day">1</span><span class="cal-day">2</span><span class="cal-day">3</span><span class="cal-day">4</span>
-                    <span class="cal-day">5</span><span class="cal-day">6</span><span class="cal-day">7</span><span class="cal-day">8</span><span class="cal-day">9</span><span class="cal-day">10</span><span class="cal-day">11</span>
-                    <span class="cal-day">12</span><span class="cal-day">13</span><span class="cal-day">14</span><span class="cal-day cal-range-start" style="background: var(--primary); color: var(--text-on-primary);">15</span><span class="cal-day cal-in-range">16</span><span class="cal-day cal-in-range">17</span><span class="cal-day cal-range-end" style="background: var(--primary); color: var(--text-on-primary);">18</span>
-                    <span class="cal-day">19</span><span class="cal-day">20</span><span class="cal-day">21</span><span class="cal-day">22</span><span class="cal-day">23</span><span class="cal-day">24</span><span class="cal-day">25</span>
-                  </div>
-                </div>
+            <!-- Bento 3: Team Members List -->
+            <div class="bento-card glass-panel">
+              <div class="bento-card-header">
+                <span class="card-eyebrow" style="color: var(--primary);">COLLABORATION</span>
+                <h4 class="card-title">Team Access</h4>
               </div>
 
-              <!-- Component 2: Auth / Create Account Card -->
-              <div class="bento-panel glass-panel">
-                <div class="bento-panel-header">
-                  <span class="card-eyebrow">Authentication</span>
-                  <h3 class="card-title">Create an Account</h3>
-                </div>
-                <div class="auth-component-form">
-                  <div class="oauth-buttons-row">
-                    <button type="button" class="btn btn-sm btn-outline">Github</button>
-                    <button type="button" class="btn btn-sm btn-outline">Google</button>
-                  </div>
-                  <div class="or-divider"><span>OR CONTINUE WITH</span></div>
-                  <div class="form-group-field">
-                    <label class="form-field-label">Email</label>
-                    <input type="email" placeholder="m@example.com" class="form-text-input">
-                  </div>
-                  <div class="form-group-field">
-                    <label class="form-field-label">Password</label>
-                    <input type="password" value="••••••••••••" class="form-text-input">
-                  </div>
-                  <button type="button" class="btn btn-primary btn-block">Create Account</button>
-                </div>
-              </div>
-
-              <!-- Component 3: Team Members Card -->
-              <div class="bento-panel glass-panel">
-                <div class="bento-panel-header">
-                  <span class="card-eyebrow">Collaboration</span>
-                  <h3 class="card-title">Team Members</h3>
-                </div>
-                <div class="team-list-box">
-                  <div class="team-member-row">
-                    <div class="user-avatar" style="background: linear-gradient(135deg, var(--primary), var(--accent));">SL</div>
-                    <div class="member-info">
-                      <div class="member-name">Sofia Davis</div>
-                      <div class="member-email">m@example.com</div>
-                    </div>
-                    <select class="member-role-select">
-                      <option>Owner</option>
-                      <option>Developer</option>
-                      <option>Billing</option>
-                    </select>
-                  </div>
-
-                  <div class="team-member-row">
-                    <div class="user-avatar" style="background: linear-gradient(135deg, var(--secondary), var(--primary));">JL</div>
-                    <div class="member-info">
-                      <div class="member-name">Jackson Lee</div>
-                      <div class="member-email">p@example.com</div>
-                    </div>
-                    <select class="member-role-select">
-                      <option>Member</option>
-                      <option selected>Developer</option>
-                      <option>Viewer</option>
-                    </select>
-                  </div>
-
-                  <div class="team-member-row">
-                    <div class="user-avatar" style="background: linear-gradient(135deg, var(--accent), var(--secondary));">IN</div>
-                    <div class="member-info">
-                      <div class="member-name">Isabella Nguyen</div>
-                      <div class="member-email">i@example.com</div>
-                    </div>
-                    <select class="member-role-select">
-                      <option>Viewer</option>
-                      <option>Developer</option>
-                      <option selected>Billing</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Component 4: Payment Method Card -->
-              <div class="bento-panel glass-panel">
-                <div class="bento-panel-header">
-                  <span class="card-eyebrow">Billing</span>
-                  <h3 class="card-title">Payment Method</h3>
-                </div>
-                <div class="payment-methods-grid">
-                  <div class="pay-method-pill active" style="border-color: var(--primary);">
-                    <span>💳</span> Card
-                  </div>
-                  <div class="pay-method-pill">
-                    <span>🅿️</span> Paypal
-                  </div>
-                  <div class="pay-method-pill">
-                    <span>🍎</span> Apple Pay
-                  </div>
-                </div>
-                <div class="payment-fields-col">
-                  <input type="text" placeholder="Card Number" value="•••• •••• •••• 4242" class="form-text-input">
-                  <div class="card-expiry-row">
-                    <input type="text" placeholder="MM/YY" value="08/28" class="form-text-input">
-                    <input type="text" placeholder="CVC" value="888" class="form-text-input">
-                  </div>
-                  <button type="button" class="btn btn-secondary btn-block">Confirm Details</button>
-                </div>
-              </div>
-
-              <!-- Component 5: Button & Badge Matrix -->
-              <div class="bento-panel glass-panel">
-                <div class="bento-panel-header">
-                  <span class="card-eyebrow">Design Tokens</span>
-                  <h3 class="card-title">Buttons & Badges Matrix</h3>
-                </div>
-                <div class="tokens-matrix-col">
-                  <div class="tokens-buttons-row">
-                    <button type="button" class="btn btn-primary">Primary</button>
-                    <button type="button" class="btn btn-secondary">Secondary</button>
-                    <button type="button" class="btn btn-accent">Accent</button>
-                    <button type="button" class="btn btn-outline">Outline</button>
-                    <button type="button" class="btn btn-ghost">Ghost</button>
-                  </div>
-                  <div class="tokens-badges-row">
-                    <span class="badge badge-primary">Primary Token</span>
-                    <span class="badge badge-secondary">Secondary Harmony</span>
-                    <span class="badge badge-accent">Accent Pop</span>
-                    <span class="badge badge-surface">Neutral Glass</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Component 6: Notification Settings -->
-              <div class="bento-panel glass-panel">
-                <div class="bento-panel-header">
-                  <span class="card-eyebrow">Preferences</span>
-                  <h3 class="card-title">Notification Settings</h3>
-                </div>
-                <div class="notif-settings-list">
-                  <div class="notif-setting-row">
+              <div class="team-list">
+                <div class="team-item">
+                  <div class="team-member-left">
+                    <span class="team-avatar" style="background: var(--primary); color: var(--text-on-primary);">ZH</span>
                     <div>
-                      <div class="setting-title">Everything</div>
-                      <div class="setting-sub">Email notifications for all activities</div>
+                      <div class="team-name">Zaw Lwin</div>
+                      <div class="team-email">lead@creative.io</div>
                     </div>
-                    <label class="toggle-switch">
-                      <input type="checkbox" checked>
-                      <span class="toggle-slider"></span>
-                    </label>
                   </div>
-                  <div class="notif-setting-row">
+                  <span class="role-pill">Owner</span>
+                </div>
+
+                <div class="team-item">
+                  <div class="team-member-left">
+                    <span class="team-avatar" style="background: var(--secondary); color: var(--text-on-primary);">EK</span>
                     <div>
-                      <div class="setting-title">Only Mentions</div>
-                      <div class="setting-sub">Direct alerts when tagged in team tasks</div>
+                      <div class="team-name">Elena Rostova</div>
+                      <div class="team-email">elena@design.co</div>
                     </div>
-                    <label class="toggle-switch">
-                      <input type="checkbox">
-                      <span class="toggle-slider"></span>
-                    </label>
                   </div>
+                  <span class="role-pill">Editor</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bento 4: Payment Method Preview -->
+            <div class="bento-card glass-panel">
+              <div class="bento-card-header">
+                <span class="card-eyebrow" style="color: var(--primary);">BILLING & WALLET</span>
+                <h4 class="card-title">Credit Card Preview</h4>
+              </div>
+
+              <div class="credit-card-mesh" style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);">
+                <div class="card-top-row">
+                  <span class="chip-graphic"></span>
+                  <span class="card-brand-label">CHROMA CARD</span>
+                </div>
+                <div class="card-number-text">•••• •••• •••• 8842</div>
+                <div class="card-footer-row">
+                  <span>ALEX MERCER</span>
+                  <span>10 / 29</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bento 5: Button & Badge Matrix -->
+            <div class="bento-card glass-panel">
+              <div class="bento-card-header">
+                <span class="card-eyebrow" style="color: var(--primary);">UI TOKENS MATRIX</span>
+                <h4 class="card-title">Buttons & Badges</h4>
+              </div>
+
+              <div class="matrix-stack">
+                <div class="matrix-btn-row">
+                  <button type="button" class="btn btn-primary btn-sm">Primary</button>
+                  <button type="button" class="btn btn-outline btn-sm">Outline</button>
+                  <button type="button" class="btn btn-ghost btn-sm">Ghost</button>
+                </div>
+                <div class="matrix-badge-row">
+                  <span class="status-pill status-complete">Active Badge</span>
+                  <span class="status-pill" style="background: rgba(var(--accent-rgb), 0.15); color: var(--accent);">Accent Token</span>
+                  <span class="status-pill" style="background: rgba(var(--secondary-rgb), 0.15); color: var(--secondary);">Secondary</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bento 6: Notification Settings -->
+            <div class="bento-card glass-panel">
+              <div class="bento-card-header">
+                <span class="card-eyebrow" style="color: var(--primary);">PREFERENCES</span>
+                <h4 class="card-title">Notifications</h4>
+              </div>
+
+              <div class="notif-settings-list">
+                <div class="toggle-switch-row justify-between">
+                  <div>
+                    <div class="setting-title">Push Notifications</div>
+                    <div class="setting-sub">Alerts on palette updates</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+                <div class="toggle-switch-row justify-between">
+                  <div>
+                    <div class="setting-title">Auto-Harmonize</div>
+                    <div class="setting-sub">Recalculate tokens on upload</div>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" checked>
+                    <span class="toggle-slider"></span>
+                  </label>
                 </div>
               </div>
             </div>
           </div>
-        </main>
+        </div>
+      </div>
+    </main>
   </div>
 
 
