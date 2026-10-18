@@ -1077,11 +1077,13 @@ if (btnBuyNow) {
 }
 
 // Export Modal (Triggered from View 2 Top-Right "Export Theme" Button)
-view2ExportBtn.addEventListener('click', () => {
+if (view2ExportBtn) {
+  view2ExportBtn.addEventListener('click', () => {
   exportModal.classList.add('open');
   exportModal.setAttribute('aria-hidden', 'false');
   updateExportCode();
-});
+  });
+}
 
 closeExportModalBtn.addEventListener('click', () => {
   exportModal.classList.remove('open');
@@ -1132,14 +1134,82 @@ window.addEventListener('keydown', e => {
   }
 });
 
-// Hash navigation listener
+// Hash navigation listener (Strict routing - NEVER kick user back on accidental hash changes)
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash;
   if (hash === '#result') {
     switchView('result');
-  } else {
+  } else if (hash === '#studio') {
     switchView('studio');
   }
+  // Any other hash (#media, #store, etc.) is ignored to keep user in their current view
+});
+
+// Intercept all clicks inside mockup frame to prevent page navigation or reload
+const dashboardContent = document.querySelector('.dashboard-content');
+if (dashboardContent) {
+  dashboardContent.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (link) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    const formBtn = e.target.closest('form button');
+    if (formBtn) {
+      e.preventDefault();
+    }
+  });
+}
+
+// Interactive mockup button feedback without page change
+document.querySelectorAll('.spotify-card, .hover-play-btn').forEach(card => {
+  card.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    togglePlay();
+  });
+});
+
+document.querySelectorAll('.btn-buy-instant, .btn-add-cart, #btnAddToCartMain').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    showToast('Item saved to your bag! 🛍️');
+  });
+});
+
+document.querySelectorAll('.size-pill').forEach(pill => {
+  pill.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    document.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+  });
+});
+
+document.querySelectorAll('.thumb-slot').forEach(slot => {
+  slot.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    document.querySelectorAll('.thumb-slot').forEach(s => s.classList.remove('active'));
+    slot.classList.add('active');
+    const img = slot.querySelector('img');
+    const mainImg = document.getElementById('productMainImage');
+    if (img && mainImg) {
+      mainImg.src = img.src;
+    }
+  });
+});
+
+document.querySelectorAll('.btn-heart').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    btn.classList.toggle('text-accent');
+    btn.classList.toggle('text-primary');
+    showToast('Saved to your favorites! ♥');
+  });
 });
 
 /* ==========================================================================
