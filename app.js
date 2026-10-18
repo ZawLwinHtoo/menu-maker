@@ -152,8 +152,8 @@ function updateSidebarThemeSnapshot() {
   }
 }
 
-// Sidebar Navigation Tab Clicks (Strict 4-Tab Single View)
-document.querySelectorAll('.sidebar-nav-item').forEach(btn => {
+// Top Navigation Switcher Pills & Tab Clicks (Strict 4-Tab Single View)
+document.querySelectorAll('.sidebar-nav-item, .switcher-tab-pill').forEach(btn => {
   btn.addEventListener('click', () => {
     activateSingleComponent(btn.dataset.tab);
   });
@@ -616,6 +616,8 @@ function handleCustomImageUpload(file) {
     if (mediaArtworkRight) mediaArtworkRight.src = imgDataUrl;
     if (mediaArtworkMini) mediaArtworkMini.src = imgDataUrl;
     if (productMainImage) productMainImage.src = imgDataUrl;
+    const analyticsThumb = document.getElementById('analyticsEventThumb');
+    if (analyticsThumb) analyticsThumb.src = imgDataUrl;
 
     state.imageSrc = imgDataUrl;
     state.hueOffset = 0;
