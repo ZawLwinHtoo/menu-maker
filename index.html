@@ -27,7 +27,7 @@
        VIEW 1: Home / Studio Extractor Page (Default View)
        ========================================================================= -->
   <div class="spa-view active-view" id="viewStudio">
-    <!-- View 1 Navigation Bar -->
+    <!-- View 1 Navigation Bar (No presets - clean minimal header) -->
     <header class="app-header">
       <div class="header-inner container">
         <div class="brand-group" id="brandHomeTrigger" role="button" tabindex="0" title="ChromaShift Home">
@@ -43,23 +43,6 @@
             <span class="brand-title">Chroma<span class="text-gradient">Shift</span></span>
             <span class="brand-badge">Theme Studio</span>
           </div>
-        </div>
-
-        <!-- Quick Preset Chips -->
-        <div class="preset-pills-bar" id="presetPills">
-          <span class="preset-label">Presets:</span>
-          <button type="button" class="preset-pill active" data-preset="orange" id="presetOrangeBtn">
-            <span class="pill-dot" style="background: #ff7700;"></span>
-            Citrus Orange
-          </button>
-          <button type="button" class="preset-pill" data-preset="cyberpunk" id="presetCyberBtn">
-            <span class="pill-dot" style="background: #00e5ff;"></span>
-            Cyberpunk Neon
-          </button>
-          <button type="button" class="preset-pill" data-preset="forest" id="presetForestBtn">
-            <span class="pill-dot" style="background: #10b981;"></span>
-            Emerald Forest
-          </button>
         </div>
 
         <!-- View 1 Header Actions -->
@@ -110,7 +93,7 @@
           </h1>
 
           <p class="hero-subtitle">
-            ChromaShift quantizes image pixels in real-time, extracts harmonic scales, and computes WCAG compliant design tokens. Test your photo below, then preview the live SaaS sample!
+            ChromaShift analyzes image pixels in real-time, extracts harmonic color scales, and recalculates WCAG compliant tokens. Drop any photo to transform the design system, then preview the live SaaS sample!
           </p>
 
           <div class="hero-metrics-pill glass-panel">
@@ -131,40 +114,55 @@
           </div>
         </div>
 
-        <!-- Right Column: Interactive Upload Dropzone Card -->
+        <!-- Right Column: Highly Visible & Distinctive Photo Upload Hero Focal Point -->
         <div class="hero-right-col">
-          <div class="upload-card glass-panel" id="dropzoneCard">
+          <div class="upload-card-hero glass-panel" id="dropzoneCard">
             <input type="file" id="imageFileInput" accept="image/*" class="file-input-hidden" aria-label="Upload an image to generate theme">
             
-            <div class="upload-dropzone" id="dropzone">
-              <div class="image-preview-wrapper" id="previewContainer">
-                <img id="currentImagePreview" src="assets/sample-orange.jpg" alt="Active theme source" class="preview-img">
-                <div class="preview-overlay">
-                  <span class="overlay-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <div class="upload-dropzone-hero" id="dropzone">
+              <!-- Visual Image Frame -->
+              <div class="image-preview-wrapper-hero" id="previewContainer">
+                <img id="currentImagePreview" src="assets/sample-orange.jpg" alt="Active theme source" class="preview-img-hero">
+                <div class="preview-overlay-hero">
+                  <span class="overlay-badge-hero">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18">
                       <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                       <polyline points="17 8 12 3 7 8"/>
                       <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
-                    Click or Drop new image to change
+                    Change Photo
                   </span>
                 </div>
               </div>
 
-              <div class="dropzone-hints">
-                <span class="hint-text"><strong>Drag & Drop</strong> any photo here or <strong>browse files</strong></span>
-                <span class="hint-sub">Supports JPG, PNG, WebP, SVG</span>
+              <!-- High Contrast Upload Callout Area -->
+              <div class="upload-cta-area">
+                <div class="upload-floating-icon" id="uploadFloatingIcon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                </div>
+                <div class="upload-instructions">
+                  <span class="instruction-main">Drag & Drop photo here, or</span>
+                  <button type="button" class="btn btn-primary btn-upload-trigger" id="btnBrowseFile">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="btn-icon">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/>
+                      <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Upload Photo / Browse Files
+                  </button>
+                  <span class="instruction-sub">Supports JPG, PNG, WebP, SVG • Instant adaptive extraction</span>
+                </div>
               </div>
             </div>
 
             <!-- Upload Footer Bar with Shift Hue Action -->
             <div class="upload-footer-bar">
               <div class="file-status-indicator">
-                <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="16" height="16">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <polyline points="21 15 16 10 5 21"/>
-                </svg>
+                <span class="file-status-dot"></span>
                 <span id="uploadFileNameLabel">sample-orange.jpg</span>
               </div>
 
@@ -212,7 +210,7 @@
         </div>
 
         <div class="palette-swatches-grid" id="paletteGrid">
-          <!-- Rendered dynamically by app.js (Primary, Secondary, Accent, Surface, Subtle, On-Primary) -->
+          <!-- Rendered dynamically by app.js (Quiet frictionless 1-click copy with no popups) -->
         </div>
       </section>
     </main>
@@ -220,11 +218,11 @@
 
 
   <!-- =========================================================================
-       VIEW 2: Expected Result / Real-World Design Sample Page
+       VIEW 2: Expected Result / Single-Component Centered View
        ========================================================================= -->
   <div class="spa-view" id="viewResult">
     <div class="dashboard-layout">
-      <!-- 1. Left Vertical Sidebar -->
+      <!-- 1. Left Vertical Sidebar (Strict 4-Tab Single-View Navigation) -->
       <aside class="dashboard-sidebar glass-panel">
         <div class="sidebar-top">
           <div class="sidebar-brand">
@@ -251,53 +249,46 @@
           </button>
         </div>
 
-        <!-- Sidebar Navigation Menu Items -->
-        <nav class="sidebar-nav" aria-label="Component Navigation">
-          <div class="nav-section-title">Design Showcase</div>
+        <!-- Strict 4-Item Single View Navigation Tabs -->
+        <nav class="sidebar-nav" aria-label="Single Component View Tabs">
+          <div class="nav-section-title">Select Component View</div>
           
-          <button type="button" class="sidebar-nav-item active" data-filter="all" id="navFilterAll">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="3" width="7" height="7"/>
-              <rect x="14" y="3" width="7" height="7"/>
-              <rect x="14" y="14" width="7" height="7"/>
-              <rect x="3" y="14" width="7" height="7"/>
-            </svg>
-            <span>All Components</span>
-            <span class="nav-badge">4</span>
-          </button>
-
-          <button type="button" class="sidebar-nav-item" data-filter="analytics" id="navFilterAnalytics">
+          <!-- Tab 1: Analytics & Graph (Default Active) -->
+          <button type="button" class="sidebar-nav-item active" data-tab="analytics" id="tabAnalytics">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="20" x2="18" y2="10"/>
               <line x1="12" y1="20" x2="12" y2="4"/>
               <line x1="6" y1="20" x2="6" y2="14"/>
             </svg>
-            <span>Analytics & Graphs</span>
+            <span>Analytics & Graph</span>
           </button>
 
-          <button type="button" class="sidebar-nav-item" data-filter="media" id="navFilterMedia">
+          <!-- Tab 2: Media / Music Player -->
+          <button type="button" class="sidebar-nav-item" data-tab="media" id="tabMedia">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="10"/>
               <polygon points="10 8 16 12 10 16 10 8"/>
             </svg>
-            <span>Adaptive Media Player</span>
+            <span>Media / Music Player</span>
           </button>
 
-          <button type="button" class="sidebar-nav-item" data-filter="menu" id="navFilterMenu">
+          <!-- Tab 3: E-Commerce Product Card -->
+          <button type="button" class="sidebar-nav-item" data-tab="menu" id="tabMenu">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 0 1-8 0"/>
             </svg>
-            <span>E-Commerce / Menu Card</span>
+            <span>E-Commerce Product Card</span>
           </button>
 
-          <button type="button" class="sidebar-nav-item" data-filter="controls" id="navFilterControls">
+          <!-- Tab 4: Interactive Theme Controls -->
+          <button type="button" class="sidebar-nav-item" data-tab="controls" id="tabControls">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="3"/>
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
             </svg>
-            <span>Interactive Controls</span>
+            <span>Interactive Theme Controls</span>
           </button>
         </nav>
 
@@ -314,14 +305,14 @@
         </div>
       </aside>
 
-      <!-- 2. Main Dashboard Area (Top Header + Main Canvas Grid) -->
+      <!-- 2. Main Dashboard Area (Top Header + Prominent Single-Component Center Stage) -->
       <div class="dashboard-main-area">
         <!-- Top Header Bar inside View 2 -->
         <header class="dashboard-header glass-panel">
           <div class="dashboard-breadcrumb">
             <button type="button" class="breadcrumb-link" id="breadcrumbStudioLink">Studio</button>
             <span class="breadcrumb-separator">/</span>
-            <span class="breadcrumb-current">Live Design Sample — Real-World Theme Preview</span>
+            <span class="breadcrumb-current" id="breadcrumbActiveComponentName">Analytics & Graph Preview</span>
           </div>
 
           <div class="dashboard-header-actions">
@@ -355,15 +346,15 @@
           </div>
         </header>
 
-        <!-- 3. Main Canvas: Design Sample Grid -->
-        <main class="dashboard-content">
-          <div class="showcase-grid" id="showcaseGrid">
-            <!-- Sample Card 1: Live Analytics & Sparklines -->
-            <div class="card glass-panel component-card sample-widget" data-category="analytics" id="sampleCardAnalytics">
+        <!-- 3. Prominently Centered Single-Component Stage -->
+        <main class="dashboard-single-stage">
+          <div class="stage-centered-wrapper">
+            <!-- Component 1: Analytics & Graph (Default) -->
+            <div class="card glass-panel component-card single-stage-card active-card" data-component="analytics" id="sampleCardAnalytics">
               <div class="card-header">
                 <div>
-                  <span class="card-eyebrow">Interactive Analytics</span>
-                  <h3 class="card-title">Performance Metrics</h3>
+                  <span class="card-eyebrow">Real-World SaaS Component</span>
+                  <h3 class="card-title">Performance Metrics & Graph</h3>
                 </div>
                 <span class="badge badge-primary">+28.4% Today</span>
               </div>
@@ -375,38 +366,38 @@
                 </div>
                 <div class="metric-block">
                   <span class="metric-value text-accent" id="metricConversions">94.6%</span>
-                  <span class="metric-sub">Palette Harmony</span>
+                  <span class="metric-sub">Palette Harmony Score</span>
                 </div>
               </div>
 
               <!-- Dynamic SVG Chart styled by extracted colors -->
-              <div class="chart-container">
-                <svg class="dynamic-chart" viewBox="0 0 400 120" preserveAspectRatio="none">
+              <div class="chart-container-large">
+                <svg class="dynamic-chart" viewBox="0 0 460 140" preserveAspectRatio="none">
                   <defs>
                     <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.45"/>
                       <stop offset="100%" stop-color="var(--primary)" stop-opacity="0.0"/>
                     </linearGradient>
                   </defs>
-                  <path class="chart-area" d="M 0 100 Q 60 40, 120 70 T 240 30 T 320 60 T 400 20 L 400 120 L 0 120 Z" fill="url(#chartGradient)"></path>
-                  <path class="chart-line" d="M 0 100 Q 60 40, 120 70 T 240 30 T 320 60 T 400 20" fill="none" stroke="var(--primary)" stroke-width="3.5" stroke-linecap="round"></path>
-                  <circle cx="120" cy="70" r="4.5" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="3"></circle>
-                  <circle cx="240" cy="30" r="4.5" fill="var(--bg-surface)" stroke="var(--accent)" stroke-width="3"></circle>
-                  <circle cx="400" cy="20" r="5.5" fill="var(--accent)" stroke="var(--bg-surface)" stroke-width="2.5"></circle>
+                  <path class="chart-area" d="M 0 120 Q 70 45, 140 80 T 280 35 T 380 70 T 460 25 L 460 140 L 0 140 Z" fill="url(#chartGradient)"></path>
+                  <path class="chart-line" d="M 0 120 Q 70 45, 140 80 T 280 35 T 380 70 T 460 25" fill="none" stroke="var(--primary)" stroke-width="3.8" stroke-linecap="round"></path>
+                  <circle cx="140" cy="80" r="5" fill="var(--bg-surface)" stroke="var(--primary)" stroke-width="3.5"></circle>
+                  <circle cx="280" cy="35" r="5" fill="var(--bg-surface)" stroke="var(--accent)" stroke-width="3.5"></circle>
+                  <circle cx="460" cy="25" r="6" fill="var(--accent)" stroke="var(--bg-surface)" stroke-width="3"></circle>
                 </svg>
               </div>
 
               <div class="card-footer">
-                <span class="text-muted text-xs">Updated in real-time from theme state</span>
-                <button type="button" class="btn btn-sm btn-ghost">View Insights →</button>
+                <span class="text-muted text-xs">Dynamic SVG stroke & gradient fill synced to extracted Primary/Accent</span>
+                <button type="button" class="btn btn-sm btn-ghost">View Deep Insights →</button>
               </div>
             </div>
 
-            <!-- Sample Card 2: Interactive Audio & Media Player -->
-            <div class="card glass-panel component-card media-player-card sample-widget" data-category="media" id="sampleCardMedia">
+            <!-- Component 2: Media / Music Player -->
+            <div class="card glass-panel component-card media-player-card single-stage-card" data-component="media" id="sampleCardMedia">
               <div class="card-header">
                 <div>
-                  <span class="card-eyebrow">Adaptive Media</span>
+                  <span class="card-eyebrow">Adaptive Media Player</span>
                   <h3 class="card-title">Now Playing</h3>
                 </div>
                 <div class="music-wave" id="musicWave">
@@ -415,7 +406,7 @@
               </div>
 
               <div class="media-body">
-                <div class="media-artwork-box">
+                <div class="media-artwork-box lg">
                   <img id="mediaArtwork" src="assets/sample-orange.jpg" alt="Track artwork" class="media-thumb">
                   <div class="media-play-overlay" id="playToggleBtn">
                     <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
@@ -424,7 +415,7 @@
                   </div>
                 </div>
                 <div class="media-details">
-                  <h4 class="track-title" id="trackTitle">Ambient Resonance</h4>
+                  <h4 class="track-title" id="trackTitle">Ambient Citrus Resonance</h4>
                   <p class="track-artist" id="trackArtist">ChromaShift Acoustic Studio</p>
                   
                   <div class="track-progress-container" id="trackProgressWrapper">
@@ -463,11 +454,11 @@
               </div>
             </div>
 
-            <!-- Sample Card 3: Artisan Menu / Product Card -->
-            <div class="card glass-panel component-card sample-widget" data-category="menu" id="sampleCardMenu">
+            <!-- Component 3: E-Commerce Product Card -->
+            <div class="card glass-panel component-card single-stage-card" data-component="menu" id="sampleCardMenu">
               <div class="card-header">
                 <div>
-                  <span class="card-eyebrow">Menu Item Card</span>
+                  <span class="card-eyebrow">E-Commerce & Menu Item</span>
                   <h3 class="card-title" id="menuItemTitle">Sunset Citrus Glaze</h3>
                 </div>
                 <span class="badge badge-accent" id="menuItemBadge">Chef's Special</span>
@@ -475,7 +466,7 @@
 
               <div class="menu-item-content">
                 <p class="menu-desc" id="menuItemDesc">
-                  Handcrafted infusion harmonized with subtle sweet botanicals, extracted zest, and organic crystalline honey.
+                  Handcrafted botanical infusion harmonized with sweet citrus oils, extracted zest, and organic crystalline honey.
                 </p>
                 <div class="menu-tags" id="menuItemTags">
                   <span class="tag">Gluten-Free</span>
@@ -508,14 +499,14 @@
               </div>
             </div>
 
-            <!-- Sample Card 4: Interactive Controls & Form Elements -->
-            <div class="card glass-panel component-card sample-widget" data-category="controls" id="sampleCardControls">
+            <!-- Component 4: Interactive Theme Controls -->
+            <div class="card glass-panel component-card single-stage-card" data-component="controls" id="sampleCardControls">
               <div class="card-header">
                 <div>
-                  <span class="card-eyebrow">Theme Controls</span>
-                  <h3 class="card-title">Interactive Elements</h3>
+                  <span class="card-eyebrow">Design System Sandbox</span>
+                  <h3 class="card-title">Interactive Theme Controls</h3>
                 </div>
-                <span class="badge badge-surface">Form UI</span>
+                <span class="badge badge-surface">Micro UI</span>
               </div>
 
               <div class="controls-form">
@@ -552,7 +543,7 @@
                   </label>
                 </div>
 
-                <!-- Button Row -->
+                <!-- Button Preview Row -->
                 <div class="button-preview-group">
                   <button type="button" class="btn btn-primary">Primary Glow</button>
                   <button type="button" class="btn btn-secondary">Secondary</button>
@@ -600,8 +591,8 @@
           <button type="button" class="btn btn-outline btn-sm" id="downloadTokensBtn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="7 10 12 15 17 10"/>
-              <line x1="12" y1="15" x2="12" y2="3"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
             </svg>
             Download File
           </button>

@@ -1,64 +1,12 @@
 /**
  * ChromaShift — Adaptive Intelligent Theme Engine
- * Two-View SPA Architecture: View 1 (Studio) & View 2 (Expected Result)
+ * Two-View Architecture: Studio Extractor (Page 1) & Single-Component Stage (Page 2)
  */
-
-// Preset Configurations
-const PRESETS = {
-  orange: {
-    name: 'Citrus Orange Harmony',
-    image: 'assets/sample-orange.jpg',
-    paletteName: 'Vibrant Orange & Leaf Green',
-    menu: {
-      title: 'Sunset Citrus Glaze',
-      desc: 'Handcrafted infusion harmonized with sweet citrus botanicals, extracted zest, and organic crystalline honey.',
-      badge: "Chef's Special",
-      price: '14.50',
-      tags: ['Gluten-Free', 'Seasonal', 'Organic']
-    },
-    track: {
-      title: 'Acoustic Citrus Sunrise',
-      artist: 'ChromaShift Ambient Studio'
-    }
-  },
-  cyberpunk: {
-    name: 'Cyberpunk Neon Glow',
-    image: 'assets/sample-cyberpunk.jpg',
-    paletteName: 'Electric Cyan & Magenta Synth',
-    menu: {
-      title: 'Neon Cyber Glaze Bowl',
-      desc: 'Dragonfruit-infused chilled acai blend with electric blue spirulina drizzle and candied ginger crystals.',
-      badge: 'Futuristic Fusion',
-      price: '16.90',
-      tags: ['Superfood', 'Chilled', 'Antioxidant']
-    },
-    track: {
-      title: 'Midnight Synthwave Drive',
-      artist: 'Neo Tokyo Soundscapes'
-    }
-  },
-  forest: {
-    name: 'Emerald Rainforest Mist',
-    image: 'assets/sample-forest.jpg',
-    paletteName: 'Deep Emerald & Matcha Dew',
-    menu: {
-      title: 'Matcha Forest Parfait',
-      desc: 'Ceremonial grade Uji matcha layered with roasted pistachios, Madagascar vanilla bean mousse, and fresh mint.',
-      badge: 'Artisan Reserve',
-      price: '13.80',
-      tags: ['Matcha', 'Artisan', 'Low-Sugar']
-    },
-    track: {
-      title: 'Rainforest Canopy Reverie',
-      artist: 'Botanical Echoes'
-    }
-  }
-};
 
 // Global State
 const state = {
   currentView: 'studio', // 'studio' | 'result'
-  currentPreset: 'orange',
+  activeComponentTab: 'analytics', // 'analytics' | 'media' | 'menu' | 'controls'
   themeMode: 'dark', // 'dark' | 'light'
   harmonyMode: 'vibrant', // 'vibrant' | 'muted' | 'deep'
   saturationBoost: 1.0,
@@ -72,6 +20,14 @@ const state = {
   exportTab: 'tailwind'
 };
 
+// Component Name Dictionary
+const COMPONENT_NAMES = {
+  analytics: 'Analytics & Graph Preview',
+  media: 'Media / Music Player Preview',
+  menu: 'E-Commerce Product Card Preview',
+  controls: 'Interactive Theme Controls Preview'
+};
+
 // DOM Elements: Views
 const viewStudio = document.getElementById('viewStudio');
 const viewResult = document.getElementById('viewResult');
@@ -80,6 +36,7 @@ const btnBackToStudio = document.getElementById('btnBackToStudio');
 const brandHomeTrigger = document.getElementById('brandHomeTrigger');
 const breadcrumbStudioLink = document.getElementById('breadcrumbStudioLink');
 const btnShortcutExpectedResult = document.getElementById('btnShortcutExpectedResult');
+const breadcrumbActiveComponentName = document.getElementById('breadcrumbActiveComponentName');
 
 // DOM Elements: Theme Toggles
 const view1ThemeToggle = document.getElementById('view1ThemeToggle');
@@ -91,6 +48,7 @@ const mediaArtwork = document.getElementById('mediaArtwork');
 const imageFileInput = document.getElementById('imageFileInput');
 const dropzone = document.getElementById('dropzone');
 const dropzoneCard = document.getElementById('dropzoneCard');
+const btnBrowseFile = document.getElementById('btnBrowseFile');
 const uploadFileNameLabel = document.getElementById('uploadFileNameLabel');
 const paletteGrid = document.getElementById('paletteGrid');
 const heroThemeStatus = document.getElementById('heroThemeStatus');
@@ -106,7 +64,7 @@ const glassmorphismToggle = document.getElementById('glassmorphismToggle');
 const ambientMeshGlow = document.getElementById('ambientMeshGlow');
 const harmonySegmented = document.getElementById('harmonySegmented');
 
-// DOM Elements: View 2 Sidebar & Showcase
+// DOM Elements: View 2 Sidebar & Showcase Cards
 const sidebarThemeSnapshotName = document.getElementById('sidebarThemeSnapshotName');
 const menuItemTitle = document.getElementById('menuItemTitle');
 const menuItemDesc = document.getElementById('menuItemDesc');
@@ -135,7 +93,7 @@ const extractionCanvas = document.getElementById('extractionCanvas');
 const ctx = extractionCanvas.getContext('2d');
 
 /* ==========================================================================
-   SPA View Routing & Navigation
+   SPA View Routing & Single Component Stage Navigation
    ========================================================================== */
 
 function switchView(targetView) {
@@ -148,13 +106,38 @@ function switchView(targetView) {
     viewStudio.classList.remove('active-view');
     viewResult.classList.add('active-view');
     updateSidebarThemeSnapshot();
+    // Activate current single component tab (default analytics)
+    activateSingleComponent(state.activeComponentTab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('Navigated to Expected Result Design Sample 🚀');
   } else {
     viewResult.classList.remove('active-view');
     viewStudio.classList.add('active-view');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    showToast('Returned to Theme Studio 🎨');
+  }
+}
+
+function activateSingleComponent(componentId) {
+  state.activeComponentTab = componentId;
+
+  // Update Left Sidebar Tabs
+  document.querySelectorAll('.sidebar-nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === componentId);
+  });
+
+  // Switch Center Stage: Display ONLY that single selected component
+  document.querySelectorAll('.single-stage-card').forEach(card => {
+    const isMatch = card.dataset.component === componentId;
+    if (isMatch) {
+      card.classList.add('active-card');
+    } else {
+      card.classList.remove('active-card');
+    }
+  });
+
+  // Update Breadcrumb Current Title
+  if (breadcrumbActiveComponentName) {
+    breadcrumbActiveComponentName.textContent = COMPONENT_NAMES[componentId] || 'Component Preview';
   }
 }
 
@@ -165,36 +148,10 @@ function updateSidebarThemeSnapshot() {
   }
 }
 
-// Sidebar Navigation filtering & smooth highlight
+// Sidebar Navigation Tab Clicks (Strict 4-Tab Single View)
 document.querySelectorAll('.sidebar-nav-item').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.sidebar-nav-item').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    const filter = btn.dataset.filter;
-    const cards = document.querySelectorAll('.sample-widget');
-
-    if (filter === 'all') {
-      cards.forEach(card => {
-        card.style.display = 'flex';
-        card.classList.remove('highlight-pulse');
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      showToast('Showing all components');
-    } else {
-      cards.forEach(card => {
-        const isMatch = card.dataset.category === filter;
-        card.style.display = 'flex'; // keep grid intact but highlight
-        if (isMatch) {
-          card.classList.add('highlight-pulse');
-          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setTimeout(() => card.classList.remove('highlight-pulse'), 1800);
-        } else {
-          card.classList.remove('highlight-pulse');
-        }
-      });
-      showToast(`Focused on: ${btn.querySelector('span').textContent}`);
-    }
+    activateSingleComponent(btn.dataset.tab);
   });
 });
 
@@ -299,7 +256,6 @@ function extractColorsFromImage(imgElement) {
 
     const [h, s, l] = rgbToHsl(r, g, b);
 
-    // Skip extreme washed out gray or pure black/white
     if (s < 12 && (l < 15 || l > 85)) continue;
 
     const hueBin = Math.round(h / 15) * 15;
@@ -539,7 +495,7 @@ function applyPaletteToDocument(palette) {
   activeHueBadge.textContent = `${primary.hsl[0]}° Hue`;
   contrastModeLabel.textContent = `WCAG AAA (${primary.contrast}:1)`;
 
-  // Render Swatches in View 1
+  // Render Swatches in View 1 (with frictionless quiet copy)
   renderPaletteSwatches(palette);
 
   // Update View 2 Sidebar Theme Snapshot
@@ -549,6 +505,11 @@ function applyPaletteToDocument(palette) {
   updateExportCode();
 }
 
+/**
+ * Frictionless Swatch Rendering:
+ * Quiet 1-click copy that briefly changes label text to "Copied!" for 1.2s.
+ * NO popups, NO modals, NO floating toast alerts!
+ */
 function renderPaletteSwatches(palette) {
   paletteGrid.innerHTML = '';
 
@@ -566,7 +527,7 @@ function renderPaletteSwatches(palette) {
       <div class="swatch-meta">
         <span class="swatch-role">${item.role}</span>
         <div class="swatch-hex">
-          <span>${item.hex.toUpperCase()}</span>
+          <span class="swatch-hex-value">${item.hex.toUpperCase()}</span>
           <svg class="swatch-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
@@ -575,60 +536,53 @@ function renderPaletteSwatches(palette) {
       </div>
     `;
 
+    // Quiet inline feedback without any toasts/popups
     card.addEventListener('click', () => {
-      copyToClipboard(item.hex, `Copied ${item.hex} (${item.role})`);
+      quietCopyHex(item.hex);
+
+      const hexElem = card.querySelector('.swatch-hex-value');
+      const roleElem = card.querySelector('.swatch-role');
+      const originalHex = hexElem.textContent;
+      const originalRole = roleElem.textContent;
+
+      hexElem.innerHTML = '<span class="swatch-quiet-copied">✓ Copied!</span>';
+      roleElem.classList.add('swatch-quiet-copied');
+
+      setTimeout(() => {
+        hexElem.textContent = originalHex;
+        roleElem.textContent = originalRole;
+        roleElem.classList.remove('swatch-quiet-copied');
+      }, 1200);
     });
 
     paletteGrid.appendChild(card);
   });
 }
 
-/* ==========================================================================
-   Preset Switching & Custom Upload
-   ========================================================================== */
-
-function selectPreset(presetKey) {
-  const preset = PRESETS[presetKey];
-  if (!preset) return;
-
-  state.currentPreset = presetKey;
-  state.imageSrc = preset.image;
-  state.fileName = preset.image.split('/').pop();
-  state.hueOffset = 0;
-
-  // Update active pill styling
-  document.querySelectorAll('.preset-pill').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.preset === presetKey);
-  });
-
-  // Update preview image
-  currentImagePreview.src = preset.image;
-  mediaArtwork.src = preset.image;
-  uploadFileNameLabel.textContent = state.fileName;
-
-  // Update hero status
-  heroThemeStatus.textContent = `Active Theme: ${preset.name}`;
-  extractDominantName.textContent = preset.paletteName;
-
-  // Update showcase card texts
-  menuItemTitle.textContent = preset.menu.title;
-  menuItemDesc.textContent = preset.menu.desc;
-  menuItemBadge.textContent = preset.menu.badge;
-  menuItemPrice.textContent = preset.menu.price;
-
-  menuItemTags.innerHTML = preset.menu.tags
-    .map(tag => `<span class="tag">${tag}</span>`)
-    .join('');
-
-  trackTitle.textContent = preset.track.title;
-  trackArtist.textContent = preset.track.artist;
-
-  if (currentImagePreview.complete) {
-    processImageTheme();
+function quietCopyHex(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(() => fallbackCopySilently(text));
   } else {
-    currentImagePreview.onload = () => processImageTheme();
+    fallbackCopySilently(text);
   }
 }
+
+function fallbackCopySilently(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+  } catch (err) {
+    // silent
+  }
+  document.body.removeChild(textarea);
+}
+
+/* ==========================================================================
+   Image Processing & Upload
+   ========================================================================== */
 
 function processImageTheme() {
   try {
@@ -636,14 +590,14 @@ function processImageTheme() {
     applyPaletteToDocument(palette);
   } catch (err) {
     console.warn('Canvas extraction fallback:', err);
-    const fallback = generateFallbackPalette(state.currentPreset === 'forest' ? 145 : state.currentPreset === 'cyberpunk' ? 190 : 28);
+    const fallback = generateFallbackPalette(28);
     applyPaletteToDocument(fallback);
   }
 }
 
 function handleCustomImageUpload(file) {
   if (!file || !file.type.startsWith('image/')) {
-    showToast('Please select a valid image file (JPG, PNG, WebP)');
+    showToast('Please select a valid image file (JPG, PNG, WebP, SVG)');
     return;
   }
 
@@ -656,20 +610,17 @@ function handleCustomImageUpload(file) {
     currentImagePreview.src = imgDataUrl;
     mediaArtwork.src = imgDataUrl;
     state.imageSrc = imgDataUrl;
-    state.currentPreset = 'custom';
     state.hueOffset = 0;
 
-    document.querySelectorAll('.preset-pill').forEach(btn => btn.classList.remove('active'));
-
-    heroThemeStatus.textContent = 'Active Theme: Custom Uploaded Image';
-    extractDominantName.textContent = `User Photo (${file.name})`;
-    menuItemTitle.textContent = 'Custom Artisan Selection';
+    heroThemeStatus.textContent = `Theme: ${file.name.replace(/\.[^/.]+$/, '')}`;
+    extractDominantName.textContent = `Uploaded Photo (${file.name})`;
+    menuItemTitle.textContent = 'Artisan Selection';
     menuItemDesc.textContent = 'Theme dynamically harmonized from your uploaded visual palette.';
     menuItemBadge.textContent = 'Custom Origin';
 
     currentImagePreview.onload = () => {
       processImageTheme();
-      showToast(`Theme extracted from ${file.name}! ✨`);
+      showToast(`Palette extracted from ${file.name}! ✨`);
     };
   };
 
@@ -857,24 +808,10 @@ function copyToClipboard(text, successMsg = 'Copied to clipboard!') {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
       showToast(successMsg);
-    }).catch(() => fallbackCopy(text, successMsg));
+    }).catch(() => fallbackCopySilently(text));
   } else {
-    fallbackCopy(text, successMsg);
+    fallbackCopySilently(text);
   }
-}
-
-function fallbackCopy(text, successMsg) {
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand('copy');
-    showToast(successMsg);
-  } catch (err) {
-    showToast('Failed to copy');
-  }
-  document.body.removeChild(textarea);
 }
 
 function showToast(message) {
@@ -889,7 +826,7 @@ function showToast(message) {
   toastContainer.appendChild(toast);
   setTimeout(() => {
     toast.remove();
-  }, 3000);
+  }, 2600);
 }
 
 function toggleThemeMode() {
@@ -914,8 +851,18 @@ breadcrumbStudioLink.addEventListener('click', () => switchView('studio'));
 view1ThemeToggle.addEventListener('click', toggleThemeMode);
 view2ThemeToggle.addEventListener('click', toggleThemeMode);
 
-// Drag & drop dropzone
-dropzoneCard.addEventListener('click', () => imageFileInput.click());
+// Drag & drop dropzone + prominent browse button
+dropzoneCard.addEventListener('click', e => {
+  // avoid double click if user clicked button directly
+  if (e.target !== btnBrowseFile && !btnBrowseFile.contains(e.target)) {
+    imageFileInput.click();
+  }
+});
+btnBrowseFile.addEventListener('click', e => {
+  e.stopPropagation();
+  imageFileInput.click();
+});
+
 imageFileInput.addEventListener('change', e => {
   if (e.target.files && e.target.files[0]) {
     handleCustomImageUpload(e.target.files[0]);
@@ -939,13 +886,6 @@ dropzoneCard.addEventListener('drop', e => {
   }
 });
 
-// Preset button clicks
-document.querySelectorAll('.preset-pill').forEach(btn => {
-  btn.addEventListener('click', () => {
-    selectPreset(btn.dataset.preset);
-  });
-});
-
 // Palette Harmony Mode Switcher [Vibrant, Muted/Pastel, Deep Dark]
 if (harmonySegmented) {
   harmonySegmented.querySelectorAll('.harmony-pill').forEach(btn => {
@@ -954,13 +894,6 @@ if (harmonySegmented) {
       btn.classList.add('active');
       state.harmonyMode = btn.dataset.harmony;
       recalculatePaletteFromRaw();
-
-      const labelMap = {
-        vibrant: 'Vibrant',
-        muted: 'Muted / Pastel',
-        deep: 'Deep Dark'
-      };
-      showToast(`Harmony Mode: ${labelMap[state.harmonyMode]} ✨`);
     });
   });
 }
@@ -988,7 +921,6 @@ radiusSegmented.querySelectorAll('.segment-btn').forEach(btn => {
     const radius = btn.dataset.radius;
     document.documentElement.style.setProperty('--radius-sm', radius === '8px' ? '4px' : radius === '28px' ? '12px' : '8px');
     document.documentElement.style.setProperty('--radius-md', radius);
-    showToast(`Border radius: ${btn.textContent}`);
   });
 });
 
@@ -1019,7 +951,6 @@ function togglePlay() {
     ? `<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>`
     : `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 18 12 6 20 6 4"/></svg>`;
   mediaPlayLargeBtn.innerHTML = playIconHtml;
-  showToast(isPlaying ? 'Audio demo playing' : 'Audio demo paused');
 }
 
 playToggleBtn.addEventListener('click', togglePlay);
@@ -1059,7 +990,7 @@ document.querySelectorAll('.modal-tabs .tab-btn').forEach(btn => {
   });
 });
 
-// 1-Click Copy Code with toast notification and button feedback
+// 1-Click Copy Code with button feedback
 copyTokensBtn.addEventListener('click', () => {
   copyToClipboard(exportCodeBlock.textContent, 'Theme tokens copied to clipboard! 📋');
   const originalHtml = copyTokensBtn.innerHTML;
@@ -1105,5 +1036,10 @@ window.addEventListener('DOMContentLoaded', () => {
   } else {
     switchView('studio');
   }
-  selectPreset('orange');
+
+  // Load initial theme from default sample
+  currentImagePreview.onload = () => processImageTheme();
+  if (currentImagePreview.complete) {
+    processImageTheme();
+  }
 });
