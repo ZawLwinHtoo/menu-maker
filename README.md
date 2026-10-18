@@ -1,15 +1,16 @@
-# Prototype
+# Menu Maker
 
-A prototype project repository.
+A modern menu creator and management application.
 
 ## Getting Started
 
-Initial setup for the prototype repository.
+Initial setup for the Menu Maker repository.
 
 ## Project Structure
 
 ```text
-prototype/
+menu-maker/
 ├── README.md
 └── .gitignore
 ```
+
