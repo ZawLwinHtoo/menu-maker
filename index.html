@@ -285,6 +285,7 @@
           </div>
 
           <!-- View 2 Theme Toggle -->
+          <button type="button" class="btn btn-primary" id="view2ExportBtn">Export theme</button>
           <button type="button" class="btn-theme-mode theme-toggle-btn" id="view2ThemeToggle" title="Toggle Light/Dark Mode" aria-label="Toggle Light/Dark Mode">
             <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="12" r="5"/>
@@ -1050,7 +1051,27 @@
 
 
   <!-- Toast Notification container -->
-  <div class="toast-container" id="toastContainer"></div>
+  <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
+
+  <div id="exportModal" class="export-overlay" role="dialog" aria-modal="true" aria-labelledby="exportTitle" aria-hidden="true">
+    <section class="export-panel glass-panel">
+      <div class="export-heading">
+        <div><h2 id="exportTitle">Export your theme</h2><p>The current palette, ready for your project.</p></div>
+        <button type="button" class="btn btn-outline" id="closeExportModalBtn" aria-label="Close export">Close</button>
+      </div>
+      <div class="export-format-tabs" role="group" aria-label="Export format">
+        <button type="button" class="btn btn-primary" data-export="tailwind" aria-pressed="true">Tailwind config</button>
+        <button type="button" class="btn btn-outline" data-export="css" aria-pressed="false">CSS</button>
+        <button type="button" class="btn btn-outline" data-export="json" aria-pressed="false">JSON</button>
+        <button type="button" class="btn btn-outline" data-export="scss" aria-pressed="false">SCSS</button>
+      </div>
+      <pre class="export-code"><code id="exportCodeBlock"></code></pre>
+      <div class="export-actions">
+        <button type="button" class="btn btn-outline" id="copyTokensBtn">Copy code</button>
+        <button type="button" class="btn btn-primary" id="downloadTokensBtn">Download file</button>
+      </div>
+    </section>
+  </div>
 
   <script src="app.js"></script>
 </body>

@@ -599,38 +599,40 @@ function processImageTheme() {
   }
 }
 
+let uploadVersion = 0;
 function handleCustomImageUpload(file) {
   if (!file || !file.type.startsWith('image/')) {
     showToast('Please select a valid image file (JPG, PNG, WebP, SVG)');
     return;
   }
 
-  state.fileName = file.name;
-  uploadFileNameLabel.textContent = file.name;
-
+  const version = ++uploadVersion;
   const reader = new FileReader();
+  reader.onerror = () => showToast('The image could not be read. Please choose another file.');
   reader.onload = e => {
     const imgDataUrl = e.target.result;
-    currentImagePreview.src = imgDataUrl;
-    if (mediaArtwork) mediaArtwork.src = imgDataUrl;
-    if (mediaArtworkRight) mediaArtworkRight.src = imgDataUrl;
-    if (mediaArtworkMini) mediaArtworkMini.src = imgDataUrl;
-    if (productMainImage) productMainImage.src = imgDataUrl;
-    const analyticsThumb = document.getElementById('analyticsEventThumb');
-    if (analyticsThumb) analyticsThumb.src = imgDataUrl;
-
-    state.imageSrc = imgDataUrl;
-    state.hueOffset = 0;
-
-    heroThemeStatus.textContent = `Theme: ${file.name.replace(/\.[^/.]+$/, '')}`;
-    extractDominantName.textContent = `Uploaded Photo (${file.name})`;
-    if (menuItemTitle) menuItemTitle.textContent = 'Artisan Reserve Special';
-    if (menuItemDesc) menuItemDesc.textContent = 'Theme dynamically harmonized from your uploaded visual palette.';
-
-    currentImagePreview.onload = () => {
-      processImageTheme();
+    const candidate = new Image();
+    candidate.onerror = () => {
+      if (version === uploadVersion) showToast('This image is damaged or unsupported. Your current theme is unchanged.');
+    };
+    candidate.onload = () => {
+      if (version !== uploadVersion) return;
+      state.hueOffset = 0;
+      const palette = extractColorsFromImage(candidate);
+      state.fileName = file.name;
+      state.imageSrc = imgDataUrl;
+      uploadFileNameLabel.textContent = file.name;
+      currentImagePreview.onload = null;
+      [currentImagePreview, mediaArtwork, mediaArtworkRight, mediaArtworkMini, productMainImage,
+        document.getElementById('analyticsEventThumb')].filter(Boolean).forEach(image => { image.src = imgDataUrl; });
+      heroThemeStatus.textContent = `Theme: ${file.name.replace(/\.[^/.]+$/, '')}`;
+      extractDominantName.textContent = `Uploaded Photo (${file.name})`;
+      if (menuItemTitle) menuItemTitle.textContent = 'Artisan Reserve Special';
+      if (menuItemDesc) menuItemDesc.textContent = 'Theme dynamically harmonized from your uploaded visual palette.';
+      applyPaletteToDocument(palette);
       showToast(`Palette extracted from ${file.name}! ✨`);
     };
+    candidate.src = imgDataUrl;
   };
 
   reader.readAsDataURL(file);
@@ -641,7 +643,7 @@ function handleCustomImageUpload(file) {
    ========================================================================== */
 
 function updateExportCode() {
-  if (!state.palette || state.palette.length === 0) return;
+  if (!exportCodeBlock || !state.palette || state.palette.length === 0) return;
 
   const [p, s, a, surf, subtle, onP] = state.palette;
   const themeName = heroThemeStatus.textContent.replace('Active Theme: ', '');
@@ -830,8 +832,9 @@ function showToast(message) {
     <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" width="18" height="18">
       <polyline points="20 6 9 17 4 12"/>
     </svg>
-    <span>${message}</span>
+    <span></span>
   `;
+  toast.querySelector('span').textContent = message;
   toastContainer.appendChild(toast);
   setTimeout(() => {
     toast.remove();
@@ -1078,23 +1081,39 @@ if (btnBuyNow) {
 
 // Export Modal (Completely guarded if modal is removed)
 if (exportModal) {
+  const closeExport = () => {
+    exportModal.classList.remove('open');
+    exportModal.setAttribute('aria-hidden', 'true');
+    view2ExportBtn?.focus();
+  };
+  document.querySelectorAll('[data-export]').forEach(button => {
+    button.addEventListener('click', () => {
+      state.exportTab = button.dataset.export;
+      document.querySelectorAll('[data-export]').forEach(tab => {
+        const selected = tab === button;
+        tab.setAttribute('aria-pressed', String(selected));
+        tab.classList.toggle('btn-primary', selected);
+        tab.classList.toggle('btn-outline', !selected);
+      });
+      updateExportCode();
+    });
+  });
   if (view2ExportBtn) {
     view2ExportBtn.addEventListener('click', () => {
       exportModal.classList.add('open');
       exportModal.setAttribute('aria-hidden', 'false');
       if (typeof updateExportCode === 'function') updateExportCode();
+      closeExportModalBtn?.focus();
     });
   }
   if (closeExportModalBtn) {
     closeExportModalBtn.addEventListener('click', () => {
-      exportModal.classList.remove('open');
-      exportModal.setAttribute('aria-hidden', 'true');
+      closeExport();
     });
   }
   exportModal.addEventListener('click', e => {
     if (e.target === exportModal) {
-      exportModal.classList.remove('open');
-      exportModal.setAttribute('aria-hidden', 'true');
+      closeExport();
     }
   });
   if (copyTokensBtn && exportCodeBlock) {
@@ -1107,7 +1126,16 @@ if (exportModal) {
   }
   window.addEventListener('keydown', e => {
     if (e.key === 'Escape' && exportModal.classList.contains('open')) {
-      exportModal.classList.remove('open');
+      closeExport();
+    }
+    if (e.key === 'Tab' && exportModal.classList.contains('open')) {
+      const buttons = [...exportModal.querySelectorAll('button')];
+      const first = buttons[0], last = buttons[buttons.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault(); last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus();
+      }
     }
   });
 }

@@ -3047,4 +3047,11 @@ html[data-theme="light"] .switcher-tab-pill:hover {
 }
 
 
-.modal-backdrop, #exportModal { display: none !important; opacity: 0 !important; pointer-events: none !important; visibility: hidden !important; }
+.export-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: #000a; padding: 24px; align-items: center; justify-content: center; }
+.export-overlay.open { display: flex; }
+.export-panel { width: min(880px, 100%); max-height: calc(100dvh - 48px); overflow: auto; padding: 24px; background: var(--bg-base); border-radius: 20px; }
+.export-heading, .export-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.export-format-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 16px; }
+.export-code { padding: 20px; background: var(--bg-surface); max-height: 50dvh; overflow: auto; border: 1px solid var(--border-subtle); border-radius: 12px; font: 13px/1.6 monospace; }
+.export-actions { justify-content: flex-end; margin-top: 16px; }
+@media (max-width: 600px) { .export-overlay { padding: 12px; } .export-panel { padding: 16px; max-height: calc(100dvh - 24px); } }
